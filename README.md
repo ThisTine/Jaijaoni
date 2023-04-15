@@ -5,3 +5,6 @@ A Flutter project.
 ## List of dependencies
 - Go_Router
 - dynamic_color
+- firebase_auth
+- flutter_dotenv
+- cloud_firestore

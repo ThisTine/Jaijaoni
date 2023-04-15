@@ -1,15 +1,22 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:jaijaoni/routes/router.dart';
-import 'package:jaijaoni/theme/color_schemes.g.dart';
-import 'package:jaijaoni/theme/custom_color.g.dart';
+import 'package:jaijaoni/config/theme/color_schemes.g.dart';
+import 'package:jaijaoni/config/theme/custom_color.g.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'config/firebase/firebase_options.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  await dotenv.load(fileName: ".env");
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(const JaiJaoNi());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class JaiJaoNi extends StatelessWidget {
+  const JaiJaoNi({super.key});
   @override
   Widget build(BuildContext context) {
     return DynamicColorBuilder(
