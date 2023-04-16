@@ -29,6 +29,14 @@ class AuthService {
     }
   }
 
+  Future<void> logout() async {
+    try {
+      await _firebaseAuth.signOut();
+    } on FirebaseAuthException {
+      rethrow;
+    }
+  }
+
   Future<UserCredential> signup(String email, String password) {
     return _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
@@ -38,10 +46,3 @@ class AuthService {
     return _firebaseAuth.authStateChanges().map(_userFromFirebase);
   }
 }
-
-final authProvider = Provider((ref) => AuthService());
-
-final authValueProvider = StreamProvider<User?>((ref) {
-  final authService = ref.watch(authProvider);
-  return authService.user;
-});

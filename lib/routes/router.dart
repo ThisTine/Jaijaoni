@@ -6,7 +6,7 @@ import 'package:jaijaoni/screens/home.dart';
 import 'package:jaijaoni/screens/login.dart';
 import 'package:jaijaoni/screens/loading.dart';
 
-import 'package:jaijaoni/services/auth/authService.dart';
+import '../providers/authProvider.dart';
 
 // All routes go here.
 class AppGoRouter extends ChangeNotifier {
@@ -19,7 +19,6 @@ class AppGoRouter extends ChangeNotifier {
   late final authState = ref.watch(authValueProvider);
 
   String? redirectlogic(BuildContext context, GoRouterState state) {
-    print(authState.isLoading);
     if (authState.isLoading || authState.hasError) return null;
     final isAuth = authState.valueOrNull != null;
     if (isAuth && state.location == '/login') return '/';
@@ -57,11 +56,3 @@ class AppGoRouter extends ChangeNotifier {
     )
   ];
 }
-
-final routerProvider = Provider<GoRouter>((ref) {
-  final routeRef = AppGoRouter(ref: ref);
-  return GoRouter(
-      routes: routeRef.routes,
-      refreshListenable: routeRef,
-      redirect: routeRef.redirectlogic);
-});
