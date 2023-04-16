@@ -8,3 +8,4 @@ A Flutter project.
 - firebase_auth
 - flutter_dotenv
 - cloud_firestore
+- River_pod
