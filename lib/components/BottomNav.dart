@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class NavItem {
@@ -14,13 +15,19 @@ class NavItem {
 }
 
 class BottomNav extends StatelessWidget {
-  const BottomNav({super.key});
+  final String? path;
+  const BottomNav({super.key, required this.path});
+
   @override
   Widget build(BuildContext context) {
     final paths = [
       NavItem(
           icon: const Icon(Icons.home), label: 'Home', path: "/", isGo: true),
-      NavItem(icon: const Icon(Icons.add), label: 'Add', path: "/create"),
+      NavItem(
+        icon: const Icon(Icons.add),
+        label: 'Add',
+        path: "/create",
+      ),
       NavItem(
           icon: const Icon(Icons.savings),
           label: 'Debt',
@@ -32,11 +39,20 @@ class BottomNav extends StatelessWidget {
           path: "/profile",
           isGo: true),
     ];
+    int whichIndex() {
+      for (int i = 0; i < paths.length; i++) {
+        if (path == paths[i].path) {
+          return i;
+        }
+      }
+      return 0;
+    }
+
     void onChangeRoute(int index) {
       if (paths[index].isGo) {
         context.go(paths[index].path);
       } else {
-        context.push(paths[index].path);
+        context.push(paths[index].path, extra: true);
       }
     }
 
@@ -45,7 +61,7 @@ class BottomNav extends StatelessWidget {
         for (NavItem i in paths)
           BottomNavigationBarItem(icon: i.icon, label: i.label)
       ],
-      currentIndex: 0,
+      currentIndex: whichIndex(),
       unselectedItemColor: Colors.grey,
       selectedItemColor: Theme.of(context).colorScheme.primary,
       showUnselectedLabels: true,

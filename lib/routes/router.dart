@@ -43,58 +43,82 @@ class AppGoRouter extends ChangeNotifier {
     return null;
   }
 
+  final routesWithNav = [
+    "/",
+    "/analysis",
+    "/edit",
+    "/explore",
+    "/friends",
+    "/profile"
+  ];
+  final GlobalKey<NavigatorState> _mainRouteKey = GlobalKey();
+  final GlobalKey<NavigatorState> _shellRouteKey = GlobalKey();
+
   late final routes = [
     ShellRoute(
+      navigatorKey: _mainRouteKey,
       routes: [
         ShellRoute(
+          navigatorKey: _shellRouteKey,
           routes: [
             GoRoute(
+              parentNavigatorKey: _shellRouteKey,
               path: "/",
               builder: (context, state) => const HomeScreen(),
             ),
             GoRoute(
+              parentNavigatorKey: _shellRouteKey,
               path: "/analysis",
               builder: (context, state) => const DebtAnalysisScreen(),
             ),
             GoRoute(
+              parentNavigatorKey: _shellRouteKey,
               path: "/edit",
               builder: (context, state) => const EditDebtScreen(),
             ),
             GoRoute(
+              parentNavigatorKey: _shellRouteKey,
               path: "/explore",
               builder: (context, state) => const ExploreScreen(),
             ),
             GoRoute(
+              parentNavigatorKey: _shellRouteKey,
               path: "/firends",
               builder: (context, state) => const FriendsScreen(),
             ),
             GoRoute(
+              parentNavigatorKey: _shellRouteKey,
               path: "/profile",
               builder: (context, state) => const ProfileScreen(),
             ),
           ],
           builder: (context, state, child) => Scaffold(
-            bottomNavigationBar: const BottomNav(),
+            bottomNavigationBar: BottomNav(path: state.fullpath),
             body: child,
           ),
         ),
         GoRoute(
+          parentNavigatorKey: _mainRouteKey,
           path: "/create",
           builder: (context, state) => const CreateDebtScreen(),
         ),
         GoRoute(
+          parentNavigatorKey: _mainRouteKey,
           path: "/detail",
           builder: (context, state) => const DebtDetailScreen(),
         ),
         GoRoute(
+          parentNavigatorKey: _mainRouteKey,
           path: "/payment",
           builder: (context, state) => const PaymentScreen(),
         ),
         GoRoute(
+          parentNavigatorKey: _mainRouteKey,
           path: "/login",
           builder: (context, state) => const LoginScreen(),
         ),
         GoRoute(
+          parentNavigatorKey: _mainRouteKey,
           path: "/register",
           builder: (context, state) => const RegisterScreen(),
         ),
@@ -103,6 +127,19 @@ class AppGoRouter extends ChangeNotifier {
         if (authState.isLoading) {
           return const LoadingScreen();
         } else {
+          // for (String i in routesWithNav) {
+          //   if (i == state.fullpath &&
+          //       ref.read(navigatorProvider.notifier).state == 0) {
+          //     return Scaffold(
+          //       bottomNavigationBar: BottomNav(
+          //         path: state.fullpath,
+          //         ref: ref,
+          //       ),
+          //       body: child,
+          //     );
+          //   }
+          // }
+
           return child;
         }
       },
