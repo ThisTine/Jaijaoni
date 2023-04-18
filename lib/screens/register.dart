@@ -1,17 +1,17 @@
-//Phon
+//Tine
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class RegisterScreen extends StatelessWidget {
+  const RegisterScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Home"),
+        title: const Text("Register"),
       ),
       body: const Center(
-        child: Text("Create Screen"),
+        child: Text("Edit Screen"),
       ),
     );
   }

@@ -1,17 +1,17 @@
-//Phon
+//Muaymi
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class EditDebtScreen extends StatelessWidget {
+  const EditDebtScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Home"),
+        title: const Text("Edit"),
       ),
       body: const Center(
-        child: Text("Create Screen"),
+        child: Text("Edit Screen"),
       ),
     );
   }
