@@ -37,8 +37,9 @@ class AppGoRouter extends ChangeNotifier {
       return '/';
     }
     if (!isAuth &&
-        (state.location != '/login' && state.location != '/register'))
+        (state.location != '/login' && state.location != '/register')) {
       return '/login';
+    }
     return null;
   }
 
