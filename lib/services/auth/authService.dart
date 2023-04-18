@@ -37,6 +37,12 @@ class AuthService {
     }
   }
 
+  Future<void> googleLogin() async {}
+
+  Future<void> microsoftLogin() async {}
+
+  Future<void> appleLogin() async {}
+
   Future<UserCredential> signup(String email, String password) {
     return _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
