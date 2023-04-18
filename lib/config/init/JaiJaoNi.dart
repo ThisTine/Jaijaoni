@@ -36,11 +36,11 @@ class JaiJaoNi extends ConsumerWidget {
             colorScheme: lightScheme,
             extensions: [lightCustomColors],
           ),
-          darkTheme: ThemeData(
-            useMaterial3: true,
-            colorScheme: darkScheme,
-            extensions: [darkCustomColors],
-          ),
+          // darkTheme: ThemeData(
+          //   useMaterial3: true,
+          //   colorScheme: darkScheme,
+          //   extensions: [darkCustomColors],
+          // ),
           routerConfig: router,
         );
       },
