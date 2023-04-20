@@ -10,9 +10,30 @@ class ProfileScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Profile"),
       ),
-      body: const Center(
-        child: Text("Profile Debt Screen"),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CircleAvata(),
+              Text("Fah"),
+            ],
+          ),
+        ),
       ),
     );
   }
+}
+
+Widget CircleAvata() {
+  return Container(
+    child: const Center(
+      child: CircleAvatar(
+        backgroundColor: Color.fromARGB(255, 180, 195, 255),
+        radius: 50,
+        backgroundImage: AssetImage('lib/images/avatar.jpg'),
+      ),
+    ),
+  );
 }
