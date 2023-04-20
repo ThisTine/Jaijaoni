@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 const red_bar = Color(0xFFCF5F5F);
 const warning = Color(0xFF0F931D);
 const customcolor1 = Color(0xFFE8EB02);
+const green_bar = Color(0xFF57B461);
 
 CustomColors lightCustomColors = const CustomColors(
   sourceRedbar: Color(0xFFCF5F5F),
@@ -21,6 +22,11 @@ CustomColors lightCustomColors = const CustomColors(
   onCustomcolor1: Color(0xFFFFFFFF),
   customcolor1Container: Color(0xFFE8EB01),
   onCustomcolor1Container: Color(0xFF1C1D00),
+  sourceGreenbar: Color(0xFF57B461),
+  greenbar: Color(0xFF006E25),
+  onGreenbar: Color(0xFFFFFFFF),
+  greenbarContainer: Color(0xFF98F89D),
+  onGreenbarContainer: Color(0xFF002106),
 );
 
 CustomColors darkCustomColors = const CustomColors(
@@ -39,6 +45,11 @@ CustomColors darkCustomColors = const CustomColors(
   onCustomcolor1: Color(0xFF323200),
   customcolor1Container: Color(0xFF494A00),
   onCustomcolor1Container: Color(0xFFE8EB01),
+  sourceGreenbar: Color(0xFF57B461),
+  greenbar: Color(0xFF7DDB83),
+  onGreenbar: Color(0xFF003910),
+  greenbarContainer: Color(0xFF00531A),
+  onGreenbarContainer: Color(0xFF98F89D),
 );
 
 /// Defines a set of custom colors, each comprised of 4 complementary tones.
@@ -63,6 +74,11 @@ class CustomColors extends ThemeExtension<CustomColors> {
     required this.onCustomcolor1,
     required this.customcolor1Container,
     required this.onCustomcolor1Container,
+    required this.sourceGreenbar,
+    required this.greenbar,
+    required this.onGreenbar,
+    required this.greenbarContainer,
+    required this.onGreenbarContainer,
   });
 
   final Color? sourceRedbar;
@@ -80,6 +96,11 @@ class CustomColors extends ThemeExtension<CustomColors> {
   final Color? onCustomcolor1;
   final Color? customcolor1Container;
   final Color? onCustomcolor1Container;
+  final Color? sourceGreenbar;
+  final Color? greenbar;
+  final Color? onGreenbar;
+  final Color? greenbarContainer;
+  final Color? onGreenbarContainer;
 
   @override
   CustomColors copyWith({
@@ -98,6 +119,11 @@ class CustomColors extends ThemeExtension<CustomColors> {
     Color? onCustomcolor1,
     Color? customcolor1Container,
     Color? onCustomcolor1Container,
+    Color? sourceGreenbar,
+    Color? greenbar,
+    Color? onGreenbar,
+    Color? greenbarContainer,
+    Color? onGreenbarContainer,
   }) {
     return CustomColors(
       sourceRedbar: sourceRedbar ?? this.sourceRedbar,
@@ -117,6 +143,11 @@ class CustomColors extends ThemeExtension<CustomColors> {
           customcolor1Container ?? this.customcolor1Container,
       onCustomcolor1Container:
           onCustomcolor1Container ?? this.onCustomcolor1Container,
+      sourceGreenbar: sourceGreenbar ?? this.sourceGreenbar,
+      greenbar: greenbar ?? this.greenbar,
+      onGreenbar: onGreenbar ?? this.onGreenbar,
+      greenbarContainer: greenbarContainer ?? this.greenbarContainer,
+      onGreenbarContainer: onGreenbarContainer ?? this.onGreenbarContainer,
     );
   }
 
@@ -146,6 +177,13 @@ class CustomColors extends ThemeExtension<CustomColors> {
           Color.lerp(customcolor1Container, other.customcolor1Container, t),
       onCustomcolor1Container:
           Color.lerp(onCustomcolor1Container, other.onCustomcolor1Container, t),
+      sourceGreenbar: Color.lerp(sourceGreenbar, other.sourceGreenbar, t),
+      greenbar: Color.lerp(greenbar, other.greenbar, t),
+      onGreenbar: Color.lerp(onGreenbar, other.onGreenbar, t),
+      greenbarContainer:
+          Color.lerp(greenbarContainer, other.greenbarContainer, t),
+      onGreenbarContainer:
+          Color.lerp(onGreenbarContainer, other.onGreenbarContainer, t),
     );
   }
 
