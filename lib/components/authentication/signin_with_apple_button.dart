@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class SignInWithApple extends StatelessWidget {
-  const SignInWithApple({super.key});
+  final bool isSignup;
+  const SignInWithApple({super.key, this.isSignup = false});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class SignInWithApple extends StatelessWidget {
               width: 5.0,
             ),
             Text(
-              "Sign In With Apple",
+              "${isSignup ? "Register" : "Login"} With Apple",
               style: Theme.of(context).textTheme.titleSmall!.merge(
                   TextStyle(color: Theme.of(context).colorScheme.onSecondary)),
             )

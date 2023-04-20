@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class SignInWithGoogleButton extends StatelessWidget {
-  const SignInWithGoogleButton({super.key});
+  final bool isSignup;
+  const SignInWithGoogleButton({super.key, this.isSignup = false});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class SignInWithGoogleButton extends StatelessWidget {
               width: 5.0,
             ),
             Text(
-              "Sign In With Google",
+              "${isSignup ? "Register" : "Login"} With Google",
               style: Theme.of(context)
                   .textTheme
                   .titleSmall!

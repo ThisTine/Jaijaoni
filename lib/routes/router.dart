@@ -15,6 +15,7 @@ import 'package:jaijaoni/screens/loading.dart';
 import 'package:jaijaoni/screens/payment.dart';
 import 'package:jaijaoni/screens/profile.dart';
 import 'package:jaijaoni/screens/register.dart';
+import 'package:jaijaoni/screens/reset_password.dart';
 
 import '../providers/auth_provider.dart';
 
@@ -33,11 +34,14 @@ class AppGoRouter extends ChangeNotifier {
     if (authState.isLoading || authState.hasError) return null;
     final isAuth = authState.valueOrNull != null;
     if (isAuth &&
-        (state.location == '/login' || state.location == '/register')) {
+        (state.location == '/login' ||
+            state.location == '/register' ||
+            state.location == "/reset-password")) {
       return '/';
     }
     if (!isAuth &&
-        (state.location != '/login' && state.location != '/register')) {
+        (state.location != '/login' && state.location != '/register' ||
+            state.location == "/reset-password")) {
       return '/login';
     }
     return null;
@@ -122,6 +126,11 @@ class AppGoRouter extends ChangeNotifier {
           path: "/register",
           builder: (context, state) => const RegisterScreen(),
         ),
+        GoRoute(
+          parentNavigatorKey: _mainRouteKey,
+          path: "/reset-password",
+          builder: (context, state) => const ResetPasswordScreen(),
+        )
       ],
       builder: (context, state, child) {
         if (authState.isLoading) {
