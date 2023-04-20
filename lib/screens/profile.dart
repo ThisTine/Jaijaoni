@@ -197,6 +197,7 @@ Widget DebtAnalysisBox(BuildContext context) {
                   ),
                 ],
               ),
+              const SizedBox(height: 16),
             ],
           ),
         ),
