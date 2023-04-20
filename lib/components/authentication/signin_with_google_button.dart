@@ -13,9 +13,11 @@ class SignInWithGoogleButton extends StatelessWidget {
             backgroundColor: Theme.of(context).colorScheme.onPrimary),
         child: Row(
           children: [
-            Image.network(
-                'http://pngimg.com/uploads/google/google_PNG19635.png',
-                fit: BoxFit.cover),
+            Image.asset(
+              "images/authentication/google.png",
+              width: 20,
+              height: 20,
+            ),
             const SizedBox(
               width: 5.0,
             ),
