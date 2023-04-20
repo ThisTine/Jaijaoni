@@ -1,5 +1,6 @@
 //Fah
 import 'package:flutter/material.dart';
+import 'package:jaijaoni/config/theme/custom_color.g.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -99,8 +100,8 @@ Widget DebtAnalysisBox(BuildContext context) {
                                         "300",
                                         style: TextStyle(
                                             color: Theme.of(context)
-                                                .colorScheme
-                                                .primaryVariant,
+                                                .extension<CustomColors>()!
+                                                .sourceRedbar,
                                             fontWeight: FontWeight.bold,
                                             fontSize: Theme.of(context)
                                                 .textTheme
@@ -111,8 +112,8 @@ Widget DebtAnalysisBox(BuildContext context) {
                                         "THB",
                                         style: TextStyle(
                                             color: Theme.of(context)
-                                                .colorScheme
-                                                .primaryVariant,
+                                                .extension<CustomColors>()!
+                                                .sourceRedbar,
                                             fontWeight: FontWeight.bold,
                                             fontSize: Theme.of(context)
                                                 .textTheme
@@ -158,8 +159,8 @@ Widget DebtAnalysisBox(BuildContext context) {
                                         "1,500",
                                         style: TextStyle(
                                             color: Theme.of(context)
-                                                .colorScheme
-                                                .primaryVariant,
+                                                .extension<CustomColors>()!
+                                                .sourceGreenbar,
                                             fontWeight: FontWeight.bold,
                                             fontSize: Theme.of(context)
                                                 .textTheme
@@ -170,8 +171,8 @@ Widget DebtAnalysisBox(BuildContext context) {
                                         "THB",
                                         style: TextStyle(
                                             color: Theme.of(context)
-                                                .colorScheme
-                                                .primaryVariant,
+                                                .extension<CustomColors>()!
+                                                .sourceGreenbar,
                                             fontWeight: FontWeight.bold,
                                             fontSize: Theme.of(context)
                                                 .textTheme
