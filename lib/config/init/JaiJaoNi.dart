@@ -2,7 +2,7 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../providers/routerProvider.dart';
+import '../../providers/router_provider.dart';
 import '../theme/color_schemes.g.dart';
 import '../theme/custom_color.g.dart';
 
