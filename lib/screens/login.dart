@@ -1,6 +1,7 @@
 //Phon
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jaijaoni/components/authentication/signin_with_apple_button.dart';
 import 'package:jaijaoni/components/authentication/signin_with_google_button.dart';
 
 import '../components/authentication/signin_divider.dart';
@@ -111,7 +112,22 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       const SignInDivider(
                         text: "or sign in with",
                       ),
-                      const SignInWithGoogleButton()
+                      const SignInWithGoogleButton(),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      const SignInWithApple(),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text("Don't have an account ?"),
+                          TextButton(
+                              onPressed: () {}, child: const Text("Register"))
+                        ],
+                      )
                     ],
                   ),
                 ),
