@@ -4,7 +4,7 @@ import 'package:jaijaoni/components/authentication/signin_with_apple_button.dart
 import 'package:jaijaoni/components/authentication/signin_with_google_button.dart';
 
 class SignInOptions extends StatelessWidget {
-  final isSignup;
+  final bool isSignup;
   const SignInOptions({super.key, this.isSignup = false});
 
   @override
