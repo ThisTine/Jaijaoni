@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jaijaoni/config/theme/custom_text_field.dart';
 
 class DebtForm extends StatelessWidget {
   const DebtForm({super.key});
@@ -12,38 +13,18 @@ class DebtForm extends StatelessWidget {
             child: Column(
           children: [
             TextFormField(
-              decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.only(left: 25),
-                  labelText: 'Name',
-                  labelStyle:
-                      TextStyle(color: Theme.of(context).colorScheme.outline),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30))),
+              decoration: roundInput.copyWith(labelText: 'Name'),
             ),
             const SizedBox(
               height: 23,
             ),
             TextFormField(
-              decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.only(left: 25),
-                  labelText: 'Due Date',
-                  labelStyle:
-                      TextStyle(color: Theme.of(context).colorScheme.outline),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30))),
-            ),
+                decoration: roundInput.copyWith(labelText: 'Due date')),
             const SizedBox(
               height: 23,
             ),
             TextFormField(
-              decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.only(left: 25),
-                  labelText: 'Price per person',
-                  labelStyle:
-                      TextStyle(color: Theme.of(context).colorScheme.outline),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30))),
-            )
+                decoration: roundInput.copyWith(labelText: 'Price per person'))
           ],
         )));
   }
