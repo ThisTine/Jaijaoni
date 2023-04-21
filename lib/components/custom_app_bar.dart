@@ -18,11 +18,14 @@ PreferredSizeWidget customAppBarBuilder(BuildContext context,
             color: Theme.of(context).colorScheme.primary,
             onPressed: backButtonHandler)
         : null,
-    title: Text(
-      "Create",
-      style: TextStyle(
-          color: Theme.of(context).colorScheme.primary,
-          fontSize: Theme.of(context).textTheme.headlineSmall!.fontSize),
+    title: Align(
+      alignment: Alignment.centerLeft,
+      child: Text(
+        "Create",
+        style: TextStyle(
+            color: Theme.of(context).colorScheme.primary,
+            fontSize: Theme.of(context).textTheme.headlineSmall!.fontSize),
+      ),
     ),
   );
 }

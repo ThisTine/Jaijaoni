@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class SignInWithGoogleButton extends StatelessWidget {
+class SignInWithApple extends StatelessWidget {
   final bool isSignup;
-  const SignInWithGoogleButton({super.key, this.isSignup = false});
+  const SignInWithApple({super.key, this.isSignup = false});
 
   @override
   Widget build(BuildContext context) {
@@ -11,11 +11,12 @@ class SignInWithGoogleButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.all(20),
             elevation: 2,
-            backgroundColor: Theme.of(context).colorScheme.onPrimary),
+            backgroundColor:
+                Theme.of(context).colorScheme.onSecondaryContainer),
         child: Row(
           children: [
             Image.asset(
-              "images/authentication/google.png",
+              "images/authentication/apple.png",
               width: 20,
               height: 20,
             ),
@@ -23,11 +24,9 @@ class SignInWithGoogleButton extends StatelessWidget {
               width: 5.0,
             ),
             Text(
-              "${isSignup ? "Register" : "Login"} With Google",
-              style: Theme.of(context)
-                  .textTheme
-                  .titleSmall!
-                  .merge(TextStyle(color: Theme.of(context).colorScheme.scrim)),
+              "${isSignup ? "Register" : "Login"} With Apple",
+              style: Theme.of(context).textTheme.titleSmall!.merge(
+                  TextStyle(color: Theme.of(context).colorScheme.onSecondary)),
             )
           ],
         ));
