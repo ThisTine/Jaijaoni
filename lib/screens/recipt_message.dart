@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:jaijaoni/screens/profile.dart';
-import 'package:jaijaoni/screens/reciptMessage.dart';
+import 'package:jaijaoni/screens/recipt_message.dart';
 
-class reciptMessage extends StatelessWidget {
-  const reciptMessage({super.key});
+class ReciptMessage extends StatelessWidget {
+  const ReciptMessage({super.key});
 
   @override
   Widget build(BuildContext context) {
