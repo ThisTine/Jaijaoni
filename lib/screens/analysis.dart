@@ -20,8 +20,64 @@ class DebtAnalysisScreen extends StatelessWidget {
                 Container(
                   height: 300,
                   // color: Colors.red,
-                  child: Row(
-                    children: const [MonthConclute()],
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        MonthConclute(
+                          borrowBar:
+                              BarValue(amountLabel: 20, barPercentage: 50),
+                          rentBar: BarValue(amountLabel: 20, barPercentage: 70),
+                          text: "Jan",
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        MonthConclute(
+                          borrowBar:
+                              BarValue(amountLabel: 20, barPercentage: 30),
+                          rentBar: BarValue(amountLabel: 20, barPercentage: 30),
+                          text: "Feb",
+                        ),
+                        MonthConclute(
+                          borrowBar:
+                              BarValue(amountLabel: 20, barPercentage: 50),
+                          rentBar: BarValue(amountLabel: 20, barPercentage: 70),
+                          text: "Jan",
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        MonthConclute(
+                          borrowBar:
+                              BarValue(amountLabel: 20, barPercentage: 50),
+                          rentBar: BarValue(amountLabel: 20, barPercentage: 70),
+                          text: "Jan",
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        MonthConclute(
+                          borrowBar:
+                              BarValue(amountLabel: 20, barPercentage: 50),
+                          rentBar: BarValue(amountLabel: 20, barPercentage: 70),
+                          text: "Jan",
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        MonthConclute(
+                          borrowBar:
+                              BarValue(amountLabel: 20, barPercentage: 50),
+                          rentBar: BarValue(amountLabel: 20, barPercentage: 70),
+                          text: "Jan",
+                          isSelected: true,
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                      ],
+                    ),
                   ),
                 )
               ],
