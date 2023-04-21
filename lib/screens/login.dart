@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jaijaoni/components/authentication/signin_with_google_button.dart';
+import 'package:jaijaoni/config/theme/custom_wrapper.dart';
 
 import '../components/authentication/signin_divider.dart';
 import '../providers/auth_provider.dart';
@@ -58,7 +59,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               padding: const EdgeInsets.all(10.0),
               child: Center(
                 child: Container(
-                  constraints: const BoxConstraints(maxWidth: 576),
+                  constraints: wrapperConstranints,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
