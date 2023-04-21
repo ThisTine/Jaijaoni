@@ -1,6 +1,7 @@
 //Fah
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jaijaoni/config/theme/custom_color.g.dart';
 
 import 'create.dart';
@@ -230,38 +231,45 @@ Widget MenuBox(BuildContext context) {
           ),
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 16, right: 16, top: 16, bottom: 8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Row(
-                          children: [
-                            Icon(Icons.currency_exchange_outlined,
-                                color: Theme.of(context).colorScheme.primary),
-                            const SizedBox(width: 10),
-                            Text(
-                              "Create Debt",
-                              style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: Theme.of(context)
-                                      .textTheme
-                                      .titleMedium!
-                                      .fontSize),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Icon(Icons.arrow_forward_ios,
-                        color: Theme.of(context).colorScheme.primary),
-                  ],
+              GestureDetector(
+                onTap: () {
+                  context.push("/create");
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      left: 16, right: 16, top: 16, bottom: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Row(
+                            children: [
+                              Icon(Icons.currency_exchange_outlined,
+                                  color: Theme.of(context).colorScheme.primary),
+                              const SizedBox(width: 10),
+                              Text(
+                                "Create Debt",
+                                style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium!
+                                        .fontSize),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Icon(Icons.arrow_forward_ios,
+                          color: Theme.of(context).colorScheme.primary),
+                    ],
+                  ),
                 ),
               ),
+
               const SizedBox(height: 8),
               //divider
               Column(
@@ -275,32 +283,37 @@ Widget MenuBox(BuildContext context) {
                 ],
               ),
               const SizedBox(height: 8),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 16, right: 16, top: 8, bottom: 8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(Icons.mail_outlined,
-                            color: Theme.of(context).colorScheme.primary),
-                        const SizedBox(width: 10),
-                        Text(
-                          "Recipt",
-                          style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary,
-                              fontWeight: FontWeight.bold,
-                              fontSize: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium!
-                                  .fontSize),
-                        ),
-                      ],
-                    ),
-                    Icon(Icons.arrow_forward_ios,
-                        color: Theme.of(context).colorScheme.primary),
-                  ],
+              GestureDetector(
+                onTap: () {
+                  context.push("/reciptMessage");
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      left: 16, right: 16, top: 8, bottom: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.mail_outlined,
+                              color: Theme.of(context).colorScheme.primary),
+                          const SizedBox(width: 10),
+                          Text(
+                            "Recipt",
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                                fontWeight: FontWeight.bold,
+                                fontSize: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium!
+                                    .fontSize),
+                          ),
+                        ],
+                      ),
+                      Icon(Icons.arrow_forward_ios,
+                          color: Theme.of(context).colorScheme.primary),
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(height: 8),
