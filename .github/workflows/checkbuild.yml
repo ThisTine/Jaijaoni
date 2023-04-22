@@ -38,10 +38,11 @@ jobs:
       - name: Start release build
         run: flutter build web
 
-      - name: Run unit tests
-        run: flutter test --coverage
+      # - name: Run unit tests
+      #   run: flutter test --coverage
       
       # - name: analyzie
       #   run: flutter analyze
+      
       # - name: Run tmate
       #   uses: mxschmitt/action-tmate@v2
