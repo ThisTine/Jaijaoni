@@ -1,10 +1,10 @@
-name: Checkpoint Station 💀
+name: Analyzie Station 👩‍🔬
 
 on: 
-  push:
-    branches:
-      - main
-      # - infa
+  # push:
+    # branches:
+    #   - main
+    #   - infa
   pull_request:
     branches:
       - "*"
@@ -32,21 +32,11 @@ jobs:
           channel: 'stable'
           cache: true
   
-      - name: Get dependencies 🫱🏿‍🫲🏿
+      - name: Get dependencies 👋
         run: |
           flutter pub get
           touch .env
           echo  ${{ secrets.APP_ENV }} > .env          
-      # Runs a set of commands using the runners shell
-
-      - name: Start release build 🏃‍♀️
-        run: flutter build web
-
-      # - name: Run unit tests
-      #   run: flutter test --coverage
       
-      # - name: analyzie
-      #   run: flutter analyze
-
-      # - name: Run tmate
-      #   uses: mxschmitt/action-tmate@v2
+      - name: analyzie 🤔
+        run: flutter analyze
