@@ -18,7 +18,7 @@ class SignInDivider extends StatelessWidget {
         const SizedBox(
           width: 10,
         ),
-        Text("or sign in with",
+        Text(text,
             style: Theme.of(context).textTheme.bodyMedium!.merge(
                 TextStyle(color: Theme.of(context).colorScheme.outline))),
         const SizedBox(

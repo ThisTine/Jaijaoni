@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:jaijaoni/components/BottomNav.dart';
+import 'package:jaijaoni/components/bottom_nav.dart';
 import 'package:jaijaoni/screens/analysis.dart';
 import 'package:jaijaoni/screens/create.dart';
 import 'package:jaijaoni/screens/detail.dart';
@@ -15,8 +15,9 @@ import 'package:jaijaoni/screens/loading.dart';
 import 'package:jaijaoni/screens/payment.dart';
 import 'package:jaijaoni/screens/profile.dart';
 import 'package:jaijaoni/screens/register.dart';
+import 'package:jaijaoni/screens/reset_password.dart';
 
-import '../providers/authProvider.dart';
+import '../providers/auth_provider.dart';
 
 // All routes go here.
 class AppGoRouter extends ChangeNotifier {
@@ -33,11 +34,14 @@ class AppGoRouter extends ChangeNotifier {
     if (authState.isLoading || authState.hasError) return null;
     final isAuth = authState.valueOrNull != null;
     if (isAuth &&
-        (state.location == '/login' || state.location == '/register')) {
+        (state.location == '/login' ||
+            state.location == '/register' ||
+            state.location == "/reset-password")) {
       return '/';
     }
     if (!isAuth &&
-        (state.location != '/login' && state.location != '/register')) {
+        (state.location != '/login' && state.location != '/register' ||
+            state.location == "/reset-password")) {
       return '/login';
     }
     return null;
@@ -122,6 +126,11 @@ class AppGoRouter extends ChangeNotifier {
           path: "/register",
           builder: (context, state) => const RegisterScreen(),
         ),
+        GoRoute(
+          parentNavigatorKey: _mainRouteKey,
+          path: "/reset-password",
+          builder: (context, state) => const ResetPasswordScreen(),
+        )
       ],
       builder: (context, state, child) {
         if (authState.isLoading) {

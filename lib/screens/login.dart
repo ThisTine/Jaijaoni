@@ -1,7 +1,11 @@
 //Phon
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:jaijaoni/components/authentication/signin_options.dart';
+import 'package:jaijaoni/components/authentication/signin_with_apple_button.dart';
 import 'package:jaijaoni/components/authentication/signin_with_google_button.dart';
+import 'package:jaijaoni/config/theme/custom_text_field.dart';
 
 import '../components/authentication/signin_divider.dart';
 import '../providers/auth_provider.dart';
@@ -36,9 +40,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Widget build(BuildContext context) {
     final authService = ref.watch(authProvider);
 
-    const borderTextField = OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(100.00)));
-
     void login() async {
       if (_formKey.currentState!.validate()) {
         setLoading(true);
@@ -67,17 +68,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ),
                       Text("Jai Jaoni",
                           style: Theme.of(context).textTheme.displayMedium),
-                      Text("Sign in to your account",
+                      Text("Login to your account",
                           style: Theme.of(context).textTheme.headlineSmall),
                       const SizedBox(
                         height: 20,
                       ),
                       TextFormField(
-                        decoration: const InputDecoration(
-                          labelText: "Username or Email",
-                          border: borderTextField,
-                          contentPadding: EdgeInsets.all(20.00),
-                        ),
+                        decoration:
+                            roundInput.copyWith(labelText: "Username or Email"),
                         controller: _email,
                       ),
                       const SizedBox(
@@ -85,11 +83,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ),
                       TextFormField(
                         controller: _password,
-                        decoration: const InputDecoration(
-                          labelText: "Password",
-                          border: borderTextField,
-                          contentPadding: EdgeInsets.all(20.00),
-                        ),
+                        decoration: roundInput.copyWith(labelText: "Password"),
                       ),
                       const SizedBox(
                         height: 30,
@@ -106,12 +100,25 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         height: 10,
                       ),
                       TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            context.push("/reset-password");
+                          },
                           child: const Text("Forgot password ?")),
-                      const SignInDivider(
-                        text: "or sign in with",
+                      const SignInOptions(),
+                      const SizedBox(
+                        height: 20,
                       ),
-                      const SignInWithGoogleButton()
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text("Don't have an account ?"),
+                          TextButton(
+                              onPressed: () {
+                                context.go("/register");
+                              },
+                              child: const Text("Register"))
+                        ],
+                      )
                     ],
                   ),
                 ),

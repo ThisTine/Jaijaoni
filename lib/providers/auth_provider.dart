@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../services/auth/authService.dart';
+import '../services/auth/auth_service.dart';
 
 final authProvider = Provider((ref) => AuthService());
 
