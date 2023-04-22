@@ -2,7 +2,8 @@ name: Flutter Workflow
 
 on:
   push:
-    - infa
+    branches:
+      - infa
 
   pull_request:
     branches:
