@@ -1,0 +1,25 @@
+name: Flutter Workflow
+
+on:
+  push:
+    - infa
+
+  pull_request:
+    branches:
+      - "*"
+jobs:
+  build:
+    name: ios
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '2.10.0'
+          channel: 'stable'
+
+      - name: Install dependencies
+        run: flutter pub get
