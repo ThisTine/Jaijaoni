@@ -1,13 +1,10 @@
 name: Flutter Workflow
 
-on:
+on: 
   push:
     branches:
       - infa
-
-  # pull_request:
-  #   branches:
-  #     - "*"
+      
 jobs:
   build:
     name: ios
