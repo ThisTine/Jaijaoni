@@ -29,7 +29,10 @@ jobs:
           cache: true
   
       - name: Get dependencies
-        run: flutter pub get
+        run: |
+          flutter pub get
+          touch .env
+          echo  ${{ secrets.APP_ENV }} > .env          
       # Runs a set of commands using the runners shell
 
       - name: Start release build
