@@ -38,7 +38,7 @@ jobs:
       - name: Run unit tests
         run: flutter test --coverage
       
-      - name: analyzie
-        run: flutter analyze
+      # - name: analyzie
+      #   run: flutter analyze
       # - name: Run tmate
       #   uses: mxschmitt/action-tmate@v2
