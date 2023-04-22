@@ -285,7 +285,7 @@ Widget MenuBox(BuildContext context) {
               const SizedBox(height: 8),
               GestureDetector(
                 onTap: () {
-                  context.push("/reciptMessage");
+                  context.push("/profile/message");
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(
@@ -329,32 +329,37 @@ Widget MenuBox(BuildContext context) {
                 ],
               ),
               const SizedBox(height: 8),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 16, right: 16, top: 8, bottom: 8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(Icons.group_outlined,
-                            color: Theme.of(context).colorScheme.primary),
-                        const SizedBox(width: 10),
-                        Text(
-                          "Friends list",
-                          style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary,
-                              fontWeight: FontWeight.bold,
-                              fontSize: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium!
-                                  .fontSize),
-                        ),
-                      ],
-                    ),
-                    Icon(Icons.arrow_forward_ios,
-                        color: Theme.of(context).colorScheme.primary),
-                  ],
+              GestureDetector(
+                onTap: () {
+                  context.push("/profile/:fid");
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      left: 16, right: 16, top: 8, bottom: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.group_outlined,
+                              color: Theme.of(context).colorScheme.primary),
+                          const SizedBox(width: 10),
+                          Text(
+                            "Friends list",
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                                fontWeight: FontWeight.bold,
+                                fontSize: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium!
+                                    .fontSize),
+                          ),
+                        ],
+                      ),
+                      Icon(Icons.arrow_forward_ios,
+                          color: Theme.of(context).colorScheme.primary),
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(height: 8),
@@ -370,32 +375,37 @@ Widget MenuBox(BuildContext context) {
                 ],
               ),
               const SizedBox(height: 8),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 16, right: 16, top: 8, bottom: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(Icons.military_tech_outlined,
-                            color: Theme.of(context).colorScheme.primary),
-                        const SizedBox(width: 10),
-                        Text(
-                          "Debt analysis",
-                          style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary,
-                              fontWeight: FontWeight.bold,
-                              fontSize: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium!
-                                  .fontSize),
-                        ),
-                      ],
-                    ),
-                    Icon(Icons.arrow_forward_ios,
-                        color: Theme.of(context).colorScheme.primary),
-                  ],
+              GestureDetector(
+                onTap: () {
+                  context.push("/");
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      left: 16, right: 16, top: 8, bottom: 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.military_tech_outlined,
+                              color: Theme.of(context).colorScheme.primary),
+                          const SizedBox(width: 10),
+                          Text(
+                            "Debt analysis",
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                                fontWeight: FontWeight.bold,
+                                fontSize: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium!
+                                    .fontSize),
+                          ),
+                        ],
+                      ),
+                      Icon(Icons.arrow_forward_ios,
+                          color: Theme.of(context).colorScheme.primary),
+                    ],
+                  ),
                 ),
               ),
             ],
