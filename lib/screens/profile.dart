@@ -23,7 +23,7 @@ class ProfileScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                CircleAvata(),
+                CircleAvata(radius: 50.0),
                 const SizedBox(height: 15),
                 Text(
                   "Name" + "'s",
@@ -49,11 +49,11 @@ class ProfileScreen extends StatelessWidget {
   }
 }
 
-Widget CircleAvata() {
+Widget CircleAvata({required double radius}) {
   return Container(
-    child: const Center(
+    child: Center(
       child: CircleAvatar(
-        radius: 50,
+        radius: radius,
         backgroundImage: AssetImage('images/avatar.jpg'),
       ),
     ),
@@ -299,7 +299,7 @@ Widget MenuBox(BuildContext context) {
                               color: Theme.of(context).colorScheme.primary),
                           const SizedBox(width: 10),
                           Text(
-                            "Recipt",
+                            "Receipt",
                             style: TextStyle(
                                 color: Theme.of(context).colorScheme.primary,
                                 fontWeight: FontWeight.bold,

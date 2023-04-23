@@ -12,26 +12,37 @@ class ReciptMessage extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Profile"),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                CircleAvata(),
-                const SizedBox(height: 15),
-                Text(
-                  "Name" + "'s",
-                  style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                      fontSize:
-                          Theme.of(context).textTheme.headlineSmall!.fontSize),
-                ),
-                const SizedBox(height: 21),
-                Receipt(context),
-              ],
-            ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CircleAvata(radius: 50),
+              const SizedBox(height: 15),
+              Text(
+                "Name" + "'s",
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize:
+                        Theme.of(context).textTheme.headlineSmall!.fontSize),
+              ),
+              const SizedBox(height: 21),
+              Row(
+                children: [
+                  const SizedBox(width: 12),
+                  Text(
+                    "Receipt",
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                        fontWeight: FontWeight.bold,
+                        fontSize:
+                            Theme.of(context).textTheme.titleMedium!.fontSize),
+                  ),
+                ],
+              ),
+              Receipt(context),
+            ],
           ),
         ),
       ),
@@ -40,45 +51,56 @@ class ReciptMessage extends StatelessWidget {
 }
 
 Widget Receipt(BuildContext context) {
-  return Row(
-    children: [
-      Expanded(
-        child: Container(
-          height: 164,
-          constraints: const BoxConstraints(maxWidth: 326),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(19),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.25),
-                spreadRadius: 2,
-                blurRadius: 4,
-                offset: Offset(0, 1), // changes position of shadow
-              ),
-            ],
-            color: Theme.of(context).colorScheme.onPrimary,
+  return Expanded(
+    child: Container(
+      constraints: const BoxConstraints(maxWidth: 576),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(19),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.25),
+            spreadRadius: 2,
+            blurRadius: 4,
+            offset: Offset(0, 1),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    "info",
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
-                        fontSize: Theme.of(context)
-                            .textTheme
-                            .headlineSmall!
-                            .fontSize),
-                  ),
-                ),
-              ),
-            ],
-          ),
+        ],
+        color: Theme.of(context).colorScheme.onPrimary,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ListView.separated(
+          itemBuilder: (context, index) => ReciptList(context, true),
+          separatorBuilder: (context, index) => const SizedBox(height: 20),
+          itemCount: 20,
         ),
       ),
+    ),
+  );
+}
+
+Widget ReciptList(BuildContext context, bool read) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Row(
+        children: [
+          CircleAvata(radius: 15),
+          const SizedBox(width: 12),
+          Text(
+            "Sitichok",
+            style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+                fontSize: Theme.of(context).textTheme.headlineSmall!.fontSize),
+          ),
+        ],
+      ),
+      // Icon(Icons.mark_email_unread_outlined,
+      //     color: Theme.of(context).colorScheme.primary),
+      read
+          ? Icon(Icons.mark_email_read_outlined,
+              color: Theme.of(context).colorScheme.primary)
+          : Icon(Icons.mark_email_unread_outlined,
+              color: Theme.of(context).colorScheme.primary),
     ],
   );
 }
