@@ -20,53 +20,67 @@ class _CreateDebtScreenState extends ConsumerState<CreateDebtScreen> {
         appBar: customAppBarBuilder(context, text: "Create", backButton: true),
         body: Column(
           children: [
-            Row(
-              children: [
-                const SizedBox(width: 16.0),
-                Text(
-                  'Debt Info',
-                  style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                      fontSize:
-                          Theme.of(context).textTheme.displaySmall?.fontSize),
-                ),
-              ],
+            Expanded(
+              flex: 2,
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      const SizedBox(width: 16.0),
+                      Text(
+                        'Debt Info',
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontSize: Theme.of(context)
+                                .textTheme
+                                .displaySmall
+                                ?.fontSize),
+                      ),
+                    ],
+                  ),
+                  const DebtForm(),
+                ],
+              ),
             ),
-            const DebtForm(),
-            ElevatedButton(
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                        Theme.of(context).colorScheme.primary)),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const AddPeople()));
-                },
-                child: Text(
-                  'Next',
-                  style:
-                      TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+            Expanded(
+                flex: 1,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    FilledButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Theme.of(context).colorScheme.primary),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const AddPeople()));
+                        },
+                        child: Text(
+                          'Next',
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.onPrimary),
+                        )),
+                    const SizedBox(
+                      width: 13,
+                    ),
+                  ],
                 ))
-            // FilledButton(
-            //   onPressed: () => const AddPeople(),
-            //   style: ButtonStyle(
-            //       backgroundColor: MaterialStateProperty.all<Color>(
-            //           Theme.of(context).colorScheme.primary)),
-            //   child: Text(
-            //     'Next',
-            //     style:
-            //         TextStyle(color: Theme.of(context).colorScheme.onPrimary),
-            //   ),
-            // )
           ],
         ));
   }
 }
 
-class AddPeople extends StatelessWidget {
+class AddPeople extends ConsumerStatefulWidget {
   const AddPeople({super.key});
 
+  @override
+  ConsumerState<AddPeople> createState() => _AddPeopleState();
+}
+
+class _AddPeopleState extends ConsumerState<AddPeople> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
