@@ -8,8 +8,8 @@ class User {
   final String username;
   final String name;
   final String? quote;
-  final Array friendList;
-  final Account acc;
+  final List<String> friendList;
+  final List<Account> accs;
 
   const User(
       {required this.userId,
@@ -18,7 +18,7 @@ class User {
       required this.name,
       this.quote,
       required this.friendList,
-      required this.acc});
+      required this.accs});
 
   factory User.fromFireStore(DocumentSnapshot doc) {
     Map data = doc.data as Map;
@@ -28,7 +28,7 @@ class User {
         username: data['username'],
         name: data['name'],
         friendList: data['friendList'] ?? '',
-        acc: data['acc'] ?? '');
+        accs: data['acc'] ?? '');
   }
 }
 
