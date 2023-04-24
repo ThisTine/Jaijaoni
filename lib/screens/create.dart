@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 //Muaymi
 
 import '../components/custom_app_bar.dart';
-import '../components/debtForm.dart';
+import '../components/debt_form.dart';
 
 class CreateDebtScreen extends StatelessWidget {
   const CreateDebtScreen({super.key});

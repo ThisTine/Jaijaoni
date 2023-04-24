@@ -3,11 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jaijaoni/components/authentication/signin_options.dart';
-import 'package:jaijaoni/components/authentication/signin_with_apple_button.dart';
-import 'package:jaijaoni/components/authentication/signin_with_google_button.dart';
 import 'package:jaijaoni/config/theme/custom_text_field.dart';
-
-import '../components/authentication/signin_divider.dart';
 import '../providers/auth_provider.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
