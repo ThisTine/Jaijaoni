@@ -4,6 +4,8 @@ import 'package:jaijaoni/components/analysis/month_conclute.dart';
 import 'package:jaijaoni/components/custom_app_bar.dart';
 import 'package:jaijaoni/config/theme/custom_wrapper.dart';
 
+import '../components/analysis/debt_list_people.dart';
+
 class DebtAnalysisScreen extends StatelessWidget {
   const DebtAnalysisScreen({super.key});
 
@@ -38,6 +40,9 @@ class DebtAnalysisScreen extends StatelessWidget {
                               BarValue(amountLabel: 20, barPercentage: 30),
                           rentBar: BarValue(amountLabel: 20, barPercentage: 30),
                           text: "Feb",
+                        ),
+                        const SizedBox(
+                          width: 20,
                         ),
                         MonthConclute(
                           borrowBar:
@@ -79,7 +84,8 @@ class DebtAnalysisScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                )
+                ),
+                DebtListPeople(),
               ],
             ),
           ),
