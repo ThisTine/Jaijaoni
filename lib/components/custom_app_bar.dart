@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 PreferredSizeWidget customAppBarBuilder(BuildContext context,
-    {required String text, bool backButton = false}) {
+    {required String text,
+    bool backButton = false,
+    List<Widget> actions = const []}) {
   void backButtonHandler() {
     if (context.canPop()) {
       context.pop();
@@ -27,5 +29,6 @@ PreferredSizeWidget customAppBarBuilder(BuildContext context,
             fontSize: Theme.of(context).textTheme.headlineSmall!.fontSize),
       ),
     ),
+    actions: actions,
   );
 }
