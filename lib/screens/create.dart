@@ -253,8 +253,9 @@ class _AddPeopleState extends ConsumerState<AddPeople> {
 }
 
 class FriendList extends StatelessWidget {
-  const FriendList({super.key, required this.isChecked});
-  final bool isChecked;
+  const FriendList({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
