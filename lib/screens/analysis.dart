@@ -17,7 +17,7 @@ class DebtAnalysisScreen extends StatelessWidget {
         body: Center(
           child: Container(
             constraints: wrapperConstranints,
-            child: Column(
+            child: ListView(
               children: [
                 Container(
                   height: 300,
