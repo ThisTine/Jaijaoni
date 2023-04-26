@@ -1,17 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PayerItemUnpaid extends StatelessWidget {
+class PayerItemUnpaid extends ConsumerStatefulWidget {
   const PayerItemUnpaid({super.key});
 
+  @override
+  ConsumerState<PayerItemUnpaid> createState() => _PayerItemUnpaidState();
+}
+
+class _PayerItemUnpaidState extends ConsumerState<PayerItemUnpaid> {
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 358,
       height: 82,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: Theme.of(context).colorScheme.secondaryContainer,
-      ),
+          borderRadius: BorderRadius.circular(20),
+          color: Theme.of(context).colorScheme.secondaryContainer,
+          boxShadow: [
+            BoxShadow(
+                blurRadius: 4,
+                offset: Offset(1, 1),
+                color: Colors.grey.withOpacity(0.5))
+          ]),
       child: Row(
         children: [
           Expanded(
@@ -22,7 +33,7 @@ class PayerItemUnpaid extends StatelessWidget {
                 ),
                 ClipOval(
                   child: SizedBox.fromSize(
-                    size: const Size.fromRadius(30), // Image radius
+                    size: const Size.fromRadius(30),
                     child: Image.network("images/profile/dazai.jpg",
                         fit: BoxFit.cover),
                   ),
