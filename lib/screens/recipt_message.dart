@@ -10,7 +10,12 @@ class ReciptMessage extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text("Profile"),
+        title: Text(
+          "Profile",
+          style: TextStyle(
+              color: Theme.of(context).colorScheme.primary,
+              fontSize: Theme.of(context).textTheme.headlineSmall!.fontSize),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -94,8 +99,6 @@ Widget ReciptList(BuildContext context, bool read) {
           ),
         ],
       ),
-      // Icon(Icons.mark_email_unread_outlined,
-      //     color: Theme.of(context).colorScheme.primary),
       read
           ? Icon(Icons.mark_email_read_outlined,
               color: Theme.of(context).colorScheme.primary)

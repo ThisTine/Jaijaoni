@@ -14,7 +14,21 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text("Profile"),
+        title: Text(
+          "Profile",
+          style: TextStyle(
+              color: Theme.of(context).colorScheme.primary,
+              fontSize: Theme.of(context).textTheme.headlineSmall!.fontSize),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              GoRouter.of(context).push('/edit');
+            },
+            icon:
+                Icon(Icons.edit, color: Theme.of(context).colorScheme.primary),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -32,13 +46,13 @@ class ProfileScreen extends StatelessWidget {
                       fontSize:
                           Theme.of(context).textTheme.headlineSmall!.fontSize),
                 ),
-                const SizedBox(height: 21),
-                DebtAnalysisBox(context),
-                const SizedBox(height: 28),
-                MenuBox(context),
-                const SizedBox(height: 28),
+                const SizedBox(height: 15),
                 Quote(context),
-                const SizedBox(height: 19),
+                const SizedBox(height: 15),
+                DebtAnalysisBox(context),
+                const SizedBox(height: 15),
+                MenuBox(context),
+                const SizedBox(height: 15),
                 LogoutButton(context),
               ],
             ),
@@ -65,7 +79,7 @@ Widget DebtAnalysisBox(BuildContext context) {
     children: [
       Expanded(
         child: Container(
-          // constraints: const BoxConstraints(maxWidth: 326),
+          constraints: const BoxConstraints(maxWidth: 576),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(19),
             color:
@@ -331,7 +345,7 @@ Widget MenuBox(BuildContext context) {
               const SizedBox(height: 8),
               GestureDetector(
                 onTap: () {
-                  context.push("/profile/:fid");
+                  context.push("/profile/1");
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(
@@ -421,7 +435,7 @@ Widget Quote(BuildContext context) {
     children: [
       Expanded(
         child: Container(
-          height: 164,
+          height: 100,
           constraints: const BoxConstraints(maxWidth: 326),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(19),
