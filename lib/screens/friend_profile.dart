@@ -9,7 +9,8 @@ class FriendProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBarBuilder(context, text: "Friend profile"),
+      appBar: customAppBarBuilder(context,
+          text: "Friend profile", backButton: true),
       body: Center(
         child: Column(
           children: [

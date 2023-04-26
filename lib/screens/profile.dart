@@ -162,7 +162,7 @@ Widget DebtAnalysisBox(BuildContext context) {
                                   fontWeight: FontWeight.bold)),
                     ],
                   ),
-                  const SizedBox(width: 34),
+                  const SizedBox(width: 15),
                   Column(
                     children: [
                       Row(

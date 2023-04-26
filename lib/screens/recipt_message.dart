@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jaijaoni/components/custom_app_bar.dart';
 import 'package:jaijaoni/screens/profile.dart';
 import 'package:jaijaoni/screens/recipt_message.dart';
 
@@ -9,14 +10,7 @@ class ReciptMessage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: Text(
-          "Profile",
-          style: TextStyle(
-              color: Theme.of(context).colorScheme.primary,
-              fontSize: Theme.of(context).textTheme.headlineSmall!.fontSize),
-        ),
-      ),
+      appBar: customAppBarBuilder(context, text: "Profile", backButton: true),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Center(
