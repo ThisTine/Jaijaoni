@@ -23,7 +23,7 @@ PreferredSizeWidget customAppBarBuilder(BuildContext context,
     title: Align(
       alignment: Alignment.centerLeft,
       child: Text(
-        "Create",
+        text,
         style: TextStyle(
             color: Theme.of(context).colorScheme.primary,
             fontSize: Theme.of(context).textTheme.headlineSmall!.fontSize),
