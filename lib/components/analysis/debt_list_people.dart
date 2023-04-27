@@ -13,14 +13,19 @@ class DebtListPeople extends StatelessWidget {
       children: [
         SegmentedButton(
           segments: const [
-            ButtonSegment(
-                value: 1, icon: Icon(Icons.abc), label: Text("Borrow")),
-            ButtonSegment(value: 2, icon: Icon(Icons.abc), label: Text("lent"))
+            ButtonSegment(value: 1, label: Text("Lent")),
+            ButtonSegment(value: 2, label: Text("Borrow"))
           ],
           selected: {1},
           multiSelectionEnabled: false,
         ),
-        for (int i = 0; i < 10; i++) DebtPeopleItem()
+        for (int i = 0; i < 10; i++)
+          DebtPeopleItem(
+            name: "Tine",
+            position: i + 1,
+            price: 200,
+            profileImage: "",
+          )
       ],
     );
   }
