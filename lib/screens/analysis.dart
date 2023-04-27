@@ -13,7 +13,7 @@ class DebtAnalysisScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final barDataList = ref.read(analysisProivder.notifier);
+    final barDataList = ref.watch(analysisProivder);
     return Scaffold(
         appBar:
             customAppBarBuilder(context, text: "Analysis", backButton: true),
@@ -30,19 +30,19 @@ class DebtAnalysisScreen extends ConsumerWidget {
                     child: Row(
                       children: [
                         for (AnalysisBarData bardata
-                            in barDataList.state.analysisBarList)
+                            in barDataList.analysisBarList)
                           MonthConclute(
                               isSelected: bardata.yearMonthLabel ==
-                                  barDataList.state.selectedBar,
+                                  barDataList.selectedBar,
                               lentBar: BarValue(
                                   amountLabel: bardata.lentPrice,
                                   barPercentage: (bardata.lentPrice /
-                                          barDataList.state.maxValue) *
+                                          barDataList.maxValue) *
                                       100),
                               borrowBar: BarValue(
                                   amountLabel: bardata.borrowPrice,
                                   barPercentage: (bardata.borrowPrice /
-                                          barDataList.state.maxValue) *
+                                          barDataList.maxValue) *
                                       100),
                               text: bardata.yearMonthLabel)
                       ],

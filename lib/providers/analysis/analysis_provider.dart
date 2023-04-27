@@ -42,4 +42,4 @@ class AnalysisData extends ChangeNotifier {
   }
 }
 
-final analysisProivder = StateProvider((ref) => AnalysisData());
+final analysisProivder = ChangeNotifierProvider((ref) => AnalysisData());

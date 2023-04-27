@@ -31,8 +31,7 @@ class MonthConclute extends ConsumerWidget {
         ),
         GestureDetector(
           onTap: () {
-            print(text);
-            ref.read(analysisProivder.notifier).state.selectedBar = text;
+            ref.read(analysisProivder.notifier).setSelectedBar(text);
           },
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,

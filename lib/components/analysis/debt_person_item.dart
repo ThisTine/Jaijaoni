@@ -36,8 +36,10 @@ class DebtPeopleItem extends StatelessWidget {
               ],
             ),
             if (position < 4 && position > 0)
-              Text(
-                  "$position ${position == 1 ? "st" : position == 2 ? "nd" : "rd"}")
+              CircleAvatar(
+                foregroundImage: AssetImage(
+                    "images/analysis/${position == 1 ? "1st" : position == 2 ? "2nd" : "3rd"}.png"),
+              )
           ],
         ),
         SizedBox(
