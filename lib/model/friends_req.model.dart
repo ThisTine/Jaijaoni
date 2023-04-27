@@ -1,18 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Friends_Req {
+class FriendsReq {
   final String username;
   final String anotherUsername;
   final Status status;
 
-  const Friends_Req(
+  const FriendsReq(
       {required this.username,
       required this.anotherUsername,
       required this.status});
 
-  factory Friends_Req.fromFireStore(DocumentSnapshot doc) {
+  factory FriendsReq.fromFireStore(DocumentSnapshot doc) {
     Map data = doc.data as Map;
-    return Friends_Req(
+    return FriendsReq(
         username: data['username'],
         anotherUsername: data['anotherUsername'],
         status: data['status']);
