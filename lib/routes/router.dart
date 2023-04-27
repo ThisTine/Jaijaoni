@@ -7,6 +7,7 @@ import 'package:jaijaoni/screens/analysis.dart';
 import 'package:jaijaoni/screens/create.dart';
 import 'package:jaijaoni/screens/detail.dart';
 import 'package:jaijaoni/screens/edit.dart';
+import 'package:jaijaoni/screens/edit_profile.dart';
 import 'package:jaijaoni/screens/explore.dart';
 import 'package:jaijaoni/screens/friend_profile.dart';
 import 'package:jaijaoni/screens/friends.dart';
@@ -107,6 +108,11 @@ class AppGoRouter extends ChangeNotifier {
               path: "/profile/:fid",
               builder: (context, state) =>
                   FriendProfile(fid: state.params['fid']!),
+            ),
+            GoRoute(
+              parentNavigatorKey: _shellRouteKey,
+              path: "/profile/edit",
+              builder: (context, state) => const EditProfile(),
             ),
           ],
           builder: (context, state, child) => Scaffold(
