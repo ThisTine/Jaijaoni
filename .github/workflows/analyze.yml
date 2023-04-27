@@ -1,0 +1,42 @@
+name: Analyzie Station 👩‍🔬
+
+on: 
+  # push:
+    # branches:
+    #   - main
+    #   - infa
+  pull_request:
+    branches:
+      - "*"
+      
+jobs:
+  build:
+    name: 🐳 checkbuild
+    runs-on: ubuntu-latest
+   
+    steps:
+      - name: Checkout ✅
+        uses: actions/checkout@v3
+
+      - name: SDK setup 🙈
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: "12.x"
+          cache: gradle
+
+      - name: Install Fultter 📥
+        uses: subosito/flutter-action@v2
+        with:
+          # flutter-version: "3.7.7"
+          channel: 'stable'
+          cache: true
+  
+      - name: Get dependencies 👋
+        run: |
+          flutter pub get
+          touch .env
+          echo  ${{ secrets.APP_ENV }} > .env          
+      
+      - name: analyzie 🤔
+        run: flutter analyze
