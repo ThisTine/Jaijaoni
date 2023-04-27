@@ -105,14 +105,14 @@ class AppGoRouter extends ChangeNotifier {
             ),
             GoRoute(
               parentNavigatorKey: _shellRouteKey,
-              path: "/profile/:fid",
-              builder: (context, state) =>
-                  FriendProfile(fid: state.params['fid']!),
+              path: "/profile/edit",
+              builder: (context, state) => const EditProfile(),
             ),
             GoRoute(
               parentNavigatorKey: _shellRouteKey,
-              path: "/profile/edit",
-              builder: (context, state) => const EditProfile(),
+              path: "/profile/:fid",
+              builder: (context, state) =>
+                  FriendProfile(fid: state.params['fid']!),
             ),
           ],
           builder: (context, state, child) => Scaffold(
