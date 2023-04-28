@@ -18,8 +18,8 @@ class FriendProfile extends StatelessWidget {
             children: [
               Stack(
                 children: [
-                  CircleAvata(radius: 80),
-                  CardProfile(context),
+                  circleAvata(radius: 80),
+                  cardProfile(context),
                 ],
               )
             ],
@@ -30,7 +30,7 @@ class FriendProfile extends StatelessWidget {
   }
 }
 
-Widget CardProfile(BuildContext context) {
+Widget cardProfile(BuildContext context) {
   return (Container(
     width: 330,
     height: 400,

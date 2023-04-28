@@ -1,5 +1,5 @@
 //Fah
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jaijaoni/config/theme/custom_color.g.dart';
@@ -37,23 +37,23 @@ class ProfileScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                CircleAvata(radius: 50.0),
+                circleAvata(radius: 50.0),
                 const SizedBox(height: 15),
                 Text(
-                  "Name" + "'s",
+                  "Name's",
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
                       fontSize:
                           Theme.of(context).textTheme.headlineSmall!.fontSize),
                 ),
                 const SizedBox(height: 15),
-                Quote(context),
+                quote(context),
                 const SizedBox(height: 15),
-                DebtAnalysisBox(context),
+                debtAnalysisBox(context),
                 const SizedBox(height: 15),
-                MenuBox(context),
+                menuBox(context),
                 const SizedBox(height: 15),
-                LogoutButton(context),
+                logoutButton(context),
               ],
             ),
           ),
@@ -63,18 +63,16 @@ class ProfileScreen extends StatelessWidget {
   }
 }
 
-Widget CircleAvata({required double radius}) {
-  return Container(
-    child: Center(
-      child: CircleAvatar(
-        radius: radius,
-        backgroundImage: AssetImage('images/avatar.jpg'),
-      ),
+Widget circleAvata({required double radius}) {
+  return Center(
+    child: CircleAvatar(
+      radius: radius,
+      backgroundImage: const AssetImage('images/avatar.jpg'),
     ),
   );
 }
 
-Widget DebtAnalysisBox(BuildContext context) {
+Widget debtAnalysisBox(BuildContext context) {
   return Row(
     children: [
       Expanded(
@@ -232,7 +230,7 @@ Widget DebtAnalysisBox(BuildContext context) {
   );
 }
 
-Widget MenuBox(BuildContext context) {
+Widget menuBox(BuildContext context) {
   return Row(
     children: [
       Expanded(
@@ -430,7 +428,7 @@ Widget MenuBox(BuildContext context) {
   );
 }
 
-Widget Quote(BuildContext context) {
+Widget quote(BuildContext context) {
   return Row(
     children: [
       Expanded(
@@ -444,7 +442,7 @@ Widget Quote(BuildContext context) {
                 color: Colors.grey.withOpacity(0.25),
                 spreadRadius: 2,
                 blurRadius: 4,
-                offset: Offset(0, 1), // changes position of shadow
+                offset: const Offset(0, 1), // changes position of shadow
               ),
             ],
             color: Theme.of(context).colorScheme.onPrimary,
@@ -474,7 +472,7 @@ Widget Quote(BuildContext context) {
   );
 }
 
-Widget LogoutButton(BuildContext context) {
+Widget logoutButton(BuildContext context) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 16.0),
     child: ElevatedButton(

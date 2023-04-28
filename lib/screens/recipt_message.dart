@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:jaijaoni/components/custom_app_bar.dart';
 import 'package:jaijaoni/screens/profile.dart';
-import 'package:jaijaoni/screens/recipt_message.dart';
 
 class ReciptMessage extends StatelessWidget {
   const ReciptMessage({super.key});
@@ -18,10 +16,10 @@ class ReciptMessage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              CircleAvata(radius: 50),
+              circleAvata(radius: 50),
               const SizedBox(height: 15),
               Text(
-                "Name" + "'s",
+                "Name's",
                 style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
                     fontSize:
@@ -41,7 +39,7 @@ class ReciptMessage extends StatelessWidget {
                   ),
                 ],
               ),
-              Receipt(context),
+              receipt(context),
             ],
           ),
         ),
@@ -50,7 +48,7 @@ class ReciptMessage extends StatelessWidget {
   }
 }
 
-Widget Receipt(BuildContext context) {
+Widget receipt(BuildContext context) {
   return Expanded(
     child: Container(
       constraints: const BoxConstraints(maxWidth: 576),
@@ -61,7 +59,7 @@ Widget Receipt(BuildContext context) {
             color: Colors.grey.withOpacity(0.25),
             spreadRadius: 2,
             blurRadius: 4,
-            offset: Offset(0, 1),
+            offset: const Offset(0, 1),
           ),
         ],
         color: Theme.of(context).colorScheme.onPrimary,
@@ -69,7 +67,7 @@ Widget Receipt(BuildContext context) {
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView.separated(
-          itemBuilder: (context, index) => ReciptList(context, true),
+          itemBuilder: (context, index) => reciptList(context, true),
           separatorBuilder: (context, index) => const SizedBox(height: 20),
           itemCount: 20,
         ),
@@ -78,13 +76,13 @@ Widget Receipt(BuildContext context) {
   );
 }
 
-Widget ReciptList(BuildContext context, bool read) {
+Widget reciptList(BuildContext context, bool read) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
       Row(
         children: [
-          CircleAvata(radius: 15),
+          circleAvata(radius: 15),
           const SizedBox(width: 12),
           Text(
             "Sitichok",
@@ -103,45 +101,41 @@ Widget ReciptList(BuildContext context, bool read) {
           onTap: () {
             showModalBottomSheet(
               context: context,
-              builder: (context) => Container(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: ListView(
-                    children: [
-                      Row(
-                        children: [
-                          CircleAvata(radius: 30),
-                          const SizedBox(width: 24),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Sitichock",
-                                style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                    fontSize: Theme.of(context)
-                                        .textTheme
-                                        .headlineSmall!
-                                        .fontSize),
-                              ),
-                              Text(
-                                "@thistine",
-                                style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                    fontSize: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall!
-                                        .fontSize),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 41),
-                        ],
-                      ),
-                    ],
-                  ),
+              builder: (context) => Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: ListView(
+                  children: [
+                    Row(
+                      children: [
+                        circleAvata(radius: 30),
+                        const SizedBox(width: 24),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Sitichock",
+                              style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontSize: Theme.of(context)
+                                      .textTheme
+                                      .headlineSmall!
+                                      .fontSize),
+                            ),
+                            Text(
+                              "@thistine",
+                              style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontSize: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .fontSize),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 41),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             );
