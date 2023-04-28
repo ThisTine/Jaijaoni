@@ -1,6 +1,6 @@
 //Phon
 import 'package:flutter/material.dart';
-import 'package:jaijaoni/components/my_card.dart';
+import 'package:jaijaoni/components/home_card.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -17,12 +17,12 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             children: const <Widget>[
               Text("Test Text", style: TextStyle(fontSize: 30)),
-              MyCard(),
-              MyCard(),
-              MyCard(),
-              MyCard(),
-              MyCard(),
-              MyCard(),
+              HomeCard(),
+              HomeCard(),
+              HomeCard(),
+              HomeCard(),
+              HomeCard(),
+              HomeCard(),
               // Container(
               //   child: Container(
               //     padding:
