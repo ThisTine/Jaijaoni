@@ -9,7 +9,7 @@ class EditProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBarBuilder(context, text: "Edit"),
+      appBar: customAppBarBuilder(context, text: "Edit", backButton: true),
     );
   }
 }

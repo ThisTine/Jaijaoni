@@ -23,7 +23,7 @@ class ProfileScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              GoRouter.of(context).push('profile/edit');
+              GoRouter.of(context).push('/profile/edit');
             },
             icon:
                 Icon(Icons.edit, color: Theme.of(context).colorScheme.primary),

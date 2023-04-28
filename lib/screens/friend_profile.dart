@@ -11,14 +11,39 @@ class FriendProfile extends StatelessWidget {
     return Scaffold(
       appBar: customAppBarBuilder(context,
           text: "Friend profile", backButton: true),
-      body: Center(
-        child: Column(
-          children: [
-            CircleAvata(radius: 50),
-          ],
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Center(
+          child: Column(
+            children: [
+              Stack(
+                children: [
+                  CircleAvata(radius: 80),
+                  CardProfile(context),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
-    ;
   }
+}
+
+Widget CardProfile(BuildContext context) {
+  return (Container(
+    width: 330,
+    height: 400,
+    decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(21),
+        color: Theme.of(context).colorScheme.secondaryContainer),
+    child: Column(
+      children: [
+        Text("muaymi🍅",
+            style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+                fontSize: Theme.of(context).textTheme.headlineSmall!.fontSize)),
+      ],
+    ),
+  ));
 }

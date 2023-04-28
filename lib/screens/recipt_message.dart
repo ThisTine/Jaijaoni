@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jaijaoni/components/custom_app_bar.dart';
 import 'package:jaijaoni/screens/profile.dart';
 import 'package:jaijaoni/screens/recipt_message.dart';
@@ -93,11 +94,58 @@ Widget ReciptList(BuildContext context, bool read) {
           ),
         ],
       ),
-      read
-          ? Icon(Icons.mark_email_read_outlined,
-              color: Theme.of(context).colorScheme.primary)
-          : Icon(Icons.mark_email_unread_outlined,
+      GestureDetector(
+          child: Icon(
+              read
+                  ? Icons.mark_email_read_outlined
+                  : Icons.mark_email_unread_outlined,
               color: Theme.of(context).colorScheme.primary),
+          onTap: () {
+            showModalBottomSheet(
+              context: context,
+              builder: (context) => Container(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: ListView(
+                    children: [
+                      Row(
+                        children: [
+                          CircleAvata(radius: 30),
+                          const SizedBox(width: 24),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Sitichock",
+                                style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                    fontSize: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall!
+                                        .fontSize),
+                              ),
+                              Text(
+                                "@thistine",
+                                style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                    fontSize: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .fontSize),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 41),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          })
     ],
   );
 }
