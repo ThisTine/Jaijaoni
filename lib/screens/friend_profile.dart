@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jaijaoni/components/custom_app_bar.dart';
-import 'profile.dart';
+import '../components/circleAvata.dart';
 
 class FriendProfile extends StatelessWidget {
   final String fid;

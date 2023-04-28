@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jaijaoni/config/theme/custom_color.g.dart';
 
+import '../components/circleAvata.dart';
+import '../components/quote.dart';
+
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
@@ -59,15 +62,6 @@ class ProfileScreen extends StatelessWidget {
       ),
     );
   }
-}
-
-Widget circleAvata({required double radius}) {
-  return Center(
-    child: CircleAvatar(
-      radius: radius,
-      backgroundImage: const AssetImage('images/avatar.jpg'),
-    ),
-  );
 }
 
 Widget debtAnalysisBox(BuildContext context) {
@@ -341,7 +335,7 @@ Widget menuBox(BuildContext context) {
               const SizedBox(height: 8),
               GestureDetector(
                 onTap: () {
-                  context.push("/profile/1");
+                  context.push("/friends");
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(
@@ -415,50 +409,6 @@ Widget menuBox(BuildContext context) {
                       Icon(Icons.arrow_forward_ios,
                           color: Theme.of(context).colorScheme.primary),
                     ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    ],
-  );
-}
-
-Widget quote(BuildContext context) {
-  return Row(
-    children: [
-      Expanded(
-        child: Container(
-          height: 100,
-          constraints: const BoxConstraints(maxWidth: 326),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(19),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.25),
-                spreadRadius: 2,
-                blurRadius: 4,
-                offset: const Offset(0, 1), // changes position of shadow
-              ),
-            ],
-            color: Theme.of(context).colorScheme.onPrimary,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    "\"Quote\"",
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
-                        fontSize: Theme.of(context)
-                            .textTheme
-                            .headlineSmall!
-                            .fontSize),
                   ),
                 ),
               ),

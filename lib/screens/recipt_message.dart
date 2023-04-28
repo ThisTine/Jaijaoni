@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jaijaoni/components/custom_app_bar.dart';
-import 'package:jaijaoni/screens/profile.dart';
+import '../components/circleAvata.dart';
 
 class ReciptMessage extends StatelessWidget {
   const ReciptMessage({super.key});
