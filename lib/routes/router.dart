@@ -7,13 +7,16 @@ import 'package:jaijaoni/screens/analysis.dart';
 import 'package:jaijaoni/screens/create.dart';
 import 'package:jaijaoni/screens/detail.dart';
 import 'package:jaijaoni/screens/edit.dart';
+import 'package:jaijaoni/screens/edit_profile.dart';
 import 'package:jaijaoni/screens/explore.dart';
+import 'package:jaijaoni/screens/friend_profile.dart';
 import 'package:jaijaoni/screens/friends.dart';
 import 'package:jaijaoni/screens/home.dart';
 import 'package:jaijaoni/screens/login.dart';
 import 'package:jaijaoni/screens/loading.dart';
 import 'package:jaijaoni/screens/payment.dart';
 import 'package:jaijaoni/screens/profile.dart';
+import 'package:jaijaoni/screens/recipt_message.dart';
 import 'package:jaijaoni/screens/register.dart';
 import 'package:jaijaoni/screens/reset_password.dart';
 
@@ -94,6 +97,22 @@ class AppGoRouter extends ChangeNotifier {
               parentNavigatorKey: _shellRouteKey,
               path: "/profile",
               builder: (context, state) => const ProfileScreen(),
+            ),
+            GoRoute(
+              parentNavigatorKey: _shellRouteKey,
+              path: "/profile/message",
+              builder: (context, state) => const ReciptMessage(),
+            ),
+            GoRoute(
+              parentNavigatorKey: _shellRouteKey,
+              path: "/profile/edit",
+              builder: (context, state) => const EditProfile(),
+            ),
+            GoRoute(
+              parentNavigatorKey: _shellRouteKey,
+              path: "/profile/:fid",
+              builder: (context, state) =>
+                  FriendProfile(fid: state.params['fid']!),
             ),
           ],
           builder: (context, state, child) => Scaffold(
