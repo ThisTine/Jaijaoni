@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jaijaoni/config/theme/custom_color.g.dart';
 
-import 'create.dart';
-
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
@@ -478,7 +476,7 @@ Widget logoutButton(BuildContext context) {
     child: ElevatedButton(
       style: ElevatedButton.styleFrom(
         minimumSize: const Size.fromHeight(50),
-        primary: Theme.of(context).colorScheme.primaryContainer,
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       ),
       onPressed: () {
         ScaffoldMessenger.of(context).showSnackBar(
