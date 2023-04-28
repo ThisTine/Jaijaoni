@@ -90,7 +90,7 @@ class AppGoRouter extends ChangeNotifier {
             ),
             GoRoute(
               parentNavigatorKey: _shellRouteKey,
-              path: "/firends",
+              path: "/friends",
               builder: (context, state) => const FriendsScreen(),
             ),
             GoRoute(
