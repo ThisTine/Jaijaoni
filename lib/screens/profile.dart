@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jaijaoni/config/theme/custom_color.g.dart';
 
-import '../components/circleAvata.dart';
+import '../components/circle_avata.dart';
 import '../components/quote.dart';
 
 class ProfileScreen extends StatelessWidget {
