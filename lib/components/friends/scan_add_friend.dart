@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class ScanAddFriend extends StatefulWidget {
-  const ScanAddFriend({super.key});
+  final Function(String) popWithData;
+  const ScanAddFriend({super.key, required this.popWithData});
 
   @override
   State<ScanAddFriend> createState() => _ScanAddFriendState();
@@ -12,7 +13,7 @@ class ScanAddFriend extends StatefulWidget {
 
 class _ScanAddFriendState extends State<ScanAddFriend> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  Barcode? result;
+  // Barcode? result;
   QRViewController? controller;
 
   @override
@@ -28,9 +29,10 @@ class _ScanAddFriendState extends State<ScanAddFriend> {
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        result = scanData;
-      });
+      if (scanData.code!.startsWith('@')) {
+        widget.popWithData(scanData.code!);
+        // Navigator.pop(context, scanData.code);
+      }
     });
   }
 
@@ -44,11 +46,6 @@ class _ScanAddFriendState extends State<ScanAddFriend> {
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        // Positioned(
-        //     child: IconButton(
-        //   icon: Icon(Icons.cameraswitch),
-        //   onPressed: () {},
-        // )),
         Positioned(
           child: Expanded(
             flex: 5,
@@ -56,7 +53,7 @@ class _ScanAddFriendState extends State<ScanAddFriend> {
               key: qrKey,
               onQRViewCreated: _onQRViewCreated,
               overlay: QrScannerOverlayShape(
-                  overlayColor: Color.fromARGB(50, 0, 0, 0),
+                  overlayColor: const Color.fromARGB(50, 0, 0, 0),
                   borderLength: 20,
                   borderWidth: 20,
                   cutOutSize: MediaQuery.of(context).size.width * 0.8),

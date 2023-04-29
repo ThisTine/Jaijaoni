@@ -1,5 +1,6 @@
 //Tine
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jaijaoni/components/custom_app_bar.dart';
 import 'package:jaijaoni/components/friends/friend_list_container.dart';
 import 'package:jaijaoni/components/friends/friend_request_container.dart';
@@ -14,10 +15,18 @@ class FriendsScreen extends StatefulWidget {
 }
 
 class _FriendsScreenState extends State<FriendsScreen> {
-  Set<String> toggleMode = {"FRIEND_LIST"};
-  void openQR() {
-    Navigator.push(context,
+  final TextEditingController _searchController =
+      TextEditingController(text: "");
+  String toggleMode = "FRIEND_LIST";
+  void openQR() async {
+    String data = await Navigator.push(context,
         MaterialPageRoute(builder: (context) => const AddFriendScreen()));
+    if (data != "") {
+      setState(() {
+        toggleMode = "FRIEND_LIST";
+        _searchController.text = data;
+      });
+    }
   }
 
   @override
@@ -27,7 +36,14 @@ class _FriendsScreenState extends State<FriendsScreen> {
           text: "Friends",
           backButton: true,
           actions: [
-            IconButton(onPressed: openQR, icon: const Icon(Icons.qr_code))
+            IconButton(
+                onPressed: () {
+                  openQR();
+                },
+                icon: Icon(
+                  Icons.qr_code,
+                  color: Theme.of(context).colorScheme.primary,
+                ))
           ]),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -47,10 +63,10 @@ class _FriendsScreenState extends State<FriendsScreen> {
                       ButtonSegment(
                           value: "FRIEND_REQUEST", label: Text("Request"))
                     ],
-                    selected: toggleMode,
+                    selected: {toggleMode},
                     onSelectionChanged: (p0) {
                       setState(() {
-                        toggleMode = p0;
+                        toggleMode = p0.first;
                       });
                     },
                   ),
@@ -60,6 +76,7 @@ class _FriendsScreenState extends State<FriendsScreen> {
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: TextFormField(
+                      controller: _searchController,
                       decoration: roundInput.copyWith(
                           labelText: "Search",
                           hintText: "Friend's name or username",
