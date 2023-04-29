@@ -6,16 +6,16 @@ class PayerCard extends ConsumerStatefulWidget {
   final Color? circleColor;
   final String image;
   final String amount;
-  final String days;
+  final String? days;
 
-  const PayerCard(
-      {Key? key,
-      required this.name,
-      required this.circleColor,
-      required this.image,
-      required this.amount,
-      required this.days})
-      : super(key: key);
+  const PayerCard({
+    Key? key,
+    required this.name,
+    required this.circleColor,
+    required this.image,
+    required this.amount,
+    this.days,
+  }) : super(key: key);
 
   @override
   ConsumerState<PayerCard> createState() => _PayerCardState();
@@ -85,15 +85,19 @@ class _PayerCardState extends ConsumerState<PayerCard> {
                   ),
                   Row(
                     children: [
-                      Text(
-                        "sent picture ${widget.days} days ago",
-                        style: TextStyle(
-                            fontSize: Theme.of(context)
-                                .textTheme
-                                .bodySmall
-                                ?.fontSize),
-                        maxLines: 1,
-                      ),
+                      if (widget.days == null) ...[
+                        // const Text("")
+                      ] else ...[
+                        Text(
+                          "sent picture ${widget.days} days ago",
+                          style: TextStyle(
+                              fontSize: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.fontSize),
+                          maxLines: 1,
+                        ),
+                      ]
                     ],
                   )
                 ],
