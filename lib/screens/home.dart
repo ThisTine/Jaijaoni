@@ -19,10 +19,11 @@ class HomeScreen extends StatelessWidget {
             children: <Widget>[
               const Text("Test Text", style: TextStyle(fontSize: 30)),
               PayerCard(
-                name: "Muaymi",
+                name: "Muaymiiiiiiii",
                 image: "images/profile/dazai.jpg",
                 circleColor: Theme.of(context).colorScheme.primary,
                 amount: "2000",
+                days: "3",
               ),
               HomeCard(),
               HomeCard(),

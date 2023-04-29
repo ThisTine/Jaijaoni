@@ -6,13 +6,15 @@ class PayerCard extends ConsumerStatefulWidget {
   final Color? circleColor;
   final String image;
   final String amount;
+  final String days;
 
   const PayerCard(
       {Key? key,
       required this.name,
       required this.circleColor,
       required this.image,
-      required this.amount})
+      required this.amount,
+      required this.days})
       : super(key: key);
 
   @override
@@ -36,42 +38,67 @@ class _PayerCardState extends ConsumerState<PayerCard> {
           ]),
       child: Row(
         children: [
-          Expanded(
-            child: Row(
-              children: [
-                const SizedBox(
-                  width: 13,
-                ),
-                ClipOval(
-                  child: SizedBox.fromSize(
-                    size: const Size.fromRadius(30),
-                    child: Image.network(
-                      widget.image,
-                      fit: BoxFit.cover,
-                    ),
+          Row(
+            children: [
+              const SizedBox(
+                width: 13,
+              ),
+              ClipOval(
+                child: SizedBox.fromSize(
+                  size: const Size.fromRadius(30),
+                  child: Image.network(
+                    widget.image,
+                    fit: BoxFit.cover,
                   ),
                 ),
-                const SizedBox(
-                  width: 13,
-                ),
-                Text(
-                  widget.name,
-                  style: TextStyle(
-                      color: Theme.of(context).colorScheme.onPrimaryContainer,
-                      fontSize:
-                          Theme.of(context).textTheme.titleMedium?.fontSize),
-                ),
-                const SizedBox(
-                  width: 13,
-                ),
-                ClipOval(
-                    child: Container(
-                  color: widget.circleColor,
-                  width: 12,
-                  height: 12,
-                ))
-              ],
-            ),
+              ),
+              const SizedBox(
+                width: 13,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        widget.name,
+                        style: TextStyle(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onPrimaryContainer,
+                            fontSize: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.fontSize),
+                      ),
+                      const SizedBox(
+                        width: 13,
+                      ),
+                      ClipOval(
+                          child: Container(
+                        color: widget.circleColor,
+                        width: 12,
+                        height: 12,
+                      )),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        "sent picture ${widget.days} days ago",
+                        style: TextStyle(
+                            fontSize: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.fontSize),
+                        maxLines: 1,
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ],
           ),
           Expanded(
             child: Row(
