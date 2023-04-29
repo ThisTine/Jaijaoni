@@ -4,6 +4,7 @@ import 'package:jaijaoni/components/custom_app_bar.dart';
 import 'package:jaijaoni/components/friends/friend_list_container.dart';
 import 'package:jaijaoni/components/friends/friend_request_container.dart';
 import 'package:jaijaoni/config/theme/custom_text_field.dart';
+import 'package:jaijaoni/screens/addfriend.dart';
 
 class FriendsScreen extends StatefulWidget {
   const FriendsScreen({super.key});
@@ -14,6 +15,11 @@ class FriendsScreen extends StatefulWidget {
 
 class _FriendsScreenState extends State<FriendsScreen> {
   Set<String> toggleMode = {"FRIEND_LIST"};
+  void openQR() {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const AddFriendScreen()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +27,7 @@ class _FriendsScreenState extends State<FriendsScreen> {
           text: "Friends",
           backButton: true,
           actions: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.qr_code))
+            IconButton(onPressed: openQR, icon: const Icon(Icons.qr_code))
           ]),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
