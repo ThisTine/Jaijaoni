@@ -90,11 +90,6 @@ class AppGoRouter extends ChangeNotifier {
             ),
             GoRoute(
               parentNavigatorKey: _shellRouteKey,
-              path: "/friends",
-              builder: (context, state) => const FriendsScreen(),
-            ),
-            GoRoute(
-              parentNavigatorKey: _shellRouteKey,
               path: "/profile",
               builder: (context, state) => const ProfileScreen(),
             ),
@@ -119,6 +114,11 @@ class AppGoRouter extends ChangeNotifier {
             bottomNavigationBar: BottomNav(path: state.fullpath),
             body: child,
           ),
+        ),
+        GoRoute(
+          parentNavigatorKey: _mainRouteKey,
+          path: "/friends",
+          builder: (context, state) => const FriendsScreen(),
         ),
         GoRoute(
           parentNavigatorKey: _mainRouteKey,
