@@ -1,6 +1,5 @@
 //Tine
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:jaijaoni/components/custom_app_bar.dart';
 import 'package:jaijaoni/components/friends/friend_list_container.dart';
 import 'package:jaijaoni/components/friends/friend_request_container.dart';

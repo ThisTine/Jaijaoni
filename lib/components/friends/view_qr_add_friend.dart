@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class ViewQRAddFriend extends StatelessWidget {
@@ -25,8 +23,8 @@ class ViewQRAddFriend extends StatelessWidget {
                 child: QrImage(
                   data: "@thistine",
                   backgroundColor: Colors.white,
-                  embeddedImage:
-                      NetworkImage("https://www.thistine.com/img/me.webp"),
+                  embeddedImage: const NetworkImage(
+                      "https://www.thistine.com/img/me.webp"),
                 ),
               ),
             ),

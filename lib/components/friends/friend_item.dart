@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jaijaoni/components/friends/unfriend_Alert.dart';
+import 'package:jaijaoni/components/friends/unfriend_alert_dialog.dart';
 import 'package:jaijaoni/screens/friend_profile.dart';
 
 class FriendItem extends StatelessWidget {
@@ -22,7 +22,7 @@ class FriendItem extends StatelessWidget {
     void unfriend() async {
       bool? isConfirmed = await showDialog<bool>(
         context: context,
-        builder: (context) => UnfriendAlert(context, "Sittichok"),
+        builder: (context) => unfriendAlert(context, "Sittichok"),
       );
       if (isConfirmed == true) {
         // DO UNFRIEND LOGIC

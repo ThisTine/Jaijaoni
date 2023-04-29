@@ -1,7 +1,6 @@
-
 import 'package:flutter/material.dart';
 
-AlertDialog UnfriendAlert(BuildContext context, String name) {
+AlertDialog unfriendAlert(BuildContext context, String name) {
   return AlertDialog(
     title: Text(
       "Unfriend $name",
