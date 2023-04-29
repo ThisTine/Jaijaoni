@@ -11,6 +11,7 @@ class FriendRequestContainer extends StatelessWidget {
       children: [
         for (int i = 0; i < 10; i++)
           const FriendItem(
+            id: "test",
             name: "Sittichok",
             username: "@thistine",
             isRequest: true,

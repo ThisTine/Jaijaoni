@@ -13,7 +13,10 @@ class FriendListContainer extends StatelessWidget {
       children: [
         for (int i = 0; i < 10; i++)
           const FriendItem(
-              name: "Sittichok", username: "@thistine", isFriend: true)
+              id: "test",
+              name: "Sittichok",
+              username: "@thistine",
+              isFriend: true)
       ],
     );
   }
