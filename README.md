@@ -9,3 +9,5 @@ A Flutter project.
 - flutter_dotenv
 - cloud_firestore
 - River_pod
+- qr_code_scanner
+- qr_flutter
