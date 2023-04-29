@@ -1,4 +1,8 @@
+// ignore_for_file: camel_case_types
+
 import 'package:flutter/material.dart';
+
+final amount = TextEditingController();
 
 class Paymentform extends StatelessWidget {
   const Paymentform({super.key});
@@ -8,21 +12,23 @@ class Paymentform extends StatelessWidget {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: const <Widget>[
-          PaymentForm(),
+          Payment_form(),
         ]);
   }
 }
 
-class PaymentForm extends StatefulWidget {
-  const PaymentForm({super.key});
+class Payment_form extends StatefulWidget {
+  const Payment_form({super.key});
+
+  get amounts => amount.text;
 
   @override
-  State<PaymentForm> createState() => _PaymentFormState();
+  State<Payment_form> createState() => _Payment_formState();
 }
 
-class _PaymentFormState extends State<PaymentForm> {
-  // final _formKey = GlobalKey<FormState>();
-  final number = TextEditingController();
+class _Payment_formState extends State<Payment_form> {
+  final _formKey = GlobalKey<FormState>();
+
   @override
   void initState() {
     super.initState();
@@ -33,27 +39,28 @@ class _PaymentFormState extends State<PaymentForm> {
     super.dispose();
   }
 
-  void numberdispose() {
-    number.dispose();
+  void amountdispose() {
+    amount.dispose();
   }
 
-  setnumber(int num) {
-    number.text = num.toString();
+  setamount(int num) {
+    amount.text = num.toString();
   }
 
   @override
   Widget build(BuildContext context) {
     List<int> payamount = [25, 50, 100, 300, 500, 1000];
-    // var number = {};
+    // var amount = {};
     return Column(
       children: [
         Form(
+          key: _formKey,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 40),
             // child: TextFormField(),
             child: TextFormField(
                 textAlign: TextAlign.center,
-                controller: number,
+                controller: amount,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Amount',
@@ -95,7 +102,7 @@ class _PaymentFormState extends State<PaymentForm> {
                       ),
                       child: TextButton(
                         onPressed: () {
-                          setnumber(e);
+                          setamount(e);
                         },
                         style: TextButton.styleFrom(
                             backgroundColor: Colors.white,
@@ -104,7 +111,9 @@ class _PaymentFormState extends State<PaymentForm> {
                                     BorderRadius.all(Radius.circular(8)))),
                         child: Text(
                           e.toString(),
-                          style: const TextStyle(color: Colors.black),
+                          style: const TextStyle(
+                            color: Colors.black,
+                          ),
                         ),
                       ),
                     ),

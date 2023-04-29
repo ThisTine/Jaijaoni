@@ -1,5 +1,6 @@
 //Gun
 import 'package:flutter/material.dart';
+import 'package:jaijaoni/components/payment/payment_detail.dart';
 import 'package:jaijaoni/components/payment/payment_form.dart';
 import '../components/custom_app_bar.dart';
 
@@ -36,12 +37,19 @@ class PaymentScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: FilledButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return PaymentDetail(
+                        amounts: const Payment_form().amounts,
+                      );
+                    }));
+                  },
                   style: FilledButton.styleFrom(
                     minimumSize: const Size.fromHeight(50),
                     padding: const EdgeInsets.all(10.00),
                   ),
-                  child: const Text('Create payment'),
+                  child: const Text('Create payment '),
                 ),
               ),
             ),
