@@ -1,5 +1,6 @@
 //Phon
 import 'package:flutter/material.dart';
+import 'package:jaijaoni/components/debt_detail_payer_card.dart';
 import 'package:jaijaoni/components/home_card.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -15,8 +16,14 @@ class HomeScreen extends StatelessWidget {
         child: Container(
           alignment: Alignment.center,
           child: Column(
-            children: const <Widget>[
-              Text("Test Text", style: TextStyle(fontSize: 30)),
+            children: <Widget>[
+              const Text("Test Text", style: TextStyle(fontSize: 30)),
+              PayerCard(
+                name: "Muaymi",
+                image: "images/profile/dazai.jpg",
+                circleColor: Theme.of(context).colorScheme.primary,
+                amount: "2000",
+              ),
               HomeCard(),
               HomeCard(),
               HomeCard(),
