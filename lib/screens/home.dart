@@ -1,9 +1,10 @@
 //Phon
 import 'package:flutter/material.dart';
 import 'package:jaijaoni/components/debt_detail_payer_card.dart';
-import 'package:jaijaoni/components/debt_detail_transactions.dart';
 import 'package:jaijaoni/components/home_card.dart';
-import 'package:jaijaoni/components/home_doughnut.dart';
+import 'package:jaijaoni/components/home_collect_chart.dart';
+import 'package:jaijaoni/components/home_paid_chart.dart';
+import 'package:jaijaoni/config/theme/custom_color.g.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -20,36 +21,131 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const DoughnutChart(),
-                    // const SizedBox(
-                    //   width: 13,
-                    // ),
-                    Column(
-                      children: const [
-                        Text("Test 2", style: TextStyle(fontSize: 30)),
-                      ],
-                    )
+                    const Flexible(
+                      flex: 5,
+                      child: CollectChart(),
+                    ),
+                    Flexible(
+                        flex: 3,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text("8",
+                                    style: TextStyle(
+                                        color: const Color(0xFF5DB075),
+                                        fontSize: Theme.of(context)
+                                            .textTheme
+                                            .displaySmall
+                                            ?.fontSize,
+                                        fontWeight: FontWeight.bold,
+                                        height: 0.8)),
+                                Text(" friends",
+                                    style: TextStyle(
+                                        fontSize: Theme.of(context)
+                                            .textTheme
+                                            .displaySmall
+                                            ?.fontSize,
+                                        height: 0.8)),
+                              ],
+                            ),
+                            Text("in debt to you.",
+                                style: TextStyle(
+                                    fontSize: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.fontSize)),
+                            const SizedBox(
+                              height: 12,
+                            ),
+                            FilledButton(
+                              style: FilledButton.styleFrom(
+                                  backgroundColor: const Color(0xFF5DB075),
+                                  fixedSize: const Size(125, 40)),
+                              onPressed: () {},
+                              child: const Text(
+                                "more details",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            )
+                          ],
+                        )),
                   ]),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    const Text("Test 3", style: TextStyle(fontSize: 30)),
-                    Column(
-                      children: const [
-                        Text("Test 4", style: TextStyle(fontSize: 30)),
-                      ],
-                    )
-                  ]),
-              // const Text("Test Text", style: TextStyle(fontSize: 30)),
-              TransCard(
-                  date: "3/23/2023",
-                  circleColor: Theme.of(context).colorScheme.primary,
-                  amount: "200"),
 
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Flexible(
+                      flex: 5,
+                      child: PaidChart(),
+                    ),
+                    Flexible(
+                        flex: 3,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text("6",
+                                    style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                        fontSize: Theme.of(context)
+                                            .textTheme
+                                            .displaySmall
+                                            ?.fontSize,
+                                        fontWeight: FontWeight.bold,
+                                        height: 0.8)),
+                                Text(" friends",
+                                    style: TextStyle(
+                                        fontSize: Theme.of(context)
+                                            .textTheme
+                                            .displaySmall
+                                            ?.fontSize,
+                                        height: 0.8)),
+                              ],
+                            ),
+                            Text("you're in debt with.",
+                                style: TextStyle(
+                                    fontSize: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.fontSize)),
+                            const SizedBox(
+                              height: 12,
+                            ),
+                            FilledButton(
+                              style: FilledButton.styleFrom(
+                                  backgroundColor:
+                                      Theme.of(context).colorScheme.primary,
+                                  fixedSize: const Size(125, 40)),
+                              onPressed: () {},
+                              child: const Text(
+                                "more details",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            )
+                          ],
+                        )),
+                  ]),
+
+              // const Text("Test Text", style: TextStyle(fontSize: 30)),
+
+              const SizedBox(
+                height: 20,
+              ),
               PayerCard(
                 name: "Muaymiiiiiiii",
                 image: "images/profile/dazai.jpg",
@@ -83,11 +179,4 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
-}
-
-class ChartData {
-  ChartData(this.x, this.y, [this.color = Colors.white]);
-  final String x;
-  final double y;
-  final Color color;
 }
