@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jaijaoni/config/theme/custom_text_field.dart';
+import 'package:jaijaoni/services/auth/auth_service.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({super.key});
@@ -28,12 +29,29 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    void login() async {
-      if (_formKey.currentState!.validate()) {
+    void showScaffold(String text) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
+    }
+
+    void popToLogin() {
+      if (context.canPop()) {
+        context.pop();
+      } else {
+        context.push("/login");
+      }
+    }
+
+    void resetPassword() async {
+      if (_formKey.currentState!.validate() && context.mounted) {
         setLoading(true);
         try {
+          await AuthService().forgetPassword(_email.text);
           setLoading(false);
+          showScaffold("Please check your email, then try logining in again");
+          popToLogin();
         } catch (err) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(err.toString())));
           setLoading(false);
         }
       }
@@ -43,11 +61,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       appBar: AppBar(
         leading: BackButton(
           onPressed: () {
-            if (context.canPop()) {
-              context.pop();
-            } else {
-              context.push("/login");
-            }
+            popToLogin();
           },
         ),
       ),
@@ -82,7 +96,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     height: 30,
                   ),
                   FilledButton(
-                    onPressed: login,
+                    onPressed: resetPassword,
                     style: FilledButton.styleFrom(
                       minimumSize: const Size.fromHeight(50),
                       padding: const EdgeInsets.all(10.00),

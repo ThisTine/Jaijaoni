@@ -11,7 +11,7 @@ on:
       
 jobs:
   build:
-    name: 🐳 checkbuild
+    name: 🐍 Analyzie
     runs-on: ubuntu-latest
    
     steps:

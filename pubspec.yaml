@@ -45,6 +45,10 @@ dependencies:
   qr_flutter: ^4.0.0
   syncfusion_flutter_charts: ^21.1.41
   flutter_animate: ^4.1.1+1
+  google_sign_in: ^6.1.0
+  promptpay_qrcode_generate: ^1.0.1
+  image_picker: ^0.8.7+4
+  image_picker_for_web: ^2.1.12
 
 dev_dependencies:
   flutter_test:
@@ -71,6 +75,7 @@ flutter:
   assets:
     - .env
     - images/authentication/
+    - images/analysis/
     - images/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
