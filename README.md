@@ -11,3 +11,5 @@ A Flutter project.
 - River_pod
 - qr_code_scanner
 - qr_flutter
+- google_sign_in 
+- promptpay_qrcode_generate

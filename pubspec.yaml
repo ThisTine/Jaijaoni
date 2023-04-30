@@ -43,6 +43,8 @@ dependencies:
   flutter_riverpod: ^2.3.4
   qr_code_scanner: ^1.0.1
   qr_flutter: ^4.0.0
+  google_sign_in: ^6.1.0
+  promptpay_qrcode_generate: ^1.0.1
 
 dev_dependencies:
   flutter_test:
