@@ -1,7 +1,20 @@
 import 'package:flutter/material.dart';
 
 class HomeCard extends StatefulWidget {
-  const HomeCard({super.key});
+  final String name;
+  final String date;
+  final String amount;
+  final String image;
+  final int debtor;
+
+  const HomeCard({
+    Key? key,
+    required this.name,
+    required this.date,
+    required this.amount,
+    required this.image,
+    required this.debtor,
+  }) : super(key: key);
 
   @override
   State<HomeCard> createState() => _HomeCardState();
@@ -26,23 +39,26 @@ class _HomeCardState extends State<HomeCard> {
                 padding: const EdgeInsets.all(20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     SizedBox(
                       width: 200,
                       child: Text(
-                        "Bonchon Chicken", // Debt Name
-                        style: TextStyle(
+                        widget.name, // Debt Name
+                        style: const TextStyle(
                             fontSize: 34, color: Colors.white, height: 1.0),
                       ),
                     ),
-                    SizedBox(
-                      height: 50, // space divider
+                    // const SizedBox(
+                    //   height: 80, // space divider
+                    // ),
+                    const Spacer(
+                      flex: 1,
                     ),
                     SizedBox(
                       width: 200,
                       child: Text(
-                        "3/04/23", // Date
-                        style: TextStyle(
+                        widget.date, // Date
+                        style: const TextStyle(
                             fontSize: 24, color: Colors.white, height: 1.0),
                       ),
                     ),
@@ -61,28 +77,33 @@ class _HomeCardState extends State<HomeCard> {
                         SizedBox(
                             width: 60,
                             child: Row(
-                              children: const [
-                                CircleAvatar(
-                                  backgroundColor: Colors.white,
-                                  radius: 15,
-                                  child: Icon(
-                                    Icons.person,
-                                    color: Colors.grey,
+                              children: [
+                                const SizedBox(width: 13),
+                                ClipOval(
+                                  child: SizedBox.fromSize(
+                                    size: const Size.fromRadius(15),
+                                    child: Image.network(
+                                      widget.image,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
-                                Text(
-                                  " +2",
-                                  style: TextStyle(color: Colors.white),
-                                ),
+                                if (widget.debtor > 1) ...[
+                                  Text(
+                                    "+${widget.debtor - 1}",
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
+                                ] else
+                                  ...[]
                               ],
                             )),
                         const SizedBox(
                           height: 10, // space divider
                         ),
-                        const SizedBox(
+                        SizedBox(
                           child: Text(
-                            "100", // Money amount
-                            style: TextStyle(
+                            widget.amount, // Money amount
+                            style: const TextStyle(
                                 fontSize: 45, color: Colors.white, height: 1.0),
                           ),
                         ),
