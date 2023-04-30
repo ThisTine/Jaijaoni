@@ -1,7 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:jaijaoni/components/payment/paymen_upload.dart';
 import 'package:jaijaoni/components/payment/payment_form.dart';
+import 'package:promptpay_qrcode_generate/promptpay_qrcode_generate.dart';
 
 import '../custom_app_bar.dart';
 
@@ -13,25 +17,28 @@ class PaymentDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    PickedFile 
     return Scaffold(
         appBar: customAppBarBuilder(context, text: "Pay", backButton: true),
-        body: Column(children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Paydetail(),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Paydetail(),
+            Column(
+              children: [
+                Padding(
                   padding: const EdgeInsets.all(16),
                   child: FilledButton(
                     onPressed: () {
-                      Navigator.pop(context,
-                          MaterialPageRoute(builder: (context) {
-                        return PaymentDetail(
-                          amounts: const Payment_form().amounts,
-                        );
-                      }));
+                      showModalBottomSheet<void>(
+                          backgroundColor: Colors.transparent,
+                          context: context,
+                          builder: (context) {
+                            return BackdropFilter(
+                                filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+                                child: Paymentuploadsheet());
+                          });
                     },
                     style: FilledButton.styleFrom(
                       minimumSize: const Size.fromHeight(50),
@@ -40,13 +47,13 @@ class PaymentDetail extends StatelessWidget {
                     child: const Text('Upload Payment '),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-            ],
-          ),
-        ]));
+                const SizedBox(
+                  height: 10,
+                ),
+              ],
+            ),
+          ],
+        ));
   }
 }
 
@@ -89,16 +96,15 @@ class PaydetailState extends State<Paydetail> {
         ),
         Padding(
           padding: const EdgeInsets.all(16.0),
-          child: payView == 0 ? const Pay_qr() : const Pay_bank(),
+          child: payView == 0 ? const Payqr() : const Paybank(),
         )
       ],
     );
   }
 }
 
-// ignore: camel_case_types
-class Pay_qr extends StatelessWidget {
-  const Pay_qr({super.key});
+class Payqr extends StatelessWidget {
+  const Payqr({super.key});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -109,131 +115,112 @@ class Pay_qr extends StatelessWidget {
         borderRadius: BorderRadius.circular(19),
         color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.6),
       ),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                // textDirection: TextDirection.ltr,
-                "Scan this QR",
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.primary,
-                    fontSize:
-                        Theme.of(context).textTheme.headlineLarge!.fontSize),
-              ),
+      child: Column(children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+              // textDirection: TextDirection.ltr,
+              "Scan this QR",
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontSize:
+                      Theme.of(context).textTheme.headlineLarge!.fontSize),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-            child: Align(
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+          child: Align(
               alignment: Alignment.center,
-              child: Image(
-                image: AssetImage('images/qrcode.jpg'),
-                width: 250,
-              ),
-            ),
-          ),
-        ],
-      ),
+              child: QRCodeGenerate(
+                promptPayId: '0962200825',
+                amount: double.parse(Payment_form().amounts),
+              )),
+        ),
+      ]),
     );
   }
 }
 
 // ignore: camel_case_types
-class Pay_bank extends StatelessWidget {
-  const Pay_bank({super.key});
+class Paybank extends StatelessWidget {
+  const Paybank({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 380,
-      child: Column(
-        children: [
-          Container(),
-          // Expanded(
-          //     child:
-          Container(
-            constraints: const BoxConstraints(maxWidth: 576),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(19),
-              color: Theme.of(context)
-                  .colorScheme
-                  .primaryContainer
-                  .withOpacity(0.6),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Text(
-                    'Krungthai',
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
-                  ),
+    return Column(
+      children: [
+        Container(
+          width: double.infinity,
+          constraints: const BoxConstraints(maxWidth: 576),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(19),
+            color:
+                Theme.of(context).colorScheme.primaryContainer.withOpacity(0.6),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(16),
+                child: Text(
+                  'Krungthai',
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.bold),
                 ),
-                Padding(
-                  padding:
-                      EdgeInsets.only(left: 48, bottom: 42, right: 48, top: 0),
-                  child: Text(
-                    '203-0-49317-1',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
-                        fontSize: Theme.of(context)
-                            .textTheme
-                            .headlineLarge!
-                            .fontSize),
-                  ),
-                )
+              ),
+              Padding(
+                padding:
+                    EdgeInsets.only(left: 48, bottom: 42, right: 48, top: 0),
+                child: Text(
+                  '203-0-49317-1',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w400,
+                      fontSize:
+                          Theme.of(context).textTheme.headlineLarge!.fontSize),
+                ),
+              )
+            ],
+          ),
+          // )
+        ),
+        Container(
+          margin: EdgeInsets.only(top: 24),
+          constraints: const BoxConstraints(maxWidth: 576),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(19),
+            color:
+                Theme.of(context).colorScheme.primaryContainer.withOpacity(0.6),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Amount',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w400,
+                      fontSize:
+                          Theme.of(context).textTheme.headlineSmall!.fontSize),
+                ),
+                Text(
+                  Payment_form().amounts,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w400,
+                      fontSize:
+                          Theme.of(context).textTheme.headlineMedium!.fontSize),
+                ),
               ],
             ),
-            // )
           ),
-          Container(
-            margin: EdgeInsets.only(top: 24),
-            constraints: const BoxConstraints(maxWidth: 576),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(19),
-              color: Theme.of(context)
-                  .colorScheme
-                  .primaryContainer
-                  .withOpacity(0.6),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Amount',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
-                        fontSize: Theme.of(context)
-                            .textTheme
-                            .headlineSmall!
-                            .fontSize),
-                  ),
-                  Text(
-                    Payment_form().amounts,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
-                        fontSize: Theme.of(context)
-                            .textTheme
-                            .headlineMedium!
-                            .fontSize),
-                  ),
-                ],
-              ),
-            ),
-            // )
-          )
-        ],
-      ),
+        )
+      ],
     );
   }
 }
