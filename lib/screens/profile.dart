@@ -335,7 +335,7 @@ Widget menuBox(BuildContext context) {
               const SizedBox(height: 8),
               GestureDetector(
                 onTap: () {
-                  context.push("/profile/friends");
+                  context.push("/friends");
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(
@@ -381,7 +381,7 @@ Widget menuBox(BuildContext context) {
               const SizedBox(height: 8),
               GestureDetector(
                 onTap: () {
-                  context.push("/");
+                  context.push("/analysis");
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(

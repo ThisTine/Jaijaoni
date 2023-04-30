@@ -5,8 +5,7 @@ Widget quote(BuildContext context, {required double height}) {
     children: [
       Expanded(
         child: Container(
-          height: height,
-          constraints: const BoxConstraints(maxWidth: 326),
+          constraints: BoxConstraints(maxWidth: 326, minHeight: height),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(19),
             boxShadow: [

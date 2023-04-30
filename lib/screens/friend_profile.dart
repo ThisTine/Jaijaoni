@@ -15,25 +15,30 @@ class FriendProfile extends StatelessWidget {
           text: "Friend profile", backButton: true),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Center(
-          child: Column(
-            children: [
-              Stack(
-                clipBehavior: Clip.none,
-                alignment: Alignment.topCenter,
-                children: [
-                  Positioned(
-                    top: 90,
-                    child: cardProfile(context),
+        child: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 90.0),
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    alignment: Alignment.topCenter,
+                    children: [
+                      Container(
+                        child: cardProfile(context),
+                      ),
+                      Positioned(
+                        top: -90,
+                        child: circleAvata(radius: 80),
+                      ),
+                    ],
                   ),
-                  Container(
-                    child: circleAvata(radius: 80),
-                  ),
-                ],
-              ),
-              // const SizedBox(height: 15),
-              //   debtAnalysisBox(context)
-            ],
+                ),
+                const SizedBox(height: 15),
+                debtAnalysisBox(context)
+              ],
+            ),
           ),
         ),
       ),
@@ -45,7 +50,7 @@ Widget cardProfile(BuildContext context,
     {bool read = false, bool friend = true}) {
   return (Container(
     width: 350,
-    height: 500,
+    // height: 500,
     decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(21),
         color: Theme.of(context).colorScheme.secondaryContainer),
