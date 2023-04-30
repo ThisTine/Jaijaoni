@@ -51,7 +51,7 @@ class AuthService {
     }
   }
 
-  Future<void> _addUserToDB(umodal.User user) async {
+  Future<void> _addUserToDB(umodal.Users user) async {
     try {
       await _fireStore.collection("Users").doc(user.userId).set({
         "username": user.username,
@@ -80,7 +80,7 @@ class AuthService {
       if (signedInCredential.user!.displayName == null) {
         await signedInCredential.user!
             .updateDisplayName(signedInCredential.user!.email);
-        umodal.User user = umodal.User(
+        umodal.Users user = umodal.Users(
             userId: signedInCredential.user!.uid,
             profilePic: signedInCredential.user!.photoURL ?? "",
             username: signedInCredential.user!.email ?? "",
@@ -108,7 +108,7 @@ class AuthService {
       if (signedInCredential.user!.displayName == null) {
         await signedInCredential.user!
             .updateDisplayName(signedInCredential.user!.email);
-        umodal.User user = umodal.User(
+        umodal.Users user = umodal.Users(
             userId: signedInCredential.user!.uid,
             profilePic: signedInCredential.user!.photoURL ?? "",
             username: signedInCredential.user!.displayName ?? "",
@@ -141,7 +141,7 @@ class AuthService {
       final signedUpCredential = await _firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password);
       await signedUpCredential.user!.updateDisplayName(username);
-      umodal.User user = umodal.User(
+      umodal.Users user = umodal.Users(
           userId: signedUpCredential.user!.uid,
           profilePic: signedUpCredential.user!.photoURL ?? "",
           username: username,
