@@ -34,6 +34,7 @@ class _DebtListPeopleState extends State<DebtListPeople> {
           DebtPeopleItem(
             name: "Tine",
             position: i + 1,
+            id: i.toString(),
             price: 200,
             profileImage: "https://www.thistine.com/img/me.webp",
           )
