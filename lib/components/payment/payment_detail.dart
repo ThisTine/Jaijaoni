@@ -1,44 +1,61 @@
-// ignore_for_file: prefer_const_constructors
-
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:jaijaoni/components/payment/paymen_upload.dart';
 import 'package:jaijaoni/components/payment/payment_form.dart';
 import 'package:promptpay_qrcode_generate/promptpay_qrcode_generate.dart';
-
+import 'package:image_picker/image_picker.dart';
 import '../custom_app_bar.dart';
 
 // ignore: must_be_immutable
-class PaymentDetail extends StatelessWidget {
+class PaymentDetail extends StatefulWidget {
   PaymentDetail({Key? key, required this.amounts}) : super(key: key);
 
   String amounts;
 
   @override
+  State<PaymentDetail> createState() => _PaymentDetailState();
+}
+
+class _PaymentDetailState extends State<PaymentDetail> {
+  File? imagefile = null;
+  final ImagePicker _picker = ImagePicker();
+  _getFromGallery() async {
+    XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        imagefile = File(pickedFile.path);
+        showModalBottomSheet<void>(
+            backgroundColor: Colors.transparent,
+            context: context,
+            builder: (context) {
+              return BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+                  child: Paymentuploadsheet(
+                    imagefile: imagefile,
+                  ));
+            });
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    PickedFile 
     return Scaffold(
         appBar: customAppBarBuilder(context, text: "Pay", backButton: true),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.max,
           children: [
-            Paydetail(),
+            const Paydetail(),
             Column(
               children: [
                 Padding(
                   padding: const EdgeInsets.all(16),
                   child: FilledButton(
                     onPressed: () {
-                      showModalBottomSheet<void>(
-                          backgroundColor: Colors.transparent,
-                          context: context,
-                          builder: (context) {
-                            return BackdropFilter(
-                                filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-                                child: Paymentuploadsheet());
-                          });
+                      _getFromGallery();
                     },
                     style: FilledButton.styleFrom(
                       minimumSize: const Size.fromHeight(50),
