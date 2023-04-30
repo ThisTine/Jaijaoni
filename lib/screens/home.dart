@@ -43,6 +43,8 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   List<Map<String, dynamic>> foundList = [];
+  bool isVisible = true;
+  // turn Chart & Detail visible/invisible
   @override
   initState() {
     foundList = lendList;
@@ -54,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
     List<Map<String, dynamic>> results = [];
     if (enteredKeyword.isEmpty) {
       results = lendList;
+      isVisible = true;
       // if no enteredkeyword show all debt cards normally
       // need to add borrowList
     } else {
@@ -62,6 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
               debt["name"].toLowerCase().contains(enteredKeyword.toLowerCase()))
           .toList();
       // .toLowerCase() to make it case-insensitive
+      isVisible = false;
       // need to add borrowList
     }
     setState(() {
@@ -95,31 +99,38 @@ class _HomeScreenState extends State<HomeScreen> {
                         suffixIcon: Icon(Icons.search),
                         contentPadding: EdgeInsets.all(20))),
               ),
-
               Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
+                  children: [
                     Flexible(
                       flex: 5,
-                      child: CollectChart(),
+                      child: Visibility(
+                        visible: isVisible,
+                        child: const CollectChart(),
+                      ),
                     ),
-                    Flexible(flex: 3, child: CollectDetail()),
+                    Flexible(
+                        flex: 3,
+                        child: Visibility(
+                            visible: isVisible, child: const CollectDetail())),
                   ]),
-
               Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
+                  children: [
                     Flexible(
                       flex: 5,
-                      child: PaidChart(),
+                      child: Visibility(
+                        visible: isVisible,
+                        child: const PaidChart(),
+                      ),
                     ),
-                    Flexible(flex: 3, child: PaidDetail()),
+                    Flexible(
+                        flex: 3,
+                        child: Visibility(
+                            visible: isVisible, child: const PaidDetail())),
                   ]),
-
-              // const Text("Test Text", style: TextStyle(fontSize: 30)),
-
               const SizedBox(
                 height: 20,
               ),
@@ -140,29 +151,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               debtor: foundList[index]["debtor"],
                             );
                           })))
-
-              // PayerCard(
-              //   name: "Muaymiiiiiiii",
-              //   image: "images/profile/dazai.jpg",
-              //   circleColor: Theme.of(context).colorScheme.primary,
-              //   amount: "2000",
-              //   days: "3",
-              // ),
-
-              // Container(
-              //   child: Container(
-              //     padding:
-              //         EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-              //     height: MediaQuery.of(context).size.height,
-              //     // MediaQuery retrieve the device screen height size
-              //     child: ListView.builder(
-              //       itemCount: 10,
-              //       itemBuilder: (context, index) {
-              //         return const MyCard();
-              //       },
-              //     ),
-              //   ),
-              // ),
             ],
           ),
         ),
