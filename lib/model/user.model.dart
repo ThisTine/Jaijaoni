@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class User {
+class Users {
   final String userId;
   final String profilePic;
   final String username;
@@ -9,7 +9,7 @@ class User {
   final List<String> friendList;
   final List<Account> accs;
 
-  const User(
+  const Users(
       {required this.userId,
       required this.profilePic,
       required this.username,
@@ -18,9 +18,9 @@ class User {
       required this.friendList,
       required this.accs});
 
-  factory User.fromFireStore(DocumentSnapshot doc) {
+  factory Users.fromFireStore(DocumentSnapshot doc) {
     Map data = doc.data as Map;
-    return User(
+    return Users(
         userId: doc.id,
         profilePic: data['profilePic'],
         username: data['username'],
