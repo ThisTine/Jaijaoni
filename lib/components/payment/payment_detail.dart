@@ -49,7 +49,8 @@ class _PaymentDetailState extends State<PaymentDetail> {
         appBar: customAppBarBuilder(context, text: "Pay", backButton: true),
         body: SingleChildScrollView(
           child: Container(
-            constraints: BoxConstraints(minHeight: MediaQuery.of(context).size.height-55),
+            constraints: BoxConstraints(
+                minHeight: MediaQuery.of(context).size.height - 55),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.max,

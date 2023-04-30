@@ -3,16 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class Paymentuploadsheet extends StatefulWidget {
+class Paymentuploadsheet extends StatelessWidget {
   const Paymentuploadsheet({Key? key, required this.imagefile})
       : super(key: key);
   final File? imagefile;
 
-  @override
-  State<Paymentuploadsheet> createState() => _PaymentuploadsheetState();
-}
-
-class _PaymentuploadsheetState extends State<Paymentuploadsheet> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -35,15 +30,15 @@ class _PaymentuploadsheetState extends State<Paymentuploadsheet> {
                     child: Container(
                       alignment: Alignment.center,
                       margin: const EdgeInsets.only(bottom: 20),
-                      child: widget.imagefile != null
+                      child: imagefile != null
                           ? Image.network(
-                              (widget.imagefile!.path),
+                              (imagefile!.path),
                               width: double.infinity,
                               height: 400,
                               fit: BoxFit.fill,
                             )
                           : Image.network(
-                              'https://tenor.com/view/imagination-spongebob-squarepants-dreams-magic-gif-12725683',
+                              'https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg',
                               width: double.infinity,
                               height: 200,
                               fit: BoxFit.cover,
@@ -77,7 +72,7 @@ class _PaymentuploadsheetState extends State<Paymentuploadsheet> {
                           horizontal: 16, vertical: 8),
                       child: FilledButton(
                         onPressed: () {
-                          return context.go("/payment");
+                          return context.go("/detail");
                         },
                         style: FilledButton.styleFrom(
                           minimumSize: const Size.fromHeight(50),
