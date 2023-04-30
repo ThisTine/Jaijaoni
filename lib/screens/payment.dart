@@ -1,14 +1,17 @@
 //Gun
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jaijaoni/components/payment/payment_detail.dart';
 import 'package:jaijaoni/components/payment/payment_form.dart';
 import '../components/custom_app_bar.dart';
 
-class PaymentScreen extends StatelessWidget {
+class PaymentScreen extends ConsumerWidget {
   const PaymentScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final amount = TextEditingController();
+    final formKey = GlobalKey<FormState>();
     return Scaffold(
         appBar: customAppBarBuilder(context,
             text: "Select amount", backButton: true),
@@ -30,7 +33,10 @@ class PaymentScreen extends StatelessWidget {
               ),
             ],
           ),
-          const Paymentform(),
+          Paymentform(
+            formKey: formKey,
+            amount: amount,
+          ),
           Expanded(
             child: Align(
               alignment: Alignment.bottomCenter,
@@ -38,12 +44,14 @@ class PaymentScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(16),
                 child: FilledButton(
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return PaymentDetail(
-                        amounts: const Payment_form().amounts,
-                      );
-                    }));
+                    if (formKey.currentState!.validate()) {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return PaymentDetail(
+                          amounts: double.parse(amount.text),
+                        );
+                      }));
+                    }
                   },
                   style: FilledButton.styleFrom(
                     minimumSize: const Size.fromHeight(50),

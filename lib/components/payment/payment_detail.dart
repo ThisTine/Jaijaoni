@@ -3,23 +3,21 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:jaijaoni/components/payment/paymen_upload.dart';
-import 'package:jaijaoni/components/payment/payment_form.dart';
 import 'package:promptpay_qrcode_generate/promptpay_qrcode_generate.dart';
 import 'package:image_picker/image_picker.dart';
 import '../custom_app_bar.dart';
 
-// ignore: must_be_immutable
 class PaymentDetail extends StatefulWidget {
-  PaymentDetail({Key? key, required this.amounts}) : super(key: key);
+  const PaymentDetail({Key? key, required this.amounts}) : super(key: key);
 
-  String amounts;
+  final double amounts;
 
   @override
   State<PaymentDetail> createState() => _PaymentDetailState();
 }
 
 class _PaymentDetailState extends State<PaymentDetail> {
-  File? imagefile = null;
+  File? imagefile;
   final ImagePicker _picker = ImagePicker();
   _getFromGallery() async {
     XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
@@ -27,14 +25,19 @@ class _PaymentDetailState extends State<PaymentDetail> {
       setState(() {
         imagefile = File(pickedFile.path);
         showModalBottomSheet<void>(
+            isScrollControlled: true,
             backgroundColor: Colors.transparent,
             context: context,
             builder: (context) {
-              return BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-                  child: Paymentuploadsheet(
-                    imagefile: imagefile,
-                  ));
+              return Wrap(
+                children: [
+                  BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+                      child: Paymentuploadsheet(
+                        imagefile: imagefile,
+                      )),
+                ],
+              );
             });
       });
     }
@@ -44,38 +47,46 @@ class _PaymentDetailState extends State<PaymentDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: customAppBarBuilder(context, text: "Pay", backButton: true),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            const Paydetail(),
-            Column(
+        body: SingleChildScrollView(
+          child: Container(
+            constraints: BoxConstraints(minHeight: MediaQuery.of(context).size.height-55),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: FilledButton(
-                    onPressed: () {
-                      _getFromGallery();
-                    },
-                    style: FilledButton.styleFrom(
-                      minimumSize: const Size.fromHeight(50),
-                      padding: const EdgeInsets.all(10.00),
-                    ),
-                    child: const Text('Upload Payment '),
-                  ),
+                Paydetail(
+                  amount: widget.amounts,
                 ),
-                const SizedBox(
-                  height: 10,
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: FilledButton(
+                        onPressed: () {
+                          _getFromGallery();
+                        },
+                        style: FilledButton.styleFrom(
+                          minimumSize: const Size.fromHeight(50),
+                          padding: const EdgeInsets.all(10.00),
+                        ),
+                        child: const Text('Upload Payment '),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                  ],
                 ),
               ],
             ),
-          ],
+          ),
         ));
   }
 }
 
 class Paydetail extends StatefulWidget {
-  const Paydetail({super.key});
+  const Paydetail({super.key, required this.amount});
+  final double amount;
 
   @override
   State<Paydetail> createState() => PaydetailState();
@@ -113,7 +124,11 @@ class PaydetailState extends State<Paydetail> {
         ),
         Padding(
           padding: const EdgeInsets.all(16.0),
-          child: payView == 0 ? const Payqr() : const Paybank(),
+          child: payView == 0
+              ? Payqr(
+                  amount: widget.amount,
+                )
+              : Paybank(amount: widget.amount),
         )
       ],
     );
@@ -121,7 +136,8 @@ class PaydetailState extends State<Paydetail> {
 }
 
 class Payqr extends StatelessWidget {
-  const Payqr({super.key});
+  const Payqr({super.key, required this.amount});
+  final double amount;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -148,12 +164,12 @@ class Payqr extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
           child: Align(
               alignment: Alignment.center,
               child: QRCodeGenerate(
                 promptPayId: '0962200825',
-                amount: double.parse(Payment_form().amounts),
+                amount: amount,
               )),
         ),
       ]),
@@ -163,8 +179,8 @@ class Payqr extends StatelessWidget {
 
 // ignore: camel_case_types
 class Paybank extends StatelessWidget {
-  const Paybank({super.key});
-
+  const Paybank({super.key, required this.amount});
+  final double amount;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -189,8 +205,8 @@ class Paybank extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding:
-                    EdgeInsets.only(left: 48, bottom: 42, right: 48, top: 0),
+                padding: const EdgeInsets.only(
+                    left: 48, bottom: 42, right: 48, top: 0),
                 child: Text(
                   '203-0-49317-1',
                   style: TextStyle(
@@ -205,7 +221,7 @@ class Paybank extends StatelessWidget {
           // )
         ),
         Container(
-          margin: EdgeInsets.only(top: 24),
+          margin: const EdgeInsets.only(top: 24),
           constraints: const BoxConstraints(maxWidth: 576),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(19),
@@ -226,7 +242,7 @@ class Paybank extends StatelessWidget {
                           Theme.of(context).textTheme.headlineSmall!.fontSize),
                 ),
                 Text(
-                  Payment_form().amounts,
+                  amount.toString(),
                   style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.w400,

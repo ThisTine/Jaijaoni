@@ -1,33 +1,18 @@
-// ignore_for_file: camel_case_types
-
 import 'package:flutter/material.dart';
 
-final amount = TextEditingController();
+// final valueAmount = StateProvider<TextEditingController>((ref) => TextEditingController());
 
-class Paymentform extends StatelessWidget {
-  const Paymentform({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: const <Widget>[
-          Payment_form(),
-        ]);
-  }
-}
-
-class Payment_form extends StatefulWidget {
-  const Payment_form({super.key});
-
-  get amounts => amount.text;
+class Paymentform extends StatefulWidget {
+  const Paymentform({super.key, required this.formKey, required this.amount});
+  final GlobalKey formKey;
+  final TextEditingController amount;
 
   @override
-  State<Payment_form> createState() => _Payment_formState();
+  State<Paymentform> createState() => _PaymentformState();
 }
 
-class _Payment_formState extends State<Payment_form> {
-  final _formKey = GlobalKey<FormState>();
+class _PaymentformState extends State<Paymentform> {
+  // final amount = TextEditingController();
 
   @override
   void initState() {
@@ -36,34 +21,42 @@ class _Payment_formState extends State<Payment_form> {
 
   @override
   void dispose() {
+    widget.amount.dispose();
     super.dispose();
   }
 
-  void amountdispose() {
-    amount.dispose();
-  }
-
   setamount(int num) {
-    amount.text = num.toString();
+    widget.amount.text = num.toString();
   }
 
   @override
   Widget build(BuildContext context) {
     List<int> payamount = [25, 50, 100, 300, 500, 1000];
+
     // var amount = {};
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Form(
-          key: _formKey,
+          key: widget.formKey,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 40),
             // child: TextFormField(),
             child: TextFormField(
                 textAlign: TextAlign.center,
-                controller: amount,
+                controller: widget.amount,
+                validator: (value) {
+                  if (value == null ||
+                      value.isEmpty ||
+                      !RegExp(r'^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$')
+                          .hasMatch(value)) {
+                    return "Please enter amount";
+                  }
+                  return null;
+                },
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'Amount',
+                  labelText: 'Amounts',
                   hintText: '---',
                 ),
                 keyboardType: TextInputType.number),
