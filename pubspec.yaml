@@ -41,6 +41,10 @@ dependencies:
   firebase_auth: ^4.4.1
   cloud_firestore: ^4.5.1
   flutter_riverpod: ^2.3.4
+  qr_code_scanner: ^1.0.1
+  qr_flutter: ^4.0.0
+  google_sign_in: ^6.1.0
+  promptpay_qrcode_generate: ^1.0.1
 
 dev_dependencies:
   flutter_test:
@@ -67,6 +71,7 @@ flutter:
   assets:
     - .env
     - images/authentication/
+    - images/analysis/
     - images/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
