@@ -37,27 +37,16 @@ class AppGoRouter extends ChangeNotifier {
     if (authState.isLoading || authState.hasError) return null;
     final isAuth = authState.valueOrNull != null;
     if (isAuth &&
-        (state.location == '/login' ||
-            state.location == '/register' ||
-            state.location == "/reset-password")) {
+        {"/reset-password", '/login', "/register"}.contains(state.location)) {
       return '/';
     }
     if (!isAuth &&
-        (state.location != '/login' && state.location != '/register' ||
-            state.location == "/reset-password")) {
+        !{"/reset-password", '/login', "/register"}.contains(state.location)) {
       return '/login';
     }
     return null;
   }
 
-  final routesWithNav = [
-    "/",
-    "/analysis",
-    "/edit",
-    "/explore",
-    "/friends",
-    "/profile"
-  ];
   final GlobalKey<NavigatorState> _mainRouteKey = GlobalKey();
   final GlobalKey<NavigatorState> _shellRouteKey = GlobalKey();
 

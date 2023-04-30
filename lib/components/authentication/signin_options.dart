@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:jaijaoni/components/authentication/signin_divider.dart';
-import 'package:jaijaoni/components/authentication/signin_with_apple_button.dart';
 import 'package:jaijaoni/components/authentication/signin_with_google_button.dart';
 
 class SignInOptions extends StatelessWidget {
@@ -15,12 +14,12 @@ class SignInOptions extends StatelessWidget {
           text: "or ${isSignup ? "register" : "login"} with",
         ),
         SignInWithGoogleButton(isSignup: isSignup),
-        const SizedBox(
-          height: 10,
-        ),
-        SignInWithApple(
-          isSignup: isSignup,
-        ),
+        // const SizedBox(
+        //   height: 10,
+        // ),
+        // SignInWithApple(
+        //   isSignup: isSignup,
+        // ),
       ],
     );
   }
