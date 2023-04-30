@@ -1,7 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:jaijaoni/config/theme/custom_text_field.dart';
 
-class DebtForm extends StatelessWidget {
+// class DebtForm extends StatelessWidget {
+//   const DebtForm({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//         alignment: Alignment.center,
+//         margin: const EdgeInsets.all(16),
+//         child: Form(
+//             child: Column(
+//           children: [
+//             TextFormField(
+//               decoration: roundInput.copyWith(labelText: 'Name'),
+//             ),
+//             const SizedBox(
+//               height: 23,
+//             ),
+//             TextFormField(
+//                 decoration: roundInput.copyWith(labelText: 'Due date')),
+//             const SizedBox(
+//               height: 23,
+//             ),
+//             TextFormField(
+//                 decoration: roundInput.copyWith(labelText: 'Price per person'))
+//           ],
+//         )));
+//   }
+// }
+
+class DebtForm extends StatefulWidget {
   const DebtForm({super.key});
+
+  @override
+  State<DebtForm> createState() => _DebtFormState();
+}
+
+class _DebtFormState extends State<DebtForm> {
+  final _formKey = GlobalKey<FormState>();
+  final _name = TextEditingController();
+  final _dueDate = TextEditingController();
+  final _price = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -9,42 +49,27 @@ class DebtForm extends StatelessWidget {
         alignment: Alignment.center,
         margin: const EdgeInsets.all(16),
         child: Form(
+            key: _formKey,
             child: Column(
-          children: [
-            TextFormField(
-              decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.only(left: 25),
-                  labelText: 'Name',
-                  labelStyle:
-                      TextStyle(color: Theme.of(context).colorScheme.outline),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30))),
-            ),
-            const SizedBox(
-              height: 23,
-            ),
-            TextFormField(
-              decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.only(left: 25),
-                  labelText: 'Due Date',
-                  labelStyle:
-                      TextStyle(color: Theme.of(context).colorScheme.outline),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30))),
-            ),
-            const SizedBox(
-              height: 23,
-            ),
-            TextFormField(
-              decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.only(left: 25),
-                  labelText: 'Price per person',
-                  labelStyle:
-                      TextStyle(color: Theme.of(context).colorScheme.outline),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30))),
-            )
-          ],
-        )));
+              children: [
+                TextFormField(
+                  controller: _name,
+                  decoration: roundInput.copyWith(labelText: 'Name'),
+                ),
+                const SizedBox(
+                  height: 23,
+                ),
+                TextFormField(
+                    controller: _dueDate,
+                    decoration: roundInput.copyWith(labelText: 'Due date')),
+                const SizedBox(
+                  height: 23,
+                ),
+                TextFormField(
+                    controller: _price,
+                    decoration:
+                        roundInput.copyWith(labelText: 'Price per person'))
+              ],
+            )));
   }
 }
