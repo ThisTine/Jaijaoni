@@ -110,7 +110,7 @@ class EditProfile extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 15),
+              const SizedBox(height: 25),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
