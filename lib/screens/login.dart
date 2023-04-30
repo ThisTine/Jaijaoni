@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jaijaoni/components/authentication/signin_options.dart';
 import 'package:jaijaoni/config/theme/custom_text_field.dart';
+import '../config/theme/custom_wrapper.dart';
 import '../providers/auth_provider.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -55,7 +56,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               padding: const EdgeInsets.all(10.0),
               child: Center(
                 child: Container(
-                  constraints: const BoxConstraints(maxWidth: 576),
+                  constraints: wrapperConstranints,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
