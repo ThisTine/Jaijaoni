@@ -41,7 +41,7 @@ class AuthService {
   Future<bool> _findValidUsername(String username) async {
     try {
       final querySnapShot = await _fireStore
-          .collection("User")
+          .collection("Users")
           .where("username", isEqualTo: username)
           .get();
       if (querySnapShot.docs.isEmpty) return true;
@@ -53,7 +53,7 @@ class AuthService {
 
   Future<void> _addUserToDB(umodal.User user) async {
     try {
-      await _fireStore.collection("User").doc(user.userId).set({
+      await _fireStore.collection("Users").doc(user.userId).set({
         "username": user.username,
         "name": user.name,
         "profilePic": user.profilePic,
