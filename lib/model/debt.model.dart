@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Debt {
+class Debts {
   final String debtId;
   final String userId;
   final String username;
   final String debtName;
   final Timestamp createTime;
-  final List<Transaction> transactions;
+  final List<Transactions> transactions;
 
-  const Debt(
+  const Debts(
       {required this.debtId,
       required this.userId,
       required this.username,
@@ -16,9 +16,9 @@ class Debt {
       required this.createTime,
       required this.transactions});
 
-  factory Debt.fromFireStore(DocumentSnapshot doc) {
+  factory Debts.fromFireStore(DocumentSnapshot doc) {
     Map data = doc.data as Map;
-    return Debt(
+    return Debts(
         debtId: doc.id,
         userId: data['userId'],
         username: data['username'],
@@ -28,7 +28,7 @@ class Debt {
   }
 }
 
-class Transaction {
+class Transactions {
   final String borrowId;
   final String username;
   final String profilePic;
@@ -36,7 +36,7 @@ class Transaction {
   final IsApproved isApproved;
   final String errMessage;
 
-  const Transaction(
+  const Transactions(
       {required this.borrowId,
       required this.username,
       required this.profilePic,
@@ -44,9 +44,9 @@ class Transaction {
       required this.isApproved,
       required this.errMessage});
 
-  factory Transaction.fromFireStore(DocumentSnapshot doc) {
+  factory Transactions.fromFireStore(DocumentSnapshot doc) {
     Map data = doc.data as Map;
-    return Transaction(
+    return Transactions(
         borrowId: data['borrowId'],
         username: data['username'],
         profilePic: data['profilePic'],

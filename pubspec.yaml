@@ -46,6 +46,7 @@ dependencies:
   google_sign_in: ^6.1.0
   promptpay_qrcode_generate: ^1.0.1
   image_picker: ^0.8.7+4
+  image_picker_for_web: ^2.1.12
 
 dev_dependencies:
   flutter_test:

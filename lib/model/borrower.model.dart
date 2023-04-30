@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Borrower {
+class Borrowers {
   final String borrowId;
   final String lenderUsername;
   final String borrowerUsername;
@@ -9,7 +9,7 @@ class Borrower {
   final Timestamp due;
   final Timestamp borrowedTime;
 
-  const Borrower(
+  const Borrowers(
       {required this.borrowId,
       required this.lenderUsername,
       required this.borrowerUsername,
@@ -18,9 +18,9 @@ class Borrower {
       required this.due,
       required this.borrowedTime});
 
-  factory Borrower.fromFireStore(DocumentSnapshot doc) {
+  factory Borrowers.fromFireStore(DocumentSnapshot doc) {
     Map data = doc.data as Map;
-    return Borrower(
+    return Borrowers(
         borrowId: doc.id,
         lenderUsername: data['lenderUsername'],
         borrowerUsername: data['borrowerUsername'],
