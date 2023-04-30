@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-Widget quote(BuildContext context) {
+Widget quote(BuildContext context, {required double height}) {
   return Row(
     children: [
       Expanded(
         child: Container(
-          height: 100,
+          height: height,
           constraints: const BoxConstraints(maxWidth: 326),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(19),
