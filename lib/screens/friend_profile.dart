@@ -146,7 +146,7 @@ Widget cardProfile(BuildContext context,
                       style: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
                           fontSize:
-                              Theme.of(context).textTheme.bodyMedium!.fontSize),
+                              Theme.of(context).textTheme.labelLarge!.fontSize),
                     ),
                   ],
                 ),
