@@ -1,21 +1,15 @@
 //Phon
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:jaijaoni/components/debt_detail_payer_card.dart';
+import 'package:jaijaoni/components/debt_detail_transactions.dart';
 import 'package:jaijaoni/components/home_card.dart';
-import 'package:jaijaoni/config/theme/custom_color.g.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:jaijaoni/components/home_doughnut.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final List<ChartData> chartData = [
-      ChartData("Debt", 40,
-          Theme.of(context).extension<CustomColors>()!.sourceGreenbar!),
-      ChartData("Empty", 60, Theme.of(context).colorScheme.outline!)
-    ];
     return Scaffold(
       appBar: AppBar(
         title: const Text("Home"),
@@ -29,30 +23,7 @@ class HomeScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SfCircularChart(annotations: <CircularChartAnnotation>[
-                      CircularChartAnnotation(
-                          widget: Container(
-                        child: Text("320 THB",
-                                style: TextStyle(
-                                    fontSize: Theme.of(context)
-                                        .textTheme
-                                        .titleMedium
-                                        ?.fontSize))
-                            .animate()
-                            .fadeIn(),
-                      )),
-                    ], series: <CircularSeries>[
-                      DoughnutSeries<ChartData, String>(
-                        dataSource: chartData,
-                        xValueMapper: (ChartData data, _) => data.x,
-                        yValueMapper: (ChartData data, _) => data.y,
-                        pointColorMapper: (ChartData data, _) => data.color,
-                        innerRadius: "95%",
-                        radius: '85',
-                        // startAngle: 0,
-                        // endAngle: 360,
-                      )
-                    ]),
+                    const DoughnutChart(),
                     // const SizedBox(
                     //   width: 13,
                     // ),
@@ -74,6 +45,11 @@ class HomeScreen extends StatelessWidget {
                     )
                   ]),
               // const Text("Test Text", style: TextStyle(fontSize: 30)),
+              TransCard(
+                  date: "3/23/2023",
+                  circleColor: Theme.of(context).colorScheme.primary,
+                  amount: "200"),
+
               PayerCard(
                 name: "Muaymiiiiiiii",
                 image: "images/profile/dazai.jpg",
