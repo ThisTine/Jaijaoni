@@ -55,6 +55,9 @@ class _PaymentBottomsheetState extends State<PaymentBottomsheet> {
           margin: const EdgeInsets.all(10),
           padding: const EdgeInsets.all(20),
           child: Column(
+            mainAxisSize: MediaQuery.of(context).viewInsets.bottom != 0
+                ? MainAxisSize.max
+                : MainAxisSize.min,
             children: [
               Container(
                 padding: const EdgeInsets.all(5),

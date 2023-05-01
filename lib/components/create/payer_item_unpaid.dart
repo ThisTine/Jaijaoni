@@ -44,12 +44,15 @@ class _PayerItemUnpaidState extends ConsumerState<PayerItemUnpaid> {
                 margin: const EdgeInsets.all(20),
                 child: Column(
                   children: [
-                    ClipOval(
-                      child: SizedBox.fromSize(
-                        size: const Size.fromRadius(50),
-                        child: Image.asset(widget.imagePath, fit: BoxFit.cover),
-                      ),
+                    CircleAvatar(
+                      foregroundImage: AssetImage(widget.imagePath),
                     ),
+                    // ClipOval(
+                    //   child: SizedBox.fromSize(
+                    //     size: const Size.fromRadius(50),
+                    //     child: Image.asset(widget.imagePath, fit: BoxFit.cover),
+                    //   ),
+                    // ),
                     const SizedBox(height: 10),
                     Flexible(
                       child: Text(
@@ -145,7 +148,7 @@ class _PayerItemUnpaidState extends ConsumerState<PayerItemUnpaid> {
                   ClipOval(
                     child: SizedBox.fromSize(
                       size: const Size.fromRadius(30),
-                      child: Image.network(widget.imagePath, fit: BoxFit.cover),
+                      child: Image.asset(widget.imagePath, fit: BoxFit.cover),
                     ),
                   ),
                   const SizedBox(

@@ -112,6 +112,7 @@ class _AddPaymentState extends ConsumerState<AddPayment> {
       child: const AddBoxButton(title: 'Add Payment', icon: Icons.add),
       onTap: () {
         showModalBottomSheet(
+            isScrollControlled: true,
             context: context,
             builder: (context) {
               return PaymentBottomsheet(
