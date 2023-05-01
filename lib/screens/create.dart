@@ -39,42 +39,8 @@ class _CreateDebtScreenState extends ConsumerState<CreateDebtScreen> {
                     ),
                   ],
                 ),
-                const DebtForm(),
+                const Expanded(child: DebtForm()),
               ],
-            ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Container(
-                margin: const EdgeInsets.only(bottom: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    const Expanded(child: SizedBox()),
-                    Expanded(
-                      child: FilledButton(
-                          style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  Theme.of(context).colorScheme.primary),
-                              padding: MaterialStateProperty.all<EdgeInsets>(
-                                  const EdgeInsets.symmetric(horizontal: 55))),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const AddPeople()));
-                          },
-                          child: Text(
-                            'Next',
-                            style: TextStyle(
-                                color: Theme.of(context).colorScheme.onPrimary),
-                          )),
-                    ),
-                    const SizedBox(
-                      width: 13,
-                    ),
-                  ],
-                ),
-              ),
             ),
           ],
         ));
@@ -82,7 +48,8 @@ class _CreateDebtScreenState extends ConsumerState<CreateDebtScreen> {
 }
 
 class AddPeople extends ConsumerStatefulWidget {
-  const AddPeople({super.key});
+  const AddPeople({super.key, required this.price});
+  final String price;
 
   @override
   ConsumerState<AddPeople> createState() => _AddPeopleState();
@@ -91,7 +58,12 @@ class AddPeople extends ConsumerStatefulWidget {
 class _AddPeopleState extends ConsumerState<AddPeople> {
   final _buttomkey = GlobalKey<ScaffoldState>();
   List<Map<String, String>> peopleList = [];
-  double price = 1000;
+  late double price;
+  @override
+  void initState() {
+    super.initState();
+    price = double.parse(widget.price);
+  }
 
   @override
   Widget build(BuildContext context) {
