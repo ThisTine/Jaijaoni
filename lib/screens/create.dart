@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:jaijaoni/components/add_box_button.dart';
-import 'package:jaijaoni/components/payer_item_unpaid.dart';
-import 'package:jaijaoni/components/payment_method_box.dart';
+import 'package:jaijaoni/components/create/add_box_button.dart';
+import 'package:jaijaoni/components/create/payer_item_unpaid.dart';
+import 'package:jaijaoni/components/create/payment_method_box.dart';
 //Muaymi
 
 import '../components/custom_app_bar.dart';
-import '../components/debt_form.dart';
-import '../components/friend_list_check.dart';
+import '../components/create/debt_form.dart';
+import '../components/create/friend_list_check.dart';
 
 class CreateDebtScreen extends ConsumerStatefulWidget {
   const CreateDebtScreen({super.key});
