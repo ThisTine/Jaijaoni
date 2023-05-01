@@ -1,6 +1,5 @@
 //Phon
 import 'package:flutter/material.dart';
-import 'package:jaijaoni/components/debt_detail_payer_card.dart';
 import 'package:jaijaoni/components/home_card.dart';
 import 'package:jaijaoni/components/home_collect_chart.dart';
 import 'package:jaijaoni/components/home_collect_detail.dart';
