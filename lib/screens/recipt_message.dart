@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jaijaoni/components/custom_app_bar.dart';
+import 'package:jaijaoni/components/debt_detail_transactions.dart';
 import '../components/circle_avata.dart';
 
 class ReciptMessage extends StatelessWidget {
@@ -102,7 +103,7 @@ Widget reciptList(BuildContext context, bool read) {
             showModalBottomSheet(
               context: context,
               builder: (context) => Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(20.0),
                 child: ListView(
                   children: [
                     Row(
@@ -135,6 +136,11 @@ Widget reciptList(BuildContext context, bool read) {
                         const SizedBox(height: 41),
                       ],
                     ),
+                    const SizedBox(height: 27),
+                    TransCard(
+                        date: "3 / 23 / 2003",
+                        circleColor: Theme.of(context).colorScheme.primary,
+                        amount: "200")
                   ],
                 ),
               ),

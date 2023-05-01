@@ -49,7 +49,7 @@ class ProfileScreen extends StatelessWidget {
                           Theme.of(context).textTheme.headlineSmall!.fontSize),
                 ),
                 const SizedBox(height: 15),
-                quote(context),
+                quote(context, height: 100),
                 const SizedBox(height: 15),
                 debtAnalysisBox(context),
                 const SizedBox(height: 15),
@@ -382,7 +382,7 @@ Widget menuBox(BuildContext context) {
               const SizedBox(height: 8),
               GestureDetector(
                 onTap: () {
-                  context.push("/");
+                  context.push("/analysis");
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(
