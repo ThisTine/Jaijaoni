@@ -153,7 +153,10 @@ Widget debtAnalysisBox(BuildContext context) {
                                   fontWeight: FontWeight.bold)),
                     ],
                   ),
-                  const SizedBox(width: 15),
+                  Container(
+                      constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width * 0.03,
+                  )),
                   Column(
                     children: [
                       Row(
