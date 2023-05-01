@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jaijaoni/config/theme/custom_text_field.dart';
 
 import '../../screens/create.dart';
+import 'add_people.dart';
 
 class DebtForm extends StatefulWidget {
   const DebtForm({super.key});
