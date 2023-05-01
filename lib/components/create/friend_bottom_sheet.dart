@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:jaijaoni/components/create/selected_friend.dart';
-
-import '../../screens/create.dart';
 import 'firend_list.dart';
 
 class FriendBottomsheet extends StatefulWidget {
@@ -16,6 +14,7 @@ class FriendBottomsheet extends StatefulWidget {
 
 class _FriendBottomsheetState extends State<FriendBottomsheet> {
   List<SelectedFirend> newPeopleList = [];
+  String _searchText = "";
   @override
   void initState() {
     super.initState();
@@ -36,17 +35,22 @@ class _FriendBottomsheetState extends State<FriendBottomsheet> {
             children: [
               Container(
                 padding: const EdgeInsets.all(10),
-                child: Form(
-                    child: TextFormField(
+                child: TextFormField(
+                  onChanged: (value) {
+                    setState(() {
+                      _searchText = value;
+                    });
+                  },
                   decoration: const InputDecoration(
                     prefix: Icon(Icons.search),
                     labelText: 'Search',
                     border: OutlineInputBorder(),
                   ),
-                )),
+                ),
               ),
               Expanded(
                 child: FriendList(
+                    searchText: _searchText,
                     peopleList: newPeopleList,
                     handleSelectPeople: (newValue) {
                       setState(() {
@@ -72,7 +76,9 @@ class _FriendBottomsheetState extends State<FriendBottomsheet> {
                       Navigator.pop(context);
                     },
                     child: Text(
-                      'Add (${newPeopleList.length}) People',
+                      newPeopleList.isEmpty
+                          ? 'Clear People'
+                          : 'Add ${newPeopleList.length} ${newPeopleList.length == 1 ? "Person" : "People"}',
                       style: TextStyle(
                           color: Theme.of(context).colorScheme.onPrimary),
                     )),

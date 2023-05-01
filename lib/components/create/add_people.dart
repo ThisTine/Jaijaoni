@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jaijaoni/components/create/friend_bottom_sheet.dart';
 import 'package:jaijaoni/components/create/payer_item_unpaid.dart';
 import 'package:jaijaoni/components/create/selected_friend.dart';
+import 'package:jaijaoni/providers/create/create_debt_data_provider.dart';
 
 import '../custom_app_bar.dart';
 import 'add_box_button.dart';
@@ -17,14 +18,63 @@ class AddPeople extends ConsumerStatefulWidget {
 }
 
 class _AddPeopleState extends ConsumerState<AddPeople> {
+  late final allInfo = ref.watch(createDebtDataProvider);
   final _buttomkey = GlobalKey<ScaffoldState>();
-  List<SelectedFirend> peopleList = [];
+  late List<SelectedFirend> peopleList = allInfo.friendList;
   late double price;
 
   @override
   void initState() {
     super.initState();
     price = double.parse(widget.price);
+  }
+
+  void handleCustomCalculation(String id, double price) {
+    List<SelectedFirend> calculatedPeopleList = peopleList
+        .map((e) => e.id == id
+            ? SelectedFirend(
+                id, e.imagePath, e.name, double.parse(price.toStringAsFixed(2)),
+                isCustomed: true)
+            : e)
+        .toList();
+    setState(() {
+      peopleList = calculatedPeopleList;
+    });
+    reCalculatePrice();
+  }
+
+  void reCalculatePrice() {
+    int peopleWithNoCustom = 0;
+    double remainingPrice = price;
+    for (SelectedFirend friend in peopleList) {
+      if (!friend.isCustomed) {
+        peopleWithNoCustom++;
+      } else {
+        remainingPrice -= friend.price;
+      }
+    }
+    List<SelectedFirend> calculatedPeopleList = peopleList
+        .map((e) => e.isCustomed
+            ? e
+            : SelectedFirend(
+                e.id,
+                e.imagePath,
+                e.name,
+                double.parse(
+                    (remainingPrice / peopleWithNoCustom).toStringAsFixed(2))))
+        .toList();
+
+    setState(() {
+      peopleList = calculatedPeopleList;
+    });
+    allInfo.changePeople(friendList: calculatedPeopleList);
+  }
+
+  void handleOnAddPerson(newPeopleList) {
+    setState(() {
+      peopleList = newPeopleList;
+    });
+    reCalculatePrice();
   }
 
   @override
@@ -57,19 +107,14 @@ class _AddPeopleState extends ConsumerState<AddPeople> {
                 Center(
                   child: Column(
                     children: [
-                      addPeopleBox(peopleList, (newPeopleList) {
-                        setState(() {
-                          peopleList = newPeopleList;
-                        });
-                      }),
-                      ...peopleList
-                          .map((e) => PayerItemUnpaid(
-                                id: e.id,
-                                imagePath: "images/profile/dazai.jpg",
-                                name: e.name,
-                                price: price / peopleList.length,
-                              ))
-                          .toList(),
+                      addPeopleBox(peopleList, handleOnAddPerson),
+                      for (SelectedFirend friend in peopleList)
+                        PayerItemUnpaid(
+                            handleCustomCalculation: handleCustomCalculation,
+                            id: friend.id,
+                            imagePath: "images/profile/dazai.jpg",
+                            name: friend.name,
+                            price: friend.price),
                       const SizedBox(height: 50),
                     ],
                   ),
@@ -105,16 +150,15 @@ class _AddPeopleState extends ConsumerState<AddPeople> {
                   ),
                   Expanded(
                     child: FilledButton(
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              Theme.of(context).colorScheme.primary),
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const AddPayment()));
-                        },
+                        onPressed: peopleList.isEmpty
+                            ? null
+                            : () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const AddPayment()));
+                              },
                         child: Text(
                           'Next',
                           style: TextStyle(

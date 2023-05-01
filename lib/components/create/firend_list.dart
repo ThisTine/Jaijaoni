@@ -4,8 +4,12 @@ import 'friend_list_check.dart';
 import 'selected_friend.dart';
 
 class FriendList extends StatefulWidget {
+  final String searchText;
   const FriendList(
-      {super.key, required this.peopleList, required this.handleSelectPeople});
+      {super.key,
+      required this.peopleList,
+      required this.handleSelectPeople,
+      required this.searchText});
   final List<SelectedFirend> peopleList;
   final Function handleSelectPeople;
 
@@ -28,6 +32,7 @@ class _FriendListState extends State<FriendList> {
     return SingleChildScrollView(
       child: Wrap(
           children: friendList
+              .where((element) => element.name.contains(widget.searchText))
               .map((e) => ListOfFriend(
                   id: e.id,
                   imagePath: "images/profile/dazai.jpg",

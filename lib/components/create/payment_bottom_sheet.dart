@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:jaijaoni/functions/create/payment_formatter.dart';
 
 class PaymentBottomsheet extends StatefulWidget {
   const PaymentBottomsheet(
@@ -19,6 +21,26 @@ class _PaymentBottomsheetState extends State<PaymentBottomsheet> {
   String selectedValue = "PromptPay";
   late final List<Map<String, String>> newPayment;
   late final Map<String, String> newValue;
+
+  String buildFormatString(String text, int index, String replaceTxt) {
+    String st = "";
+    st = text.substring(0, index);
+    st += replaceTxt;
+    st += text.substring(index);
+    return st;
+  }
+
+  void formatPaymentNumber() {
+    String text = _paymentNumber.text;
+    int length = text.length;
+    List<int> formatSet = [3, 5, 11];
+    for (int i = 0; i < length; i++) {
+      if (formatSet.contains(i) && text[i] != "-") {
+        text = buildFormatString(text, i, "-");
+      }
+    }
+    _paymentNumber.text = text;
+  }
 
   @override
   void initState() {
@@ -67,6 +89,10 @@ class _PaymentBottomsheetState extends State<PaymentBottomsheet> {
                                       value: value, child: Text(value)))
                               .toList(),
                           onChanged: (newValue) {
+                            if (newValue == "PromptPay" ||
+                                selectedValue == "PromptPay") {
+                              _paymentNumber.text = "";
+                            }
                             setState(() {
                               selectedValue = newValue!;
                             });
@@ -77,11 +103,18 @@ class _PaymentBottomsheetState extends State<PaymentBottomsheet> {
               ),
               TextFormField(
                 controller: _paymentNumber,
+                inputFormatters: selectedValue != "PromptPay"
+                    ? [
+                        PaymentFormatter(
+                            sample: 'xxx-x-xxxxx-x', separator: '-')
+                      ]
+                    : [],
                 validator: (value) {
-                  if (value == null ||
-                      value.isEmpty ||
-                      !RegExp(r'^\d+$').hasMatch(value)) {
-                    return 'Please type the correct amount';
+                  if (value == null || value.isEmpty) {
+                    return 'Payment Number should not be empty';
+                  }
+                  if (selectedValue != "PromptPay" && value.length != 13) {
+                    return 'Please type correct format';
                   }
                 },
                 decoration: const InputDecoration(

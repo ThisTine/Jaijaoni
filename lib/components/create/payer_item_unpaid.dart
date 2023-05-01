@@ -5,12 +5,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PayerItemUnpaid extends ConsumerStatefulWidget {
+  final void Function(String, double) handleCustomCalculation;
   PayerItemUnpaid(
       {super.key,
       required this.id,
       required this.imagePath,
       required this.name,
-      required this.price});
+      required this.price,
+      required this.handleCustomCalculation});
   final String id;
   final String imagePath;
   final String name;
@@ -22,17 +24,17 @@ class PayerItemUnpaid extends ConsumerStatefulWidget {
 
 class _PayerItemUnpaidState extends ConsumerState<PayerItemUnpaid> {
   final _formKey = GlobalKey<FormState>();
-  final _price = TextEditingController();
-  late double price;
+  // late double price = widget.price;
 
   @override
   void initState() {
     super.initState();
-    price = widget.price;
   }
 
   @override
   Widget build(BuildContext context) {
+    final price = TextEditingController(text: widget.price.toString());
+
     return GestureDetector(
       onTap: () {
         showModalBottomSheet(
@@ -68,15 +70,16 @@ class _PayerItemUnpaidState extends ConsumerState<PayerItemUnpaid> {
                         child: Column(
                           children: [
                             TextFormField(
-                              controller: _price,
+                              controller: price,
                               validator: (value) {
                                 RegExp(r'/^\d*\.?\d*$/');
                               },
                               keyboardType:
                                   const TextInputType.numberWithOptions(
                                       decimal: true),
-                              inputFormatters: <TextInputFormatter>[
-                                FilteringTextInputFormatter.digitsOnly
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                    RegExp(r'^\d+\.?\d{0,2}'))
                               ],
                               decoration: const InputDecoration(
                                 labelText: 'Amount',
@@ -97,9 +100,9 @@ class _PayerItemUnpaidState extends ConsumerState<PayerItemUnpaid> {
                                       ),
                                       onPressed: () {
                                         if (_formKey.currentState!.validate()) {
-                                          setState(() {
-                                            price = double.parse(_price.text);
-                                          });
+                                          widget.handleCustomCalculation(
+                                              widget.id,
+                                              double.parse(price.text));
                                           Navigator.pop(context);
                                         }
                                       },
@@ -179,7 +182,7 @@ class _PayerItemUnpaidState extends ConsumerState<PayerItemUnpaid> {
                     width: 10,
                   ),
                   Flexible(
-                    child: Text(price.toStringAsFixed(2),
+                    child: Text(widget.price.toStringAsFixed(2),
                         style: TextStyle(
                             color: Theme.of(context)
                                 .colorScheme

@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jaijaoni/components/create/add_box_button.dart';
 import 'package:jaijaoni/components/create/payment_bottom_sheet.dart';
 import 'package:jaijaoni/components/create/payment_method_box.dart';
 import 'package:jaijaoni/components/custom_app_bar.dart';
+import 'package:jaijaoni/providers/create/create_debt_data_provider.dart';
 
-import '../../screens/create.dart';
-
-class AddPayment extends StatefulWidget {
+class AddPayment extends ConsumerStatefulWidget {
   const AddPayment({super.key});
 
   @override
-  State<AddPayment> createState() => _AddPaymentState();
+  ConsumerState<AddPayment> createState() => _AddPaymentState();
 }
 
-class _AddPaymentState extends State<AddPayment> {
-  List<Map<String, String>> paymentList = [];
+class _AddPaymentState extends ConsumerState<AddPayment> {
+  late final allInfo = ref.watch(createDebtDataProvider);
+
+  late List<Map<String, String>> paymentList = allInfo.paymentList;
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +44,8 @@ class _AddPaymentState extends State<AddPayment> {
                 ),
               ]),
               addPaymentBox(paymentList, (newPaymentList) {
+                allInfo.changePayment(paymentList: newPaymentList);
+
                 setState(() {
                   paymentList = newPaymentList;
                 });
@@ -80,18 +85,14 @@ class _AddPaymentState extends State<AddPayment> {
                   ),
                   Expanded(
                     child: FilledButton(
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              Theme.of(context).colorScheme.primary),
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const AddPayment()));
-                        },
+                        onPressed: paymentList.isEmpty
+                            ? null
+                            : () {
+                                allInfo.clear();
+                                context.go("/detail");
+                              },
                         child: Text(
-                          'Save',
+                          'Create debt',
                           style: TextStyle(
                               color: Theme.of(context).colorScheme.onPrimary),
                         )),
