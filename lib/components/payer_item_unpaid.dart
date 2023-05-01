@@ -20,7 +20,7 @@ class _PayerItemUnpaidState extends ConsumerState<PayerItemUnpaid> {
           boxShadow: [
             BoxShadow(
                 blurRadius: 4,
-                offset: Offset(1, 1),
+                offset: const Offset(1, 1),
                 color: Colors.grey.withOpacity(0.5))
           ]),
       child: Row(
