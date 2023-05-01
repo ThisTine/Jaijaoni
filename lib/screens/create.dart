@@ -18,6 +18,7 @@ class _CreateDebtScreenState extends ConsumerState<CreateDebtScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: customAppBarBuilder(context, text: "Create", backButton: true),
         body: Stack(
           children: [

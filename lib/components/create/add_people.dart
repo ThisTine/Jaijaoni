@@ -122,54 +122,57 @@ class _AddPeopleState extends ConsumerState<AddPeople> {
               ],
             ),
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              padding: const EdgeInsets.all(20),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: FilledButton(
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              Theme.of(context).colorScheme.secondaryContainer),
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          'Back',
-                          style: TextStyle(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSecondaryContainer),
-                        )),
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Expanded(
-                    child: FilledButton(
-                        onPressed: peopleList.isEmpty
-                            ? null
-                            : () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const AddPayment()));
-                              },
-                        child: Text(
-                          'Next',
-                          style: TextStyle(
-                              color: Theme.of(context).colorScheme.onPrimary),
-                        )),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          if (MediaQuery.of(context).viewInsets.bottom == 0)
+            submitButtonBuilder(context),
         ],
+      ),
+    );
+  }
+
+  Align submitButtonBuilder(BuildContext context) {
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        child: Row(
+          children: [
+            Expanded(
+              child: FilledButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        Theme.of(context).colorScheme.secondaryContainer),
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    'Back',
+                    style: TextStyle(
+                        color:
+                            Theme.of(context).colorScheme.onSecondaryContainer),
+                  )),
+            ),
+            const SizedBox(
+              width: 20,
+            ),
+            Expanded(
+              child: FilledButton(
+                  onPressed: peopleList.isEmpty
+                      ? null
+                      : () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const AddPayment()));
+                        },
+                  child: Text(
+                    'Next',
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimary),
+                  )),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -25,7 +25,8 @@ class _FriendBottomsheetState extends State<FriendBottomsheet> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      constraints: const BoxConstraints(minHeight: 500),
       height: MediaQuery.of(context).size.height / 2,
       child: Column(children: [
         Container(

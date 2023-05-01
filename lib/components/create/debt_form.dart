@@ -45,6 +45,7 @@ class _DebtFormState extends ConsumerState<DebtForm> {
 
   @override
   Widget build(BuildContext context) {
+    // print("Hello - ${MediaQuery.of(context).viewInsets.bottom}");
     return Container(
         alignment: Alignment.center,
         margin: const EdgeInsets.all(16),
@@ -119,47 +120,53 @@ class _DebtFormState extends ConsumerState<DebtForm> {
                 const SizedBox(height: 150),
               ],
             ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Container(
-                margin: const EdgeInsets.only(bottom: 20),
-                child: Row(
-                  children: [
-                    const Expanded(child: SizedBox()),
-                    Expanded(
-                      child: FilledButton(
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                Theme.of(context).colorScheme.primary),
-                          ),
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              allInfo.changeDeptInfo(
-                                  name: _name.text,
-                                  dueDate: _dueDate.text,
-                                  totalPrice: double.parse(_price.text));
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => AddPeople(
-                                            price: _price.text,
-                                          )));
-                            }
-                          },
-                          child: Text(
-                            'Next',
-                            style: TextStyle(
-                                color: Theme.of(context).colorScheme.onPrimary),
-                          )),
-                    ),
-                    // const SizedBox(
-                    //   width: 13,
-                    // ),
-                  ],
-                ),
-              ),
-            ),
+            ...(FocusScope.of(context).hasFocus
+                ? [nextButtonBuilder(context)]
+                : [])
           ],
         ));
+  }
+
+  Widget nextButtonBuilder(BuildContext context) {
+    return Align(
+      alignment: Alignment.bottomRight,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 20),
+        child: Row(
+          children: [
+            const Expanded(child: SizedBox()),
+            Expanded(
+              child: FilledButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        Theme.of(context).colorScheme.primary),
+                  ),
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      allInfo.changeDeptInfo(
+                          name: _name.text,
+                          dueDate: _dueDate.text,
+                          totalPrice: double.parse(_price.text));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AddPeople(
+                                    price: _price.text,
+                                  )));
+                    }
+                  },
+                  child: Text(
+                    'Next',
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimary),
+                  )),
+            ),
+            // const SizedBox(
+            //   width: 13,
+            // ),
+          ],
+        ),
+      ),
+    );
   }
 }
