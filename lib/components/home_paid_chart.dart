@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import '../config/theme/custom_color.g.dart';
+// import '../config/theme/custom_color.g.dart';
 
 class PaidChart extends StatefulWidget {
   const PaidChart({super.key});

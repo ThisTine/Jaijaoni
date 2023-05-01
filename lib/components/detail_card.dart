@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jaijaoni/screens/detail_creator.dart';
+// import 'package:jaijaoni/screens/detail_creator.dart';
 
 class DetailCard extends StatefulWidget {
   final String name;

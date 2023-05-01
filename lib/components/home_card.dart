@@ -24,7 +24,7 @@ class HomeCard extends StatefulWidget {
 class _HomeCardState extends State<HomeCard> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 190, //MediaQuery.of(context).size.width * 0.5, //190
       width: 360,
       child: GestureDetector(

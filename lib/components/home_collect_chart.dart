@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import '../config/theme/custom_color.g.dart';
+// import '../config/theme/custom_color.g.dart';
 
 class CollectChart extends StatefulWidget {
   const CollectChart({super.key});
