@@ -112,7 +112,7 @@ class _EditPaymentState extends State<EditPayment> {
                           Navigator.pop(context);
                         },
                         child: Text(
-                          'Save',
+                          'Edit',
                           style: TextStyle(
                               color: Theme.of(context).colorScheme.onPrimary),
                         )),
