@@ -37,7 +37,9 @@ class _ScanAddFriendState extends State<ScanAddFriend> {
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
-      if (scanData.code!.startsWith('@') && mounted) {
+      if (scanData.code!.startsWith('@') &&
+          mounted &&
+          Navigator.canPop(context)) {
         // print(scanData.code);
         // setState(() {
         //   _name = scanData.code!;
