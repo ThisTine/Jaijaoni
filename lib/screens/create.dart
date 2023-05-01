@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jaijaoni/components/create/add_box_button.dart';
 import 'package:jaijaoni/components/create/payer_item_unpaid.dart';
 import 'package:jaijaoni/components/create/payment_method_box.dart';
+import 'package:jaijaoni/components/create/selected_friend.dart';
 //Muaymi
 
 import '../components/custom_app_bar.dart';
@@ -57,8 +58,9 @@ class AddPeople extends ConsumerStatefulWidget {
 
 class _AddPeopleState extends ConsumerState<AddPeople> {
   final _buttomkey = GlobalKey<ScaffoldState>();
-  List<Map<String, String>> peopleList = [];
+  List<SelectedFirend> peopleList = [];
   late double price;
+
   @override
   void initState() {
     super.initState();
@@ -102,8 +104,9 @@ class _AddPeopleState extends ConsumerState<AddPeople> {
                       }),
                       ...peopleList
                           .map((e) => PayerItemUnpaid(
-                                id: e["id"]!,
-                                name: e["name"]!,
+                                id: e.id,
+                                imagePath: "images/profile/dazai.jpg",
+                                name: e.name,
                                 price: price / peopleList.length,
                               ))
                           .toList(),
@@ -168,7 +171,7 @@ class _AddPeopleState extends ConsumerState<AddPeople> {
   }
 
   Widget addPeopleBox(
-      List<Map<String, String>> peopleList, Function handleUpdatePeopleList) {
+      List<SelectedFirend> peopleList, Function handleUpdatePeopleList) {
     return GestureDetector(
         onTap: () {
           showModalBottomSheet(
@@ -190,14 +193,14 @@ class FriendBottomsheet extends StatefulWidget {
   const FriendBottomsheet(
       {super.key, required this.handleSelectFriend, required this.peopleList});
   final Function handleSelectFriend;
-  final List<Map<String, String>> peopleList;
+  final List<SelectedFirend> peopleList;
 
   @override
   State<FriendBottomsheet> createState() => _FriendBottomsheetState();
 }
 
 class _FriendBottomsheetState extends State<FriendBottomsheet> {
-  List<Map<String, String>> newPeopleList = [];
+  List<SelectedFirend> newPeopleList = [];
   @override
   void initState() {
     super.initState();
@@ -270,7 +273,7 @@ class _FriendBottomsheetState extends State<FriendBottomsheet> {
 class FriendList extends StatefulWidget {
   const FriendList(
       {super.key, required this.peopleList, required this.handleSelectPeople});
-  final List<Map<String, String>> peopleList;
+  final List<SelectedFirend> peopleList;
   final Function handleSelectPeople;
 
   @override
@@ -278,13 +281,13 @@ class FriendList extends StatefulWidget {
 }
 
 class _FriendListState extends State<FriendList> {
-  List<Map<String, String>> friendList = [
-    {"id": "001", "name": "muaymi"},
-    {"id": "002", "name": "tine"},
-    {"id": "003", "name": "ri"},
-    {"id": "004", "name": "fah"},
-    {"id": "005", "name": "fah"},
-    {"id": "006", "name": "fah"},
+  List<SelectedFirend> friendList = [
+    SelectedFirend("001", "images/profile/dazai", "muaymi", 100),
+    SelectedFirend("002", "images/profile/dazai", "tine", 100),
+    SelectedFirend("003", "images/profile/dazai", "ri", 100),
+    SelectedFirend("004", "images/profile/dazai", "fah", 100),
+    SelectedFirend("005", "images/profile/dazai", "gun", 100),
+    SelectedFirend("006", "images/profile/dazai", "dazai", 100),
   ];
 
   @override
@@ -293,17 +296,18 @@ class _FriendListState extends State<FriendList> {
       child: Wrap(
           children: friendList
               .map((e) => ListOfFriend(
-                  id: e["id"]!,
-                  name: e["name"]!,
+                  id: e.id,
+                  imagePath: "images/profile/dazai.jpg",
+                  name: e.name,
                   check: widget.peopleList
-                          .indexWhere((element) => element["id"] == e["id"]) !=
+                          .indexWhere((element) => element.id == e.id) !=
                       -1,
                   handleCheck: (check) {
                     if (check) {
                       widget.handleSelectPeople([...widget.peopleList, e]);
                     } else {
                       widget.handleSelectPeople(widget.peopleList
-                          .where((element) => element["id"] != e["id"])
+                          .where((element) => element.id != e.id)
                           .toList());
                     }
                   }))
@@ -506,6 +510,13 @@ class _PaymentBottomsheetState extends State<PaymentBottomsheet> {
               ),
               TextFormField(
                 controller: _paymentNumber,
+                validator: (value) {
+                  if (value == null ||
+                      value.isEmpty ||
+                      !RegExp(r'^\d+$').hasMatch(value)) {
+                    return 'Please type the correct amount';
+                  }
+                },
                 decoration: const InputDecoration(
                   labelText: 'Payment Number',
                   border: OutlineInputBorder(),
@@ -522,15 +533,17 @@ class _PaymentBottomsheetState extends State<PaymentBottomsheet> {
                                 Theme.of(context).colorScheme.primary),
                           ),
                           onPressed: () {
-                            setState(() {
-                              newValue = {
-                                "method": selectedValue,
-                                "number": _paymentNumber.text
-                              };
-                            });
-                            widget
-                                .handlePaymentMethod([...newPayment, newValue]);
-                            Navigator.pop(context);
+                            if (_paymentFormKey.currentState!.validate()) {
+                              setState(() {
+                                newValue = {
+                                  "method": selectedValue,
+                                  "number": _paymentNumber.text
+                                };
+                              });
+                              widget.handlePaymentMethod(
+                                  [...newPayment, newValue]);
+                              Navigator.pop(context);
+                            }
                           },
                           child: Text(
                             'Add Payment',

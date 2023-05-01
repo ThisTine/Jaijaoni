@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:jaijaoni/config/theme/custom_text_field.dart';
 
 import '../../screens/create.dart';
@@ -46,11 +45,15 @@ class _DebtFormState extends State<DebtForm> {
                         ),
                         TextFormField(
                             controller: _price,
+                            validator: (value) {
+                              if (value == null ||
+                                  value.isEmpty ||
+                                  !RegExp(r'^(\d*\.)?\d+$').hasMatch(value)) {
+                                return 'Please type the correct amount';
+                              }
+                            },
                             keyboardType: const TextInputType.numberWithOptions(
                                 decimal: true),
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.digitsOnly
-                            ],
                             decoration:
                                 roundInput.copyWith(labelText: 'Total price'))
                       ],
@@ -71,12 +74,14 @@ class _DebtFormState extends State<DebtForm> {
                                         Theme.of(context).colorScheme.primary),
                               ),
                               onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => AddPeople(
-                                              price: _price.text,
-                                            )));
+                                if (_formKey.currentState!.validate()) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => AddPeople(
+                                                price: _price.text,
+                                              )));
+                                }
                               },
                               child: Text(
                                 'Next',

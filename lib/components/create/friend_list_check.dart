@@ -4,10 +4,12 @@ class ListOfFriend extends StatefulWidget {
   const ListOfFriend(
       {super.key,
       required this.id,
+      required this.imagePath,
       required this.name,
       required this.check,
       required this.handleCheck});
   final String id;
+  final String imagePath;
   final String name;
   final bool check;
   final Function handleCheck;
@@ -23,7 +25,7 @@ class _ListOfFriendState extends State<ListOfFriend> {
       leading: ClipOval(
         child: SizedBox.fromSize(
           size: const Size.fromRadius(20),
-          child: Image.network("images/profile/dazai.jpg", fit: BoxFit.cover),
+          child: Image.asset(widget.imagePath, fit: BoxFit.cover),
         ),
       ),
       title: Text(widget.name),

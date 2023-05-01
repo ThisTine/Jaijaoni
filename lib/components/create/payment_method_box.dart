@@ -92,7 +92,7 @@ class _PaymentMethodBoxState extends State<PaymentMethodBox> {
           image: DecorationImage(
               fit: BoxFit.fitWidth,
               alignment: FractionalOffset.topCenter,
-              image: NetworkImage("images/payment/$imageName"))),
+              image: AssetImage("images/payment/$imageName"))),
     );
   }
 }
