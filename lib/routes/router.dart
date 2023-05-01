@@ -7,13 +7,16 @@ import 'package:jaijaoni/screens/analysis.dart';
 import 'package:jaijaoni/screens/create.dart';
 import 'package:jaijaoni/screens/detail.dart';
 import 'package:jaijaoni/screens/edit.dart';
+import 'package:jaijaoni/screens/edit_profile.dart';
 import 'package:jaijaoni/screens/explore.dart';
+import 'package:jaijaoni/screens/friend_profile.dart';
 import 'package:jaijaoni/screens/friends.dart';
 import 'package:jaijaoni/screens/home.dart';
 import 'package:jaijaoni/screens/login.dart';
 import 'package:jaijaoni/screens/loading.dart';
 import 'package:jaijaoni/screens/payment.dart';
 import 'package:jaijaoni/screens/profile.dart';
+import 'package:jaijaoni/screens/recipt_message.dart';
 import 'package:jaijaoni/screens/register.dart';
 import 'package:jaijaoni/screens/reset_password.dart';
 
@@ -34,27 +37,16 @@ class AppGoRouter extends ChangeNotifier {
     if (authState.isLoading || authState.hasError) return null;
     final isAuth = authState.valueOrNull != null;
     if (isAuth &&
-        (state.location == '/login' ||
-            state.location == '/register' ||
-            state.location == "/reset-password")) {
+        {"/reset-password", '/login', "/register"}.contains(state.location)) {
       return '/';
     }
     if (!isAuth &&
-        (state.location != '/login' && state.location != '/register' ||
-            state.location == "/reset-password")) {
+        !{"/reset-password", '/login', "/register"}.contains(state.location)) {
       return '/login';
     }
     return null;
   }
 
-  final routesWithNav = [
-    "/",
-    "/analysis",
-    "/edit",
-    "/explore",
-    "/friends",
-    "/profile"
-  ];
   final GlobalKey<NavigatorState> _mainRouteKey = GlobalKey();
   final GlobalKey<NavigatorState> _shellRouteKey = GlobalKey();
 
@@ -87,19 +79,35 @@ class AppGoRouter extends ChangeNotifier {
             ),
             GoRoute(
               parentNavigatorKey: _shellRouteKey,
-              path: "/firends",
-              builder: (context, state) => const FriendsScreen(),
+              path: "/profile",
+              builder: (context, state) => const ProfileScreen(),
             ),
             GoRoute(
               parentNavigatorKey: _shellRouteKey,
-              path: "/profile",
-              builder: (context, state) => const ProfileScreen(),
+              path: "/profile/message",
+              builder: (context, state) => const ReciptMessage(),
+            ),
+            GoRoute(
+              parentNavigatorKey: _shellRouteKey,
+              path: "/profile/edit",
+              builder: (context, state) => const EditProfile(),
+            ),
+            GoRoute(
+              parentNavigatorKey: _shellRouteKey,
+              path: "/profile/:fid",
+              builder: (context, state) =>
+                  FriendProfile(fid: state.params['fid']!),
             ),
           ],
           builder: (context, state, child) => Scaffold(
             bottomNavigationBar: BottomNav(path: state.fullpath),
             body: child,
           ),
+        ),
+        GoRoute(
+          parentNavigatorKey: _mainRouteKey,
+          path: "/friends",
+          builder: (context, state) => const FriendsScreen(),
         ),
         GoRoute(
           parentNavigatorKey: _mainRouteKey,

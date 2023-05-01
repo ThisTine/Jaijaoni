@@ -1,10 +1,9 @@
-import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 
-const red_bar = Color(0xFFCF5F5F);
+const redbar = Color(0xFFCF5F5F);
 const warning = Color(0xFF0F931D);
 const customcolor1 = Color(0xFFE8EB02);
-const green_bar = Color(0xFF57B461);
+const greenbar = Color(0xFF57B461);
 
 CustomColors lightCustomColors = const CustomColors(
   sourceRedbar: Color(0xFFCF5F5F),
