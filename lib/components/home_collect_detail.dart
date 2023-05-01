@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jaijaoni/screens/analysis.dart';
 
 class CollectDetail extends StatelessWidget {
   const CollectDetail({super.key});
@@ -34,7 +35,12 @@ class CollectDetail extends StatelessWidget {
           style: FilledButton.styleFrom(
               backgroundColor: const Color(0xFF5DB075),
               fixedSize: const Size(125, 40)),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const DebtAnalysisScreen()));
+          },
           child: const Text(
             "more details",
             style: TextStyle(

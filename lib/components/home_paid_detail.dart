@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../screens/analysis.dart';
+
 class PaidDetail extends StatelessWidget {
   const PaidDetail({super.key});
 
@@ -34,7 +36,12 @@ class PaidDetail extends StatelessWidget {
           style: FilledButton.styleFrom(
               backgroundColor: Theme.of(context).colorScheme.primary,
               fixedSize: const Size(125, 40)),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const DebtAnalysisScreen()));
+          },
           child: const Text(
             "more details",
             style: TextStyle(
