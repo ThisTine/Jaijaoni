@@ -34,7 +34,7 @@ class _PayerItemUnpaidState extends ConsumerState<PayerItemUnpaid> {
                 ClipOval(
                   child: SizedBox.fromSize(
                     size: const Size.fromRadius(30),
-                    child: Image.network("images/profile/dazai.jpg",
+                    child: Image.asset("images/profile/dazai.jpg",
                         fit: BoxFit.cover),
                   ),
                 ),

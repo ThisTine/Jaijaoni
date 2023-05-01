@@ -86,7 +86,7 @@ class _HomeCardState extends State<HomeCard> {
                                   ClipOval(
                                     child: SizedBox.fromSize(
                                       size: const Size.fromRadius(15),
-                                      child: Image.network(
+                                      child: Image.asset(
                                         widget.image,
                                         fit: BoxFit.cover,
                                       ),
