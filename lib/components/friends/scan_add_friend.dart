@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class ScanAddFriend extends StatefulWidget {
-  final Function(String) popWithData;
-  const ScanAddFriend({super.key, required this.popWithData});
+  const ScanAddFriend({super.key});
 
   @override
   State<ScanAddFriend> createState() => _ScanAddFriendState();
