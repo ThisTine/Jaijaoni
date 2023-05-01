@@ -14,6 +14,7 @@ class ScanAddFriend extends StatefulWidget {
 class _ScanAddFriendState extends State<ScanAddFriend> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   // Barcode? result;
+
   QRViewController? controller;
 
   @override
@@ -26,12 +27,24 @@ class _ScanAddFriendState extends State<ScanAddFriend> {
     }
   }
 
+  // void checkValidate() {
+  //   if (_name.startsWith("@") && _name != null) {
+  //     // print(_name);
+  //     widget.popWithData(_name);
+  //   }
+  // }
+
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
-      if (scanData.code!.startsWith('@')) {
-        widget.popWithData(scanData.code!);
-        // Navigator.pop(context, scanData.code);
+      if (scanData.code!.startsWith('@') && mounted) {
+        // print(scanData.code);
+        // setState(() {
+        //   _name = scanData.code!;
+        // });
+        // checkValidate();
+        // widget.popWithData(scanData.code!);
+        Navigator.pop(context, scanData.code);
       }
     });
   }

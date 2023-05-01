@@ -13,9 +13,11 @@ class AddFriendScreen extends StatefulWidget {
 class _AddFriendScreenState extends State<AddFriendScreen> {
   void popWithData(String data) {
     // print("Poped !");
-    if (Navigator.canPop(context)) {
-      Navigator.pop(context, data);
-    }
+    // print("This is data : $data");
+
+    // if (Navigator.canPop(context)) {
+    //   // Navigator.pop(context, data);
+    // }
   }
 
   int _navIndex = 0;
