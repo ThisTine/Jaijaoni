@@ -71,9 +71,6 @@ class _PayerItemUnpaidState extends ConsumerState<PayerItemUnpaid> {
                           children: [
                             TextFormField(
                               controller: price,
-                              validator: (value) {
-                                RegExp(r'/^\d*\.?\d*$/');
-                              },
                               keyboardType:
                                   const TextInputType.numberWithOptions(
                                       decimal: true),

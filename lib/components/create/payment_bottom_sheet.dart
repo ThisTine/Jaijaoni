@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:jaijaoni/functions/create/payment_formatter.dart';
 
 class PaymentBottomsheet extends StatefulWidget {
@@ -116,6 +115,7 @@ class _PaymentBottomsheetState extends State<PaymentBottomsheet> {
                   if (selectedValue != "PromptPay" && value.length != 13) {
                     return 'Please type correct format';
                   }
+                  return null;
                 },
                 decoration: const InputDecoration(
                   labelText: 'Payment Number',

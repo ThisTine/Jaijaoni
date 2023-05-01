@@ -104,6 +104,7 @@ class _DebtFormState extends ConsumerState<DebtForm> {
                               if (double.parse(value) <= 0) {
                                 return 'Total price should be more than 0';
                               }
+                              return null;
                             },
                             inputFormatters: [
                               FilteringTextInputFormatter.allow(
