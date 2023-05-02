@@ -25,8 +25,7 @@ class _PayerCardState extends ConsumerState<PayerCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const ())),
+      onTap: () => _receipt(context),
       child: Container(
         width: 358,
         height: 82,
@@ -137,4 +136,48 @@ class _PayerCardState extends ConsumerState<PayerCard> {
       ),
     );
   }
+}
+
+Future<void> _receipt(BuildContext context) {
+  return showDialog<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        // insetPadding:
+        //     const EdgeInsets.only(top: 150, bottom: 150, left: 50, right: 50),
+        title: const Text('Receipt'),
+        content: SizedBox(
+          width: 300,
+          height: 500,
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Image.asset(
+              "images/receipt.jpg",
+            ),
+            const SizedBox(height: 20),
+            const Text("Amount: 5000 THB")
+          ]),
+        ),
+        actions: <Widget>[
+          TextButton(
+            style: TextButton.styleFrom(
+              textStyle: Theme.of(context).textTheme.labelLarge,
+            ),
+            child: const Text('Decline'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            style: TextButton.styleFrom(
+              textStyle: Theme.of(context).textTheme.labelLarge,
+            ),
+            child: const Text('Approve'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
 }
