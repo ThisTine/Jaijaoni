@@ -25,7 +25,14 @@ class _PayerCardState extends ConsumerState<PayerCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _receipt(context),
+      onTap: () => {
+        if (widget.circleColor == Theme.of(context).colorScheme.primary) ...[
+          _receiptAlert(context)
+        ] else if (widget.circleColor ==
+            Theme.of(context).colorScheme.error) ...[
+          _wrongAlert(context)
+        ]
+      },
       child: Container(
         width: 358,
         height: 82,
@@ -138,7 +145,7 @@ class _PayerCardState extends ConsumerState<PayerCard> {
   }
 }
 
-Future<void> _receipt(BuildContext context) {
+Future<void> _receiptAlert(BuildContext context) {
   return showDialog<void>(
     context: context,
     builder: (BuildContext context) {
@@ -160,7 +167,7 @@ Future<void> _receipt(BuildContext context) {
         actions: <Widget>[
           TextButton(
             style: TextButton.styleFrom(
-              textStyle: Theme.of(context).textTheme.labelLarge,
+              textStyle: Theme.of(context).textTheme.bodyLarge,
             ),
             child: const Text('Decline'),
             onPressed: () {
@@ -172,6 +179,49 @@ Future<void> _receipt(BuildContext context) {
               textStyle: Theme.of(context).textTheme.labelLarge,
             ),
             child: const Text('Approve'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
+Future<void> _wrongAlert(BuildContext context) {
+  return showDialog<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        // insetPadding:
+        //     const EdgeInsets.only(top: 150, bottom: 150, left: 50, right: 50),
+        title: const Text("What's wrong with this receipt?"),
+        content: Container(
+            alignment: Alignment.center,
+            width: 300,
+            height: 500,
+            child: const TextField(
+                decoration: InputDecoration(
+                    labelText: "Reasons",
+                    contentPadding: EdgeInsets.all(20),
+                    fillColor: Color.fromRGBO(0, 0, 0, 0.05),
+                    filled: true))),
+        actions: <Widget>[
+          TextButton(
+            style: TextButton.styleFrom(
+              textStyle: Theme.of(context).textTheme.bodyLarge,
+            ),
+            child: const Text('Cancel'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            style: TextButton.styleFrom(
+              textStyle: Theme.of(context).textTheme.labelLarge,
+            ),
+            child: const Text('Send'),
             onPressed: () {
               Navigator.of(context).pop();
             },
