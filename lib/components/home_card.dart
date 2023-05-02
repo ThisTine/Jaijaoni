@@ -89,7 +89,7 @@ class _HomeCardState extends State<HomeCard> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           SizedBox(
-                              width: 60,
+                              width: 70,
                               child: Row(
                                 children: [
                                   const SizedBox(width: 13),

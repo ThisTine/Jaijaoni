@@ -35,7 +35,7 @@ class PaidDetail extends StatelessWidget {
         FilledButton(
           style: FilledButton.styleFrom(
               backgroundColor: Theme.of(context).colorScheme.primary,
-              fixedSize: const Size(125, 40)),
+              fixedSize: const Size(100, 35)),
           onPressed: () {
             Navigator.push(
                 context,
@@ -46,7 +46,7 @@ class PaidDetail extends StatelessWidget {
             "more details",
             style: TextStyle(
               color: Colors.white,
-              fontSize: 16,
+              fontSize: 12,
             ),
           ),
         )
