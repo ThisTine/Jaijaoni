@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class Paymentuploadsheet extends StatelessWidget {
   const Paymentuploadsheet({Key? key, required this.imagefile})
@@ -31,12 +32,19 @@ class Paymentuploadsheet extends StatelessWidget {
                       alignment: Alignment.center,
                       margin: const EdgeInsets.only(bottom: 20),
                       child: imagefile != null
-                          ? Image.network(
-                              (imagefile!.path),
-                              width: double.infinity,
-                              height: 400,
-                              fit: BoxFit.fill,
-                            )
+                          ? kIsWeb
+                              ? Image.network(
+                                  (imagefile!.path),
+                                  width: double.infinity,
+                                  height: 400,
+                                  fit: BoxFit.fill,
+                                )
+                              : Image.file(
+                                  File(imagefile!.path),
+                                  width: double.infinity,
+                                  height: 400,
+                                  fit: BoxFit.fill,
+                                )
                           : Image.network(
                               'https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg',
                               width: double.infinity,
