@@ -17,7 +17,7 @@ class _PaymentMethodBoxState extends State<PaymentMethodBox> {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(10),
-      width: 358,
+      // width: 358,
       height: 82,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
@@ -65,7 +65,7 @@ class _PaymentMethodBoxState extends State<PaymentMethodBox> {
                         isChecked = check!;
                       });
                     }),
-                const SizedBox(width: 10)
+                // const SizedBox(width: 10)
               ],
             ),
           )

@@ -65,48 +65,50 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           },
         ),
       ),
-      body: Form(
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Center(
-            child: Container(
-              constraints: const BoxConstraints(maxWidth: 576),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  Text("Jai Jaoni",
-                      style: Theme.of(context).textTheme.displayMedium),
-                  Text("Reset your password",
-                      style: Theme.of(context).textTheme.headlineSmall),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextFormField(
-                    decoration: roundInput.copyWith(labelText: "Email"),
-                    controller: _email,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  FilledButton(
-                    onPressed: resetPassword,
-                    style: FilledButton.styleFrom(
-                      minimumSize: const Size.fromHeight(50),
-                      padding: const EdgeInsets.all(10.00),
+      body: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Center(
+              child: Container(
+                constraints: const BoxConstraints(maxWidth: 576),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 30,
                     ),
-                    child: Text(_isLoading ? "Loading" : "reset password"),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                ],
+                    Text("Jai Jaoni",
+                        style: Theme.of(context).textTheme.displayMedium),
+                    Text("Reset your password",
+                        style: Theme.of(context).textTheme.headlineSmall),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextFormField(
+                      decoration: roundInput.copyWith(labelText: "Email"),
+                      controller: _email,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    FilledButton(
+                      onPressed: resetPassword,
+                      style: FilledButton.styleFrom(
+                        minimumSize: const Size.fromHeight(50),
+                        padding: const EdgeInsets.all(10.00),
+                      ),
+                      child: Text(_isLoading ? "Loading" : "reset password"),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
