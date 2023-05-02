@@ -17,31 +17,35 @@ class CreateDebtScreen extends ConsumerStatefulWidget {
 class _CreateDebtScreenState extends ConsumerState<CreateDebtScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: customAppBarBuilder(context, text: "Create", backButton: true),
-        body: Stack(
-          children: [
-            Column(
-              children: [
-                Row(
-                  children: [
-                    const SizedBox(width: 16.0),
-                    Text(
-                      'Debt Info',
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
-                          fontSize: Theme.of(context)
-                              .textTheme
-                              .displaySmall
-                              ?.fontSize),
-                    ),
-                  ],
-                ),
-                const Expanded(child: DebtForm()),
-              ],
-            ),
-          ],
-        ));
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          appBar:
+              customAppBarBuilder(context, text: "Create", backButton: true),
+          body: Stack(
+            children: [
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      const SizedBox(width: 16.0),
+                      Text(
+                        'Debt Info',
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontSize: Theme.of(context)
+                                .textTheme
+                                .displaySmall
+                                ?.fontSize),
+                      ),
+                    ],
+                  ),
+                  const Expanded(child: DebtForm()),
+                ],
+              ),
+            ],
+          )),
+    );
   }
 }
