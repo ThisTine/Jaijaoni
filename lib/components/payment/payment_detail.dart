@@ -45,11 +45,11 @@ class _PaymentDetailState extends State<PaymentDetail> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Scaffold(
-            appBar: customAppBarBuilder(context, text: "Pay", backButton: true),
-            body: SingleChildScrollView(
+    return Scaffold(
+        appBar: customAppBarBuilder(context, text: "Pay", backButton: true),
+        body: Stack(
+          children: [
+            SingleChildScrollView(
               child: Container(
                 constraints: BoxConstraints(
                     minHeight: MediaQuery.of(context).size.height - 55),
@@ -60,35 +60,28 @@ class _PaymentDetailState extends State<PaymentDetail> {
                     Paydetail(
                       amount: widget.amounts,
                     ),
-                    Column(
-                      children: [
-                        Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: FilledButton(
-                              onPressed: () {
-                                _getFromGallery();
-                              },
-                              style: FilledButton.styleFrom(
-                                minimumSize: const Size.fromHeight(50),
-                                padding: const EdgeInsets.all(10.00),
-                              ),
-                              child: const Text('Upload Payment '),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                      ],
-                    ),
                   ],
                 ),
               ),
-            )),
-      ],
-    );
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: FilledButton(
+                  onPressed: () {
+                    _getFromGallery();
+                  },
+                  style: FilledButton.styleFrom(
+                    minimumSize: const Size.fromHeight(50),
+                    padding: const EdgeInsets.all(10.00),
+                  ),
+                  child: const Text('Upload Payment '),
+                ),
+              ),
+            ),
+          ],
+        ));
   }
 }
 
