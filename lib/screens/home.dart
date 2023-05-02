@@ -17,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Map<String, dynamic>> lendList = [
     {
       "id": 1,
-      "cardColor": const Color(0xFF6750A4),
+      "cardColor": const Color(0xFF5DB08D),
       // Can not use {Theme.of(context).colorScheme.primary,} because of {context}
       "name": "Bonchon Chicken",
       "date": "3/04/23",
@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
     },
     {
       "id": 2,
-      "cardColor": const Color(0xFF6750A4),
+      "cardColor": const Color(0xFF5DB08D),
       "name": "ส้มตำร้านเด็ด",
       "date": "7/04/23",
       "amount": "700",
@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
     },
     {
       "id": 3,
-      "cardColor": const Color(0xFF6750A4),
+      "cardColor": const Color(0xFF5DB08D),
       "name": "KFB เจ้าดัง",
       "date": "12/04/23",
       "amount": "540",
@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
     },
     {
       "id": 4,
-      "cardColor": const Color(0xFF6750A4),
+      "cardColor": const Color(0xFF5DB08D),
       "name": "ตี๋น้อย",
       "date": "13/04/23",
       "amount": "870",
@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
     },
     {
       "id": 5,
-      "cardColor": const Color(0xFF6750A4),
+      "cardColor": const Color(0xFF5DB08D),
       "name": "Pizza Company",
       "date": "15/04/23",
       "amount": "430",
@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
     },
     {
       "id": 6,
-      "cardColor": const Color(0xFF22005D),
+      "cardColor": const Color(0xFFB05D5D),
       "name": "Seven Eleven",
       "date": "17/04/23",
       "amount": "350",

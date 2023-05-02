@@ -24,6 +24,9 @@ class _DetailCreatorState extends State<DetailCreator> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            const SizedBox(
+              height: 5,
+            ),
             DetailCard(
                 cardColor: Theme.of(context).colorScheme.primary,
                 name: "Bonchon Chicken",

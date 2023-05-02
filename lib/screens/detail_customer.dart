@@ -24,8 +24,11 @@ class _DetailCustomerState extends State<DetailCustomer> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            const SizedBox(
+              height: 13,
+            ),
             DetailCard(
-                cardColor: Theme.of(context).colorScheme.onPrimaryContainer,
+                cardColor: Theme.of(context).colorScheme.primary,
                 name: "Seven Eleven",
                 amount: "350"),
             const SizedBox(
