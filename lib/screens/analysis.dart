@@ -49,9 +49,9 @@ class DebtAnalysisScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: DebtListPeople(),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: DebtListPeople(monthLabel: barDataList.selectedBar),
                 ),
               ],
             ),
