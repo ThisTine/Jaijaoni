@@ -47,7 +47,7 @@ class _DebtListPeopleState extends State<DebtListPeople> {
             .map((e) => DebtPeopleItem(
                 id: e.key.toString(),
                 name: e.value['name'],
-                price: e.value['price'],
+                price: (e.value['price'] as int).toDouble(),
                 profileImage:
                     "https://i.pravatar.cc/150?img=${e.value['name']}",
                 position: e.key + 1))
