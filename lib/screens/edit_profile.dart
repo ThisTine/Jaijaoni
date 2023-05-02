@@ -174,19 +174,30 @@ Widget textlebel(BuildContext context, String text) {
 }
 
 Widget hintlebel(BuildContext context, String text) {
-  return (SizedBox(
-      width: 220,
-      height: 50,
-      child: TextField(
-        cursorColor: Theme.of(context).colorScheme.primaryContainer,
-        style: TextStyle(
-            color: Theme.of(context).colorScheme.primary,
-            fontSize: Theme.of(context).textTheme.titleMedium!.fontSize),
-        decoration: InputDecoration(
-          hintText: text,
-          hintStyle: TextStyle(
-              color: Theme.of(context).colorScheme.primaryContainer,
-              fontSize: Theme.of(context).textTheme.labelMedium!.fontSize),
-        ),
-      )));
+  return Container(
+    constraints: BoxConstraints(
+      maxWidth: MediaQuery.of(context).size.width * 0.4,
+    ),
+    height: 50,
+    child: (Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: TextField(
+              cursorColor: Theme.of(context).colorScheme.primaryContainer,
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontSize: Theme.of(context).textTheme.titleMedium!.fontSize),
+              decoration: InputDecoration(
+                hintText: text,
+                hintStyle: TextStyle(
+                    color: Theme.of(context).colorScheme.primaryContainer,
+                    fontSize:
+                        Theme.of(context).textTheme.labelMedium!.fontSize),
+              ),
+            ),
+          )
+        ])),
+  );
 }
