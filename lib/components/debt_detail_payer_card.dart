@@ -7,13 +7,15 @@ class PayerCard extends ConsumerStatefulWidget {
   final String image;
   final String amount;
   final String? days;
+  final bool done;
 
   const PayerCard({
     Key? key,
     required this.name,
-    required this.circleColor,
     required this.image,
     required this.amount,
+    required this.done,
+    this.circleColor,
     this.days,
   }) : super(key: key);
 
@@ -52,15 +54,30 @@ class _PayerCardState extends ConsumerState<PayerCard> {
                 const SizedBox(
                   width: 13,
                 ),
-                ClipOval(
-                  child: SizedBox.fromSize(
-                    size: const Size.fromRadius(30),
-                    child: Image.network(
-                      widget.image,
-                      fit: BoxFit.cover,
+                if (widget.done == false) ...[
+                  ClipOval(
+                    child: SizedBox.fromSize(
+                      size: const Size.fromRadius(30),
+                      child: Image.asset(
+                        widget.image,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                ),
+                ] else ...[
+                  // fillColor: Color.fromRGBO(0, 0, 0, 0.05),
+                  ClipOval(
+                    child: SizedBox.fromSize(
+                      size: const Size.fromRadius(30),
+                      child: Image.asset(
+                        widget.image,
+                        fit: BoxFit.cover,
+                        color: Colors.white.withOpacity(0.5),
+                        colorBlendMode: BlendMode.modulate,
+                      ),
+                    ),
+                  ),
+                ],
                 const SizedBox(
                   width: 13,
                 ),

@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:jaijaoni/screens/detail_creator.dart';
+import 'package:jaijaoni/screens/detail_customer.dart';
 
 class HomeCard extends StatefulWidget {
+  final Color cardColor;
   final String name;
   final String date;
   final String amount;
   final String image;
   final int debtor;
-
   const HomeCard({
     Key? key,
+    required this.cardColor,
     required this.name,
     required this.date,
     required this.amount,
@@ -28,10 +30,17 @@ class _HomeCardState extends State<HomeCard> {
       height: 190, //MediaQuery.of(context).size.width * 0.5, //190
       width: 360,
       child: GestureDetector(
-        onTap: () => Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const DetailCreator())),
+        onTap: () => {
+          if (widget.cardColor == const Color(0xFF6750A4)) ...[
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const DetailCreator()))
+          ] else ...[
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const DetailCustomer()))
+          ]
+        },
         child: Card(
-          color: Theme.of(context).colorScheme.primary,
+          color: widget.cardColor, //Theme.of(context).colorScheme.primary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12.0),
           ),

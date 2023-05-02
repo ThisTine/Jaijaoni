@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 // import 'package:jaijaoni/screens/detail_creator.dart';
 
 class DetailCard extends StatefulWidget {
+  final Color? cardColor;
   final String name;
   final String amount;
 
   const DetailCard({
     Key? key,
+    required this.cardColor,
     required this.name,
     required this.amount,
   }) : super(key: key);
@@ -22,7 +24,7 @@ class _DetailCardState extends State<DetailCard> {
       height: 190, //MediaQuery.of(context).size.width * 0.5, //190
       width: 360,
       child: Card(
-        color: Theme.of(context).colorScheme.primary,
+        color: widget.cardColor, // Theme.of(context).colorScheme.primary,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.0),
         ),
