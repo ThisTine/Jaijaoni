@@ -109,7 +109,7 @@ class PaydetailState extends State<Paydetail> {
     return Column(
       children: [
         SizedBox(
-          width: 230,
+          width: 250,
           // height: 48,
           child: SegmentedButton<int>(
             segments: const <ButtonSegment<int>>[
