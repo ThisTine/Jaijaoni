@@ -6,12 +6,14 @@ class DetailCard extends StatefulWidget {
   final Color? cardColor;
   final String name;
   final String amount;
+  final bool edit;
 
   const DetailCard({
     Key? key,
     required this.cardColor,
     required this.name,
     required this.amount,
+    required this.edit,
   }) : super(key: key);
 
   @override
@@ -22,8 +24,15 @@ class _DetailCardState extends State<DetailCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () => Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const EditDebtScreen())),
+        onTap: () => {
+              if (widget.edit == true) ...[
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const EditDebtScreen())),
+              ] else
+                ...[]
+            },
         child: SizedBox(
           height: 190, //MediaQuery.of(context).size.width * 0.5, //190
           width: 360,

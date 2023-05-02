@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:jaijaoni/screens/detail_creator.dart';
 import 'package:jaijaoni/screens/detail_customer.dart';
 
-class HomeCard extends StatefulWidget {
-  final Color cardColor;
+class BorrowCard extends StatefulWidget {
   final String name;
   final String date;
   final String amount;
   final String image;
   final int debtor;
-  const HomeCard({
+  const BorrowCard({
     Key? key,
-    required this.cardColor,
     required this.name,
     required this.date,
     required this.amount,
@@ -20,10 +17,10 @@ class HomeCard extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<HomeCard> createState() => _HomeCardState();
+  State<BorrowCard> createState() => _BorrowCardState();
 }
 
-class _HomeCardState extends State<HomeCard> {
+class _BorrowCardState extends State<BorrowCard> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -31,16 +28,11 @@ class _HomeCardState extends State<HomeCard> {
       width: 360,
       child: GestureDetector(
         onTap: () => {
-          if (widget.cardColor == const Color(0xFF5DB08D)) ...[
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const DetailCreator()))
-          ] else ...[
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const DetailCustomer()))
-          ]
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const DetailCustomer()))
         },
         child: Card(
-          color: widget.cardColor, //Theme.of(context).colorScheme.primary,
+          color: const Color(0xFFB05D5D),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12.0),
           ),

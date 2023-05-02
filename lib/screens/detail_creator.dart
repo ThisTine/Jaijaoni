@@ -30,7 +30,8 @@ class _DetailCreatorState extends State<DetailCreator> {
             DetailCard(
                 cardColor: Theme.of(context).colorScheme.primary,
                 name: "Bonchon Chicken",
-                amount: "1000"),
+                amount: "1000",
+                edit: true),
             const SizedBox(
               height: 23,
             ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../screens/analysis.dart';
+import '../../screens/analysis.dart';
 
 class PaidDetail extends StatelessWidget {
   const PaidDetail({super.key});
