@@ -167,8 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Padding(
                   padding: const EdgeInsets.all(8),
                   child: SizedBox(
-                      height: MediaQuery.of(context).size.height +
-                          300, // if not + 300, bottom will be cut. Need to take above (chart) widget into account
+                      // height: MediaQuery.of(context).size.height,
                       width: 360,
                       child: ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),

@@ -30,10 +30,11 @@ class _PayerCardState extends ConsumerState<PayerCard> {
       onTap: () => {
         if (widget.circleColor == Theme.of(context).colorScheme.primary) ...[
           _receiptAlert(context)
-        ] else if (widget.circleColor ==
-            Theme.of(context).colorScheme.error) ...[
-          _wrongAlert(context)
         ]
+        // else if (widget.circleColor ==
+        //     Theme.of(context).colorScheme.error) ...[
+        //   _wrongAlert(context)
+        // ]
       },
       child: Container(
         width: 358,
@@ -189,6 +190,7 @@ Future<void> _receiptAlert(BuildContext context) {
             child: const Text('Decline'),
             onPressed: () {
               Navigator.of(context).pop();
+              _wrongAlert(context);
             },
           ),
           TextButton(
