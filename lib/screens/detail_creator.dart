@@ -79,7 +79,7 @@ class _DetailCreatorState extends State<DetailCreator> {
                   ),
                 ),
                 const SizedBox(
-                  width: 13,
+                  width: 10,
                 ),
                 Container(
                   // number of people
@@ -177,7 +177,7 @@ class _DetailCreatorState extends State<DetailCreator> {
                       ]),
                 ),
                 const SizedBox(
-                  width: 23,
+                  width: 15,
                 ),
                 Container(
                   // Un-Paid
