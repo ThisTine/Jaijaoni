@@ -44,9 +44,9 @@ class PaidDetail extends StatelessWidget {
           child: const Text(
             "more details",
             style: TextStyle(
-              color: Colors.white,
-              fontSize: 12,
-            ),
+                color: Colors.white,
+                fontSize: 12,
+                overflow: TextOverflow.ellipsis),
           ),
         )
       ],
