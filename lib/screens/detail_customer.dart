@@ -33,9 +33,11 @@ class _DetailCustomerState extends State<DetailCustomer> {
                   //   height: 13,
                   // ),
                   DetailCard(
-                      cardColor: Theme.of(context).colorScheme.primary,
-                      name: "Seven Eleven",
-                      amount: "350"),
+                    cardColor: Theme.of(context).colorScheme.primary,
+                    name: "Seven Eleven",
+                    amount: "350",
+                    edit: false,
+                  ),
                   const SizedBox(
                     height: 13,
                   ),
