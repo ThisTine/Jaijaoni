@@ -12,59 +12,62 @@ class PaymentScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final amount = TextEditingController();
     final formKey = GlobalKey<FormState>();
-    return Scaffold(
-        appBar: customAppBarBuilder(context,
-            text: "Select amount", backButton: true),
-        body: Column(children: [
-          Row(
-            children: [
-              const SizedBox(width: 16.0),
-              Flexible(
-                child: Text(
-                  'How much do you want to pay ?',
-                  softWrap: true,
-                  maxLines: 2,
-                  overflow: TextOverflow.fade,
-                  style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                      fontSize:
-                          Theme.of(context).textTheme.displaySmall?.fontSize),
-                ),
-              ),
-            ],
-          ),
-          Paymentform(
-            formKey: formKey,
-            amount: amount,
-          ),
-          Expanded(
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: FilledButton(
-                  onPressed: () {
-                    if (formKey.currentState!.validate()) {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return PaymentDetail(
-                          amounts: double.parse(amount.text),
-                        );
-                      }));
-                    }
-                  },
-                  style: FilledButton.styleFrom(
-                    minimumSize: const Size.fromHeight(50),
-                    padding: const EdgeInsets.all(10.00),
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+          appBar: customAppBarBuilder(context,
+              text: "Select amount", backButton: true),
+          body: Column(children: [
+            Row(
+              children: [
+                const SizedBox(width: 16.0),
+                Flexible(
+                  child: Text(
+                    'How much do you want to pay ?',
+                    softWrap: true,
+                    maxLines: 2,
+                    overflow: TextOverflow.fade,
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                        fontSize:
+                            Theme.of(context).textTheme.displaySmall?.fontSize),
                   ),
-                  child: const Text('Create payment '),
+                ),
+              ],
+            ),
+            Paymentform(
+              formKey: formKey,
+              amount: amount,
+            ),
+            Expanded(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: FilledButton(
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return PaymentDetail(
+                            amounts: double.parse(amount.text),
+                          );
+                        }));
+                      }
+                    },
+                    style: FilledButton.styleFrom(
+                      minimumSize: const Size.fromHeight(50),
+                      padding: const EdgeInsets.all(10.00),
+                    ),
+                    child: const Text('Create payment '),
+                  ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-        ]));
+            const SizedBox(
+              height: 10,
+            ),
+          ])),
+    );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart' as fstore;
 import 'package:firebase_auth/firebase_auth.dart' as fauth;
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:jaijaoni/firebase_options.dart';
 import 'package:jaijaoni/model/user.model.dart' as umodal;
 
 class User {
@@ -67,7 +68,9 @@ class AuthService {
 
   Future<void> googleLogin() async {
     try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      final GoogleSignInAccount? googleUser = await GoogleSignIn(
+              clientId: DefaultFirebaseOptions.currentPlatform.iosClientId)
+          .signIn();
       final GoogleSignInAuthentication? googleAuth =
           await googleUser?.authentication;
       final credential = fauth.GoogleAuthProvider.credential(
