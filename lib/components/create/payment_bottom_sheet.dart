@@ -104,6 +104,7 @@ class _PaymentBottomsheetState extends State<PaymentBottomsheet> {
                 ),
               ),
               TextFormField(
+                keyboardType: TextInputType.number,
                 controller: _paymentNumber,
                 inputFormatters: selectedValue != "PromptPay"
                     ? [

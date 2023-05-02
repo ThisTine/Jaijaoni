@@ -58,139 +58,141 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     }
 
     return Scaffold(
-        body: Form(
-            key: _formKey,
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Center(
-                child: Container(
-                  constraints: const BoxConstraints(maxWidth: 576),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const SizedBox(
-                            height: 30,
+        body: SingleChildScrollView(
+      child: Form(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Center(
+              child: Container(
+                constraints: const BoxConstraints(maxWidth: 576),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        Text("Jai Jaoni",
+                            style: Theme.of(context).textTheme.displayMedium),
+                        Text("Register your account",
+                            style: Theme.of(context).textTheme.headlineSmall),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        TextFormField(
+                          validator: (value) => value!.isEmpty
+                              ? "Username must not empty."
+                              : null,
+                          decoration:
+                              roundInput.copyWith(labelText: "Username"),
+                          controller: _username,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        TextFormField(
+                          validator: (value) => value!.isEmpty
+                              ? "Email must not be empty."
+                              : !validateEmail(value)
+                                  ? "Uncorrect email formatted."
+                                  : null,
+                          decoration: roundInput.copyWith(labelText: "Email"),
+                          controller: _email,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        TextFormField(
+                          controller: _password,
+                          obscureText: !_isShowPassword,
+                          validator: (value) => value!.isEmpty
+                              ? "Password must not be empty."
+                              : value != _confirmPassword.text
+                                  ? "Passwords are not the same"
+                                  : null,
+                          decoration: roundInput.copyWith(
+                              labelText: "Password",
+                              suffixIcon: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _isShowPassword = !_isShowPassword;
+                                      });
+                                    },
+                                    icon: Icon(_isShowPassword
+                                        ? Icons.visibility
+                                        : Icons.visibility_off)),
+                              )),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        TextFormField(
+                          controller: _confirmPassword,
+                          obscureText: !_isShowPassword,
+                          validator: (value) => value!.isEmpty
+                              ? "Password must not be empty."
+                              : value != _password.text
+                                  ? "Passwords are not the same"
+                                  : null,
+                          decoration: roundInput.copyWith(
+                              labelText: "Confirm Password",
+                              suffixIcon: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _isShowPassword = !_isShowPassword;
+                                      });
+                                    },
+                                    icon: Icon(_isShowPassword
+                                        ? Icons.visibility
+                                        : Icons.visibility_off)),
+                              )),
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        FilledButton(
+                          onPressed: signup,
+                          style: FilledButton.styleFrom(
+                            minimumSize: const Size.fromHeight(50),
+                            padding: const EdgeInsets.all(10.00),
                           ),
-                          Text("Jai Jaoni",
-                              style: Theme.of(context).textTheme.displayMedium),
-                          Text("Register your account",
-                              style: Theme.of(context).textTheme.headlineSmall),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          TextFormField(
-                            validator: (value) => value!.isEmpty
-                                ? "Username must not empty."
-                                : null,
-                            decoration:
-                                roundInput.copyWith(labelText: "Username"),
-                            controller: _username,
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          TextFormField(
-                            validator: (value) => value!.isEmpty
-                                ? "Email must not be empty."
-                                : !validateEmail(value)
-                                    ? "Uncorrect email formatted."
-                                    : null,
-                            decoration: roundInput.copyWith(labelText: "Email"),
-                            controller: _email,
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          TextFormField(
-                            controller: _password,
-                            obscureText: !_isShowPassword,
-                            validator: (value) => value!.isEmpty
-                                ? "Password must not be empty."
-                                : value != _confirmPassword.text
-                                    ? "Passwords are not the same"
-                                    : null,
-                            decoration: roundInput.copyWith(
-                                labelText: "Password",
-                                suffixIcon: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: IconButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          _isShowPassword = !_isShowPassword;
-                                        });
-                                      },
-                                      icon: Icon(_isShowPassword
-                                          ? Icons.visibility
-                                          : Icons.visibility_off)),
-                                )),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          TextFormField(
-                            controller: _confirmPassword,
-                            obscureText: !_isShowPassword,
-                            validator: (value) => value!.isEmpty
-                                ? "Password must not be empty."
-                                : value != _password.text
-                                    ? "Passwords are not the same"
-                                    : null,
-                            decoration: roundInput.copyWith(
-                                labelText: "Confirm Password",
-                                suffixIcon: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: IconButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          _isShowPassword = !_isShowPassword;
-                                        });
-                                      },
-                                      icon: Icon(_isShowPassword
-                                          ? Icons.visibility
-                                          : Icons.visibility_off)),
-                                )),
-                          ),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          FilledButton(
-                            onPressed: signup,
-                            style: FilledButton.styleFrom(
-                              minimumSize: const Size.fromHeight(50),
-                              padding: const EdgeInsets.all(10.00),
-                            ),
-                            child: Text(_isLoading ? "Loading" : "Register"),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          const SignInOptions(
-                            isSignup: true,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text("Already have an account ?"),
-                          TextButton(
-                              onPressed: () {
-                                context.go("/login");
-                              },
-                              child: const Text("Login"))
-                        ],
-                      )
-                    ],
-                  ),
+                          child: Text(_isLoading ? "Loading" : "Register"),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const SignInOptions(
+                          isSignup: true,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text("Already have an account ?"),
+                        TextButton(
+                            onPressed: () {
+                              context.go("/login");
+                            },
+                            child: const Text("Login"))
+                      ],
+                    )
+                  ],
                 ),
               ),
-            )));
+            ),
+          )),
+    ));
   }
 }

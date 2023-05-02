@@ -73,6 +73,8 @@ class _PayerItemUnpaidState extends ConsumerState<PayerItemUnpaid> {
                         child: Column(
                           children: [
                             TextFormField(
+                              onTapOutside: (event) =>
+                                  FocusScope.of(context).unfocus(),
                               controller: price,
                               keyboardType:
                                   const TextInputType.numberWithOptions(
