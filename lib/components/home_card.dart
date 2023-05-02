@@ -38,20 +38,20 @@ class _HomeCardState extends State<HomeCard> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Expanded(
+              Flexible(
+                flex: 10,
+                //use flexible 10 to make the debt name take the appropriate width size
                 child: Padding(
                   padding: const EdgeInsets.all(20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        width: 200,
-                        child: Text(
-                          widget.name, // Debt Name
-                          style: const TextStyle(
-                              fontSize: 34, color: Colors.white, height: 1.0),
-                        ),
+                      Text(
+                        widget.name, // Debt Name
+                        style: const TextStyle(
+                            fontSize: 34, color: Colors.white, height: 1.0),
                       ),
+
                       // const SizedBox(
                       //   height: 80, // space divider
                       // ),
@@ -71,6 +71,7 @@ class _HomeCardState extends State<HomeCard> {
                 ),
               ),
               Flexible(
+                  flex: 8,
                   fit: FlexFit.tight,
                   child: Padding(
                       padding: const EdgeInsets.all(20),

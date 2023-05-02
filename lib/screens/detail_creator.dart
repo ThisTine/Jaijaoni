@@ -22,19 +22,220 @@ class _DetailCreatorState extends State<DetailCreator> {
         alignment: Alignment.center,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const DetailCard(name: "Bonchon Chicken", amount: "1000"),
             const SizedBox(
-              width: 13,
+              height: 23,
             ),
-            Text(
-              "Payers",
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.primary,
-                fontSize: Theme.of(context).textTheme.displaySmall?.fontSize,
+            Row(
+              // Date, number of people
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  // Date
+                  width: 265,
+                  height: 78,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Theme.of(context).colorScheme.secondaryContainer,
+                      boxShadow: [
+                        BoxShadow(
+                            blurRadius: 4,
+                            offset: const Offset(1, 1),
+                            color: Colors.grey.withOpacity(0.5))
+                      ]),
+                  alignment: Alignment.center,
+                  child: RichText(
+                    // textAlign: TextAlign.center,
+                    text: TextSpan(
+                      children: [
+                        WidgetSpan(
+                          child: Icon(Icons.alarm,
+                              size: 24,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onPrimaryContainer),
+                        ),
+                        TextSpan(
+                            // Date Text
+                            text: "Tue, Feburary 2023",
+                            style: TextStyle(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onPrimaryContainer,
+                                fontSize: Theme.of(context)
+                                    .textTheme
+                                    .headlineSmall
+                                    ?.fontSize)),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 13,
+                ),
+                Container(
+                  // number of people
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Theme.of(context).colorScheme.secondaryContainer,
+                      boxShadow: [
+                        BoxShadow(
+                            blurRadius: 4,
+                            offset: const Offset(1, 1),
+                            color: Colors.grey.withOpacity(0.5))
+                      ]),
+                  alignment: Alignment.center,
+                  child: RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      children: [
+                        WidgetSpan(
+                          child: Icon(Icons.group_add_outlined,
+                              size: 24,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onPrimaryContainer),
+                        ),
+                        TextSpan(
+                            text: "\n10",
+                            style: TextStyle(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onPrimaryContainer,
+                                fontSize: Theme.of(context)
+                                    .textTheme
+                                    .headlineSmall
+                                    ?.fontSize)),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 13,
+            ),
+            Row(
+              // Paid, Unpaid
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  // Paid
+                  width: 170,
+                  height: 80,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Theme.of(context).colorScheme.secondaryContainer,
+                      boxShadow: [
+                        BoxShadow(
+                            blurRadius: 4,
+                            offset: const Offset(1, 1),
+                            color: Colors.grey.withOpacity(0.5))
+                      ]),
+                  alignment: Alignment.center,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 23),
+                          child: Icon(Icons.check_circle,
+                              size: 24,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onPrimaryContainer),
+                        ),
+                        const SizedBox(
+                          width: 13,
+                        ),
+                        RichText(
+                          // textAlign: TextAlign.center,
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                  text: "400",
+                                  style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer,
+                                      fontSize: Theme.of(context)
+                                          .textTheme
+                                          .headlineSmall
+                                          ?.fontSize)),
+                            ],
+                          ),
+                        ),
+                      ]),
+                ),
+                const SizedBox(
+                  width: 23,
+                ),
+                Container(
+                  // Un-Paid
+                  width: 170,
+                  height: 80,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Theme.of(context).colorScheme.secondaryContainer,
+                      boxShadow: [
+                        BoxShadow(
+                            blurRadius: 4,
+                            offset: const Offset(1, 1),
+                            color: Colors.grey.withOpacity(0.5))
+                      ]),
+                  alignment: Alignment.center,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 23),
+                          child: Icon(Icons.hourglass_top,
+                              size: 24,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onPrimaryContainer),
+                        ),
+                        const SizedBox(
+                          width: 13,
+                        ),
+                        RichText(
+                          // textAlign: TextAlign.center,
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                  text: "600",
+                                  style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer,
+                                      fontSize: Theme.of(context)
+                                          .textTheme
+                                          .headlineSmall
+                                          ?.fontSize)),
+                            ],
+                          ),
+                        ),
+                      ]),
+                ),
+              ],
+            ),
+            const SizedBox(
+              width: 20,
+            ),
+            Container(
+              alignment: Alignment.center,
+              child: Text(
+                "Payers",
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize:
+                        Theme.of(context).textTheme.displaySmall?.fontSize,
+                    fontWeight: FontWeight.w600),
+                textAlign: TextAlign.start,
               ),
-              textAlign: TextAlign.start,
             ),
             const SizedBox(height: 20),
             Column(

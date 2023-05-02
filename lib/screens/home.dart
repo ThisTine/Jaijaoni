@@ -39,6 +39,22 @@ class _HomeScreenState extends State<HomeScreen> {
       "image": "images/profile/dazai.jpg",
       "debtor": 1
     },
+    {
+      "id": 4,
+      "name": "ตี๋น้อย",
+      "date": "13/04/23",
+      "amount": "870",
+      "image": "images/profile/dazai.jpg",
+      "debtor": 4
+    },
+    {
+      "id": 5,
+      "name": "Pizza Company",
+      "date": "15/04/23",
+      "amount": "430",
+      "image": "images/profile/dazai.jpg",
+      "debtor": 3
+    },
   ];
 
   List<Map<String, dynamic>> foundList = [];
@@ -103,14 +119,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Flexible(
-                      flex: 5,
+                      flex: 10,
                       child: Visibility(
                         visible: isVisible,
                         child: const CollectChart(),
                       ),
                     ),
                     Flexible(
-                        flex: 3,
+                        flex: 8,
                         child: Visibility(
                             visible: isVisible, child: const CollectDetail())),
                   ]),
@@ -119,14 +135,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Flexible(
-                      flex: 5,
+                      flex: 10,
                       child: Visibility(
                         visible: isVisible,
                         child: const PaidChart(),
                       ),
                     ),
                     Flexible(
-                        flex: 3,
+                        flex: 8,
                         child: Visibility(
                             visible: isVisible, child: const PaidDetail())),
                   ]),
@@ -136,9 +152,11 @@ class _HomeScreenState extends State<HomeScreen> {
               Padding(
                   padding: const EdgeInsets.all(8),
                   child: SizedBox(
-                      height: MediaQuery.of(context).size.height,
+                      height: MediaQuery.of(context).size.height + 100,
                       width: 360,
                       child: ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
                           itemCount: foundList.length,
                           itemBuilder: (context, index) {
                             return HomeCard(
@@ -149,7 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               image: foundList[index]["image"],
                               debtor: foundList[index]["debtor"],
                             );
-                          })))
+                          }))),
             ],
           ),
         ),
