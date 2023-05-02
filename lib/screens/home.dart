@@ -17,6 +17,8 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Map<String, dynamic>> lendList = [
     {
       "id": 1,
+      "cardColor": const Color(0xFF6750A4),
+      // Can not use {Theme.of(context).colorScheme.primary,} because of {context}
       "name": "Bonchon Chicken",
       "date": "3/04/23",
       "amount": "1000",
@@ -25,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
     },
     {
       "id": 2,
+      "cardColor": const Color(0xFF6750A4),
       "name": "ส้มตำร้านเด็ด",
       "date": "7/04/23",
       "amount": "700",
@@ -33,11 +36,39 @@ class _HomeScreenState extends State<HomeScreen> {
     },
     {
       "id": 3,
+      "cardColor": const Color(0xFF6750A4),
       "name": "KFB เจ้าดัง",
       "date": "12/04/23",
       "amount": "540",
       "image": "images/profile/dazai.jpg",
       "debtor": 1
+    },
+    {
+      "id": 4,
+      "cardColor": const Color(0xFF6750A4),
+      "name": "ตี๋น้อย",
+      "date": "13/04/23",
+      "amount": "870",
+      "image": "images/profile/dazai.jpg",
+      "debtor": 4
+    },
+    {
+      "id": 5,
+      "cardColor": const Color(0xFF6750A4),
+      "name": "Pizza Company",
+      "date": "15/04/23",
+      "amount": "430",
+      "image": "images/profile/dazai.jpg",
+      "debtor": 3
+    },
+    {
+      "id": 6,
+      "cardColor": const Color(0xFF22005D),
+      "name": "Seven Eleven",
+      "date": "17/04/23",
+      "amount": "350",
+      "image": "images/profile/dazai.jpg",
+      "debtor": 4
     },
   ];
 
@@ -103,14 +134,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Flexible(
-                      flex: 5,
+                      flex: 10,
                       child: Visibility(
                         visible: isVisible,
                         child: const CollectChart(),
                       ),
                     ),
                     Flexible(
-                        flex: 3,
+                        flex: 8,
                         child: Visibility(
                             visible: isVisible, child: const CollectDetail())),
                   ]),
@@ -119,14 +150,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Flexible(
-                      flex: 5,
+                      flex: 10,
                       child: Visibility(
                         visible: isVisible,
                         child: const PaidChart(),
                       ),
                     ),
                     Flexible(
-                        flex: 3,
+                        flex: 8,
                         child: Visibility(
                             visible: isVisible, child: const PaidDetail())),
                   ]),
@@ -136,20 +167,24 @@ class _HomeScreenState extends State<HomeScreen> {
               Padding(
                   padding: const EdgeInsets.all(8),
                   child: SizedBox(
-                      height: MediaQuery.of(context).size.height,
+                      height: MediaQuery.of(context).size.height +
+                          300, // if not + 300, bottom will be cut. Need to take above (chart) widget into account
                       width: 360,
                       child: ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
                           itemCount: foundList.length,
                           itemBuilder: (context, index) {
                             return HomeCard(
                               key: ValueKey(foundList[index]["id"]),
+                              cardColor: foundList[index]["cardColor"],
                               name: foundList[index]["name"],
                               date: foundList[index]["date"],
                               amount: foundList[index]["amount"],
                               image: foundList[index]["image"],
                               debtor: foundList[index]["debtor"],
                             );
-                          })))
+                          }))),
             ],
           ),
         ),
