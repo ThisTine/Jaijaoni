@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class ScanAddFriend extends StatefulWidget {
-  final Function(String) popWithData;
-  const ScanAddFriend({super.key, required this.popWithData});
+  const ScanAddFriend({super.key});
 
   @override
   State<ScanAddFriend> createState() => _ScanAddFriendState();
@@ -14,6 +13,8 @@ class ScanAddFriend extends StatefulWidget {
 class _ScanAddFriendState extends State<ScanAddFriend> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   // Barcode? result;
+  String _name = "test";
+
   QRViewController? controller;
 
   @override
@@ -26,12 +27,25 @@ class _ScanAddFriendState extends State<ScanAddFriend> {
     }
   }
 
+  // void checkValidate() {
+  //   if (_name.startsWith("@") && _name != null) {
+  //     // print(_name);
+  //     widget.popWithData(_name);
+  //   }
+  // }
+
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
-      if (scanData.code!.startsWith('@')) {
-        widget.popWithData(scanData.code!);
-        // Navigator.pop(context, scanData.code);
+      if (scanData.code!.startsWith('@') &&
+          mounted &&
+          scanData.code! != _name) {
+        // print(_name);
+        _name = scanData.code!;
+        Navigator.pop(context, scanData.code!);
+        // checkValidate();
+        // widget.popWithData(scanData.code!);
+        // context.go("/friends?search=${scanData.code}");
       }
     });
   }

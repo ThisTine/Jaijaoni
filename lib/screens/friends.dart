@@ -76,6 +76,9 @@ class _FriendsScreenState extends State<FriendsScreen> {
                     width: MediaQuery.of(context).size.width,
                     child: TextFormField(
                       controller: _searchController,
+                      onChanged: (value) {
+                        setState(() {});
+                      },
                       decoration: roundInput.copyWith(
                           labelText: "Search",
                           hintText: "Friend's name or username",
@@ -86,8 +89,12 @@ class _FriendsScreenState extends State<FriendsScreen> {
                     height: 10,
                   ),
                   toggleMode.contains("FRIEND_LIST")
-                      ? const FriendListContainer()
-                      : const FriendRequestContainer()
+                      ? FriendListContainer(
+                          searchData: _searchController.text,
+                        )
+                      : FriendRequestContainer(
+                          searchData: _searchController.text,
+                        )
                   // FriendItem(),
                   // FriendItem(),
                 ],
