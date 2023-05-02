@@ -31,7 +31,7 @@ class _HomeCardState extends State<HomeCard> {
       width: 360,
       child: GestureDetector(
         onTap: () => {
-          if (widget.cardColor == const Color(0xFF6750A4)) ...[
+          if (widget.cardColor == const Color(0xFF5DB08D)) ...[
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const DetailCreator()))
           ] else ...[
