@@ -34,7 +34,7 @@ class CollectDetail extends StatelessWidget {
         FilledButton(
           style: FilledButton.styleFrom(
               backgroundColor: const Color(0xFF5DB075),
-              fixedSize: const Size(100, 35)),
+              fixedSize: const Size(130, 40)),
           onPressed: () {
             Navigator.push(
                 context,
@@ -45,8 +45,8 @@ class CollectDetail extends StatelessWidget {
             "more details",
             style: TextStyle(
                 color: Colors.white,
-                fontSize: 12,
-                overflow: TextOverflow.ellipsis),
+                fontSize: 16,
+                overflow: TextOverflow.visible),
           ),
         )
       ],
