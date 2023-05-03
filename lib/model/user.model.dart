@@ -25,6 +25,7 @@ class Users {
         profilePic: data['profilePic'],
         username: data['username'],
         name: data['name'],
+        quote: data['quote'],
         friendList: data['friendList'] ?? [],
         accs: data['acc'] ?? []);
   }
