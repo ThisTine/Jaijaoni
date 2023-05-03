@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jaijaoni/config/theme/custom_wrapper.dart';
 //Muaymi
 
 import '../components/custom_app_bar.dart';
@@ -27,19 +28,24 @@ class _CreateDebtScreenState extends ConsumerState<CreateDebtScreen> {
             children: [
               Column(
                 children: [
-                  Row(
-                    children: [
-                      const SizedBox(width: 16.0),
-                      Text(
-                        'Debt Info',
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                            fontSize: Theme.of(context)
-                                .textTheme
-                                .displaySmall
-                                ?.fontSize),
+                  Center(
+                    child: Container(
+                      constraints: wrapperConstranints,
+                      child: Row(
+                        children: [
+                          const SizedBox(width: 16.0),
+                          Text(
+                            'Debt Info',
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                                fontSize: Theme.of(context)
+                                    .textTheme
+                                    .displaySmall
+                                    ?.fontSize),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                   const Expanded(child: DebtForm()),
                 ],

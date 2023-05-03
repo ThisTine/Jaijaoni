@@ -19,57 +19,60 @@ class _PaymentMethodBoxState extends State<PaymentMethodBox> {
       margin: const EdgeInsets.all(10),
       // width: 358,
       height: 82,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: Theme.of(context).colorScheme.secondaryContainer,
-          boxShadow: [
-            BoxShadow(
-                blurRadius: 4,
-                offset: const Offset(1, 1),
-                color: Colors.grey.withOpacity(0.5))
-          ]),
-      child: Row(
-        children: [
-          Expanded(
-            flex: 1,
-            child: Row(
-              children: [
-                const SizedBox(
-                  width: 13,
+      child: Material(
+        elevation: 1,
+        color: Theme.of(context).colorScheme.secondaryContainer,
+        borderRadius: BorderRadius.circular(20),
+        child: InkWell(
+          customBorder:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          onTap: () {
+            setState(() {
+              isChecked = !isChecked;
+            });
+          },
+          child: Row(
+            children: [
+              Expanded(
+                flex: 1,
+                child: Row(
+                  children: [
+                    const SizedBox(
+                      width: 13,
+                    ),
+                    showImage(),
+                    const SizedBox(
+                      width: 13,
+                    ),
+                    Flexible(
+                      child: Text(
+                        widget.number,
+                        style: TextStyle(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onPrimaryContainer,
+                            fontSize: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.fontSize),
+                      ),
+                    ),
+                  ],
                 ),
-                showImage(),
-                const SizedBox(
-                  width: 13,
+              ),
+              SizedBox(
+                width: 50,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Checkbox(value: isChecked, onChanged: (bool? check) {}),
+                    // const SizedBox(width: 10)
+                  ],
                 ),
-                Flexible(
-                  child: Text(
-                    widget.number,
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.onPrimaryContainer,
-                        fontSize:
-                            Theme.of(context).textTheme.titleMedium?.fontSize),
-                  ),
-                ),
-              ],
-            ),
+              )
+            ],
           ),
-          SizedBox(
-            width: 50,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Checkbox(
-                    value: isChecked,
-                    onChanged: (bool? check) {
-                      setState(() {
-                        isChecked = check!;
-                      });
-                    }),
-                // const SizedBox(width: 10)
-              ],
-            ),
-          )
-        ],
+        ),
       ),
     );
   }

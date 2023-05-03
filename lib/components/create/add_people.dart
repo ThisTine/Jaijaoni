@@ -179,19 +179,35 @@ class _AddPeopleState extends ConsumerState<AddPeople> {
 
   Widget addPeopleBox(
       List<SelectedFirend> peopleList, Function handleUpdatePeopleList) {
-    return GestureDetector(
-        onTap: () {
-          showModalBottomSheet(
-              context: context,
-              builder: (context) {
-                return FriendBottomsheet(
-                    peopleList: peopleList,
-                    handleSelectFriend: handleUpdatePeopleList);
-              });
-        },
-        child: const AddBoxButton(
-          title: 'Add People',
-          icon: Icons.add,
-        ));
+    return Container(
+      width: 358,
+      height: 82,
+      margin: const EdgeInsets.all(10),
+      // decoration: BoxDecoration(
+      //   borderRadius: BorderRadius.circular(20),
+      //   // color: Theme.of(context).colorScheme.secondaryContainer,
+      // ),
+      child: Material(
+        color: Theme.of(context).colorScheme.secondaryContainer,
+        borderRadius: BorderRadius.circular(20),
+        elevation: 2,
+        child: InkWell(
+            customBorder:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            onTap: () {
+              showModalBottomSheet(
+                  context: context,
+                  builder: (context) {
+                    return FriendBottomsheet(
+                        peopleList: peopleList,
+                        handleSelectFriend: handleUpdatePeopleList);
+                  });
+            },
+            child: const AddBoxButton(
+              title: 'Add People',
+              icon: Icons.add,
+            )),
+      ),
+    );
   }
 }

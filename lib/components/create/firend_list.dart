@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:jaijaoni/functions/create/get_friends.dart';
 
 import 'friend_list_check.dart';
 import 'selected_friend.dart';
@@ -18,17 +20,40 @@ class FriendList extends StatefulWidget {
 }
 
 class _FriendListState extends State<FriendList> {
+  bool _isLoading = true;
   List<SelectedFirend> friendList = [
-    SelectedFirend("001", "images/profile/dazai", "muaymi", 100),
-    SelectedFirend("002", "images/profile/dazai", "tine", 100),
-    SelectedFirend("003", "images/profile/dazai", "ri", 100),
-    SelectedFirend("004", "images/profile/dazai", "fah", 100),
-    SelectedFirend("005", "images/profile/dazai", "gun", 100),
-    SelectedFirend("006", "images/profile/dazai", "dazai", 100),
+    // SelectedFirend("001", "images/profile/dazai", "muaymi", 100),
+    // SelectedFirend("002", "images/profile/dazai", "tine", 100),
+    // SelectedFirend("003", "images/profile/dazai", "ri", 100),
+    // SelectedFirend("004", "images/profile/dazai", "fah", 100),
+    // SelectedFirend("005", "images/profile/dazai", "gun", 100),
+    // SelectedFirend("006", "images/profile/dazai", "dazai", 100),
   ];
 
   @override
   Widget build(BuildContext context) {
+    getFriends(FirebaseAuth.instance.currentUser!.uid).then((value) {
+      if (mounted) {
+        setState(() {
+          friendList = value.friendList
+              .map((e) => SelectedFirend(e, "images/profile/dazai", e, 0))
+              .toList();
+          _isLoading = false;
+        });
+      }
+    }).onError(
+      (error, stackTrace) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(error.toString())));
+        setState(() {
+          _isLoading = false;
+        });
+      },
+    );
+    if (_isLoading) {
+      return const SizedBox(
+          height: 200, width: 200, child: CircularProgressIndicator());
+    }
     return SingleChildScrollView(
       child: Wrap(
           children: friendList
