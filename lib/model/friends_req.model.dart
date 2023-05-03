@@ -19,4 +19,4 @@ class FriendsReqs {
   }
 }
 
-enum Status { requested, friend }
+enum Status { requested, accepted, rejected }
