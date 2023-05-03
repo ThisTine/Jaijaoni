@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Borrowers {
   final String borrowId;
+  final String debtId;
   final String lenderUsername;
   final String borrowerUsername;
   final double debtTotal;
@@ -11,6 +12,7 @@ class Borrowers {
 
   const Borrowers(
       {required this.borrowId,
+      required this.debtId,
       required this.lenderUsername,
       required this.borrowerUsername,
       required this.debtTotal,
@@ -22,6 +24,7 @@ class Borrowers {
     Map data = doc.data as Map;
     return Borrowers(
         borrowId: doc.id,
+        debtId: data['debtId'],
         lenderUsername: data['lenderUsername'],
         borrowerUsername: data['borrowerUsername'],
         debtTotal: data['debtTotal'],
