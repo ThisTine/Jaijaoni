@@ -7,7 +7,7 @@ class Borrowers {
   final String borrowerUsername;
   final double debtTotal;
   final double debtRemaining;
-  final Timestamp due;
+  final DateTime due;
   final Timestamp borrowedTime;
 
   const Borrowers(
