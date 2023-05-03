@@ -206,7 +206,7 @@ Widget debtAnalysisBox(BuildContext context) {
                             )
                           ]),
                       const SizedBox(height: 2),
-                      Text("Unpaid",
+                      Text("Paid",
                           style: Theme.of(context)
                               .textTheme
                               .labelLarge
