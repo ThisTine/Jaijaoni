@@ -31,7 +31,7 @@ class Users {
         charts: List<Map<String, dynamic>>.from(data['charts'] ?? [])
             .map((e) => Charts(
                 monthLabel: e['monthLabel'],
-                debtTotal: e['debtTotal'],
+                lendTotal: e['lendTotal'],
                 borrowTotal: e['borrowTotal']))
             .toList(),
         friendList: List<dynamic>.from(data['friendList'] ?? [])
@@ -57,19 +57,19 @@ class Accounts {
 
 class Charts {
   final String monthLabel;
-  final int debtTotal;
+  final int lendTotal;
   final int borrowTotal;
 
   const Charts(
       {required this.monthLabel,
-      required this.debtTotal,
+      required this.lendTotal,
       required this.borrowTotal});
 
   factory Charts.fromFireStore(DocumentSnapshot<Map<String, dynamic>> doc) {
     Map<String, dynamic> data = doc.data()!;
     return Charts(
         monthLabel: data['monthLabel'],
-        debtTotal: data['debtTotal'],
+        lendTotal: data['lendTotal'],
         borrowTotal: data['borrowTotal']);
   }
 }
