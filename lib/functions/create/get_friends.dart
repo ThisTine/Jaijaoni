@@ -6,7 +6,6 @@ Future<Users> getFriends(String userId) async {
   try {
     DocumentSnapshot<Map<String, dynamic>> user =
         await FireStoreService.collection.users.doc(userId).get();
-    print(user.data());
     return Users.fromFireStore(user);
   } catch (err) {
     rethrow;
