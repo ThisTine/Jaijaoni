@@ -16,8 +16,8 @@ class Debts {
       required this.createTime,
       required this.transactions});
 
-  factory Debts.fromFireStore(DocumentSnapshot doc) {
-    Map data = doc.data as Map;
+  factory Debts.fromFireStore(DocumentSnapshot<Map<String, dynamic>> doc) {
+    Map<String, dynamic> data = doc.data()!;
     return Debts(
         debtId: doc.id,
         userId: data['userId'],
@@ -44,8 +44,8 @@ class Transactions {
       required this.isApproved,
       required this.errMessage});
 
-  factory Transactions.fromFireStore(DocumentSnapshot doc) {
-    Map data = doc.data as Map;
+  factory Transactions.fromFireStore(DocumentSnapshot<Map<String, dynamic>> doc) {
+    Map<String, dynamic> data = doc.data()!;
     return Transactions(
         borrowId: data['borrowId'],
         username: data['username'],

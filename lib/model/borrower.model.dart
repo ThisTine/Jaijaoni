@@ -20,8 +20,8 @@ class Borrowers {
       required this.due,
       required this.borrowedTime});
 
-  factory Borrowers.fromFireStore(DocumentSnapshot doc) {
-    Map data = doc.data as Map;
+  factory Borrowers.fromFireStore(DocumentSnapshot<Map<String, dynamic>> doc) {
+    Map<String, dynamic> data = doc.data()!;
     return Borrowers(
         borrowId: doc.id,
         debtId: data['debtId'],
