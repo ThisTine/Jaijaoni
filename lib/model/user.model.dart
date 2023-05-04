@@ -6,8 +6,9 @@ class Users {
   final String username;
   final String name;
   final String? quote;
+  final List<Charts> charts;
   final List<String> friendList;
-  final List<Account> accs;
+  final List<Accounts> accs;
 
   const Users(
       {required this.userId,
@@ -15,6 +16,7 @@ class Users {
       required this.username,
       required this.name,
       this.quote,
+      required this.charts,
       required this.friendList,
       required this.accs});
 
@@ -26,23 +28,48 @@ class Users {
         username: data['username'],
         name: data['name'],
         quote: data['quote'],
+        charts: List<Map<String, dynamic>>.from(data['charts'] ?? [])
+            .map((e) => Charts(
+                monthLabel: e['monthLabel'],
+                debtTotal: e['debtTotal'],
+                borrowTotal: e['borrowTotal']))
+            .toList(),
         friendList: List<dynamic>.from(data['friendList'] ?? [])
             .map((e) => e.toString())
             .toList(),
         accs: List<Map<String, dynamic>>.from(data['accs'] ?? [])
-            .map((e) => Account(accName: e['accName'], accNo: e['accNo']))
+            .map((e) => Accounts(accName: e['accName'], accNo: e['accNo']))
             .toList());
   }
 }
 
-class Account {
+class Accounts {
   final String accName;
   final String accNo;
 
-  const Account({required this.accName, required this.accNo});
+  const Accounts({required this.accName, required this.accNo});
 
-  factory Account.fromFireStore(DocumentSnapshot<Map<String, dynamic>> doc) {
+  factory Accounts.fromFireStore(DocumentSnapshot<Map<String, dynamic>> doc) {
     Map<String, dynamic> data = doc.data()!;
-    return Account(accName: data['accName'], accNo: data['accNo']);
+    return Accounts(accName: data['accName'], accNo: data['accNo']);
+  }
+}
+
+class Charts {
+  final String monthLabel;
+  final int debtTotal;
+  final int borrowTotal;
+
+  const Charts(
+      {required this.monthLabel,
+      required this.debtTotal,
+      required this.borrowTotal});
+
+  factory Charts.fromFireStore(DocumentSnapshot<Map<String, dynamic>> doc) {
+    Map<String, dynamic> data = doc.data()!;
+    return Charts(
+        monthLabel: data['monthLabel'],
+        debtTotal: data['debtTotal'],
+        borrowTotal: data['borrowTotal']);
   }
 }

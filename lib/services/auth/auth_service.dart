@@ -88,6 +88,7 @@ class AuthService {
             profilePic: signedInCredential.user!.photoURL ?? "",
             username: signedInCredential.user!.email ?? "",
             name: signedInCredential.user!.email ?? "",
+            charts: [],
             friendList: [],
             accs: []);
         await _addUserToDB(user);
@@ -116,6 +117,7 @@ class AuthService {
             profilePic: signedInCredential.user!.photoURL ?? "",
             username: signedInCredential.user!.displayName ?? "",
             name: signedInCredential.user!.email ?? "",
+            charts: [],
             friendList: [],
             accs: []);
         await _addUserToDB(user);
@@ -149,6 +151,7 @@ class AuthService {
           profilePic: signedUpCredential.user!.photoURL ?? "",
           username: username,
           name: username,
+          charts: [],
           friendList: [],
           accs: []);
       await _addUserToDB(user);
