@@ -3,7 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Borrowers {
   final String borrowId;
   final String debtId;
+  final String lenderUserId;
   final String lenderUsername;
+  final String borrowerUserId;
   final String borrowerUsername;
   final double debtTotal;
   final double debtRemaining;
@@ -13,7 +15,9 @@ class Borrowers {
   const Borrowers(
       {required this.borrowId,
       required this.debtId,
+      required this.lenderUserId,
       required this.lenderUsername,
+      required this.borrowerUserId,
       required this.borrowerUsername,
       required this.debtTotal,
       required this.debtRemaining,
@@ -25,7 +29,9 @@ class Borrowers {
     return Borrowers(
         borrowId: doc.id,
         debtId: data['debtId'],
+        lenderUserId: data['lenderUserId'],
         lenderUsername: data['lenderUsername'],
+        borrowerUserId: data['borrowerUserId'],
         borrowerUsername: data['borrowerUsername'],
         debtTotal: data['debtTotal'],
         debtRemaining: data['debtRemaining'],
