@@ -6,7 +6,8 @@ import 'package:jaijaoni/components/payment/payment_form.dart';
 import '../components/custom_app_bar.dart';
 
 class PaymentScreen extends ConsumerWidget {
-  const PaymentScreen({super.key});
+  final String debtId;
+  const PaymentScreen({super.key,this.debtId = ""});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
