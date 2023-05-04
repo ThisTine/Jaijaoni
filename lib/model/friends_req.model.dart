@@ -10,8 +10,8 @@ class FriendsReqs {
       required this.anotherUsername,
       required this.status});
 
-  factory FriendsReqs.fromFireStore(DocumentSnapshot doc) {
-    Map data = doc.data as Map;
+  factory FriendsReqs.fromFireStore(DocumentSnapshot<Map<String, dynamic>> doc) {
+    Map<String, dynamic> data = doc.data()!;
     return FriendsReqs(
         username: data['username'],
         anotherUsername: data['anotherUsername'],
