@@ -22,12 +22,16 @@ class Users {
     Map<String, dynamic> data = doc.data()!;
     return Users(
         userId: doc.id,
-        profilePic: data['profilePic'],
+        profilePic: data['profilePic'] ?? '',
         username: data['username'],
         name: data['name'],
         quote: data['quote'],
-        friendList: (data['friendList'] as List<dynamic>).map((e) => e.toString()).toList(),
-        accs: (data['accs'] as List<Map<String, dynamic>>).map((e) => Account(accName: e['accName'], accNo: e['accNo'])).toList());
+        friendList: List<dynamic>.from(data['friendList'] ?? [])
+            .map((e) => e.toString())
+            .toList(),
+        accs: List<Map<String, dynamic>>.from(data['accs'] ?? [])
+            .map((e) => Account(accName: e['accName'], accNo: e['accNo']))
+            .toList());
   }
 }
 

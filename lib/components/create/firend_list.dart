@@ -31,7 +31,8 @@ class _FriendListState extends State<FriendList> {
   ];
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    // TODO: implement initState
     getFriends(FirebaseAuth.instance.currentUser!.uid).then((value) {
       if (mounted) {
         setState(() {
@@ -43,6 +44,8 @@ class _FriendListState extends State<FriendList> {
       }
     }).onError(
       (error, stackTrace) {
+        // print(error);
+
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text(error.toString())));
         setState(() {
@@ -50,6 +53,11 @@ class _FriendListState extends State<FriendList> {
         });
       },
     );
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     if (_isLoading) {
       return const SizedBox(
           height: 200, width: 200, child: CircularProgressIndicator());
