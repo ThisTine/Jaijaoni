@@ -1,10 +1,9 @@
-// import { firestore } from "firebase-admin";
-// import * as functions from "firebase-functions";
+import { firestore } from "firebase-admin";
+import * as functions from "firebase-functions";
 
 // // Start writing functions
 // // https://firebase.google.com/docs/functions/typescript
-//
-// export const helloWorld = functions.https.onRequest((request, response) => {
-//   functions.logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+
+// export const recalculateDebt = functions.firestore.document('/Borrowers/{borrowersId}').onCreate((snapshot)=>{
+//     snapshot.data()
+// })
