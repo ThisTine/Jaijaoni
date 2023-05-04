@@ -4,7 +4,7 @@ class Debts {
   final String debtId;
   final String userId;
   final String username;
-  final List<String> borrowersUsername;
+  final List<String> borrowersUserId;
   final String debtName;
   final int debtTotal;
   final Timestamp createTime;
@@ -15,7 +15,7 @@ class Debts {
       {required this.debtId,
       required this.userId,
       required this.username,
-      required this.borrowersUsername,
+      required this.borrowersUserId,
       required this.debtName,
       required this.debtTotal,
       required this.createTime,
@@ -28,7 +28,7 @@ class Debts {
         debtId: doc.id,
         userId: data['userId'],
         username: data['username'],
-        borrowersUsername: List<dynamic>.from(data['borrowersUsername'] ?? [])
+        borrowersUserId: List<dynamic>.from(data['borrowersUserId'] ?? [])
             .map((e) => e.toString())
             .toList(),
         debtName: data['debtname'],
