@@ -152,7 +152,7 @@ class _PaymentBottomsheetState extends State<PaymentBottomsheet> {
                               widget.handlePaymentMethod(
                                   [...newPayment, newValue]);
                               Navigator.pop(context);
-                              }).onError((error, stackTrace) {print(stackTrace);});
+                              });
 
                             }
                           },

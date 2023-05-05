@@ -32,7 +32,6 @@ class _FriendListState extends State<FriendList> {
 
   @override
   void initState() {
-    // TODO: implement initState
     getFriends(FirebaseAuth.instance.currentUser!.uid).then((value) {
       if (mounted) {
         setState(() {
