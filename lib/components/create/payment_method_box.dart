@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 
 class PaymentMethodBox extends StatefulWidget {
   const PaymentMethodBox(
-      {super.key, required this.method, required this.number});
+      {super.key, required this.method, required this.number, required this.isCheck,required this.switchIsCheck});
   final String method;
   final String number;
+  final bool isCheck;
+  final Function switchIsCheck;
 
   @override
   State<PaymentMethodBox> createState() => _PaymentMethodBoxState();
 }
 
 class _PaymentMethodBoxState extends State<PaymentMethodBox> {
-  bool isChecked = true;
-
+  late bool isCheck = widget.isCheck;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,8 +28,9 @@ class _PaymentMethodBoxState extends State<PaymentMethodBox> {
           customBorder:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           onTap: () {
+            widget.switchIsCheck();
             setState(() {
-              isChecked = !isChecked;
+              isCheck = !isCheck;
             });
           },
           child: Row(
@@ -65,7 +67,7 @@ class _PaymentMethodBoxState extends State<PaymentMethodBox> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Checkbox(value: isChecked, onChanged: (bool? check) {}),
+                    Checkbox(value: isCheck, onChanged: (bool? check) {}),
                     // const SizedBox(width: 10)
                   ],
                 ),

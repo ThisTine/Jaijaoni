@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:jaijaoni/functions/create/add_payment.dart';
 import 'package:jaijaoni/functions/create/payment_formatter.dart';
+
+import '../../providers/create/create_debt_data_provider.dart';
 
 class PaymentBottomsheet extends StatefulWidget {
   const PaymentBottomsheet(
       {super.key,
       required this.handlePaymentMethod,
       required this.paymentList});
-  final Function handlePaymentMethod;
-  final List<Map<String, String>> paymentList;
+  final Function(List<PaymentOption>) handlePaymentMethod;
+  final List<PaymentOption> paymentList;
 
   @override
   State<PaymentBottomsheet> createState() => _PaymentBottomsheetState();
@@ -18,8 +21,8 @@ class _PaymentBottomsheetState extends State<PaymentBottomsheet> {
   final _paymentNumber = TextEditingController();
   final items = ["KBank", "SCB", "PromptPay"];
   String selectedValue = "PromptPay";
-  late final List<Map<String, String>> newPayment;
-  late final Map<String, String> newValue;
+  late final List<PaymentOption> newPayment;
+  late final PaymentOption newValue;
 
   String buildFormatString(String text, int index, String replaceTxt) {
     String st = "";
@@ -139,14 +142,18 @@ class _PaymentBottomsheetState extends State<PaymentBottomsheet> {
                           onPressed: () {
                             if (_paymentFormKey.currentState!.validate()) {
                               setState(() {
-                                newValue = {
-                                  "method": selectedValue,
-                                  "number": _paymentNumber.text
-                                };
+                                newValue = PaymentOption(channel: selectedValue, number: _paymentNumber.text,isCheck: true);
+                                // newValue = {
+                                //   "method": selectedValue,
+                                //   "number": _paymentNumber.text
+                                // };
                               });
+                              addPayment(newValue).then((value){
                               widget.handlePaymentMethod(
                                   [...newPayment, newValue]);
                               Navigator.pop(context);
+                              }).onError((error, stackTrace) {print(stackTrace);});
+
                             }
                           },
                           child: Text(

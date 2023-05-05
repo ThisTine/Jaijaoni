@@ -58,7 +58,7 @@ class AuthService {
         "username": user.username,
         "name": user.name,
         "profilePic": user.profilePic,
-        "acc": [],
+        "accs": [],
         "friendList": []
       });
     } catch (err) {

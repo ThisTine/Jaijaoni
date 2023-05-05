@@ -2,15 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jaijaoni/components/create/selected_friend.dart';
 
+class PaymentOption {
+  final String channel;
+  final String number;
+  final bool isCheck;
+  PaymentOption(
+      {required this.channel, required this.number, this.isCheck = false});
+}
+
 class CreateDebtData extends ChangeNotifier {
   String name = "";
-  String dueDate = "";
+  DateTime? dueDate;
   double totalPrice = 0;
   List<SelectedFirend> friendList = [];
-  List<Map<String, String>> paymentList = [];
+  List<PaymentOption> paymentList = [];
   void changeDeptInfo(
       {required String name,
-      required String dueDate,
+      required DateTime dueDate,
       required double totalPrice}) {
     this.name = name;
     this.dueDate = dueDate;
@@ -24,8 +32,39 @@ class CreateDebtData extends ChangeNotifier {
     notifyListeners();
   }
 
-  void changePayment({required List<Map<String, String>> paymentList}) {
+  void changePayment({required List<PaymentOption> paymentList}) {
     this.paymentList = paymentList;
+    notifyListeners();
+  }
+
+  void addPayment({required List<PaymentOption> paymentList}) {
+    var updatedpaymentOption = this
+        .paymentList
+        .where((element) => !paymentList
+            .where((element2) =>
+                element.channel == element2.channel &&
+                element.number == element2.number)
+            .toList()
+            .isNotEmpty)
+        .toList();
+    for (var payment in paymentList) {
+      updatedpaymentOption
+          .add(PaymentOption(channel: payment.channel, number: payment.number));
+    }
+    this.paymentList = updatedpaymentOption;
+    notifyListeners();
+    // updatedpaymentOption.add(PaymentOption(channel: channel, number: number))
+  }
+
+  void switchSelectPayment(PaymentOption paymentoption) {
+    List<PaymentOption> updatedPaymentList = paymentList
+        .map((e) => e.channel == paymentoption.channel &&
+                e.number == paymentoption.number
+            ? PaymentOption(
+                channel: e.channel, number: e.number, isCheck: !e.isCheck)
+            : e)
+        .toList();
+    paymentList = updatedPaymentList;
     notifyListeners();
   }
 
@@ -43,11 +82,13 @@ class CreateDebtData extends ChangeNotifier {
         .map((e) => e.isCustomed
             ? e
             : SelectedFirend(
-                e.id,
-                e.imagePath,
-                e.name,
-                double.parse(
-                    (remainingPrice / peopleWithNoCustom).toStringAsFixed(2))))
+                id: e.id,
+                imagePath: e.imagePath,
+                name: e.name,
+                price: double.parse(
+                    (remainingPrice / peopleWithNoCustom).toStringAsFixed(2)),
+                username: e.username,
+              ))
         .toList();
 
     friendList = calculatedPeopleList;
@@ -55,7 +96,7 @@ class CreateDebtData extends ChangeNotifier {
 
   void clear() {
     name = "";
-    dueDate = "";
+    dueDate = null;
     totalPrice = 0;
     friendList = [];
     paymentList = [];
