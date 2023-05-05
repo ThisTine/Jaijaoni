@@ -36,7 +36,6 @@ class Debts {
         createTime: data['createTime'],
         payChannels: List<Map<String, dynamic>>.from(data['payChannels'] ?? [])
             .map((e) => PayChannels(
-                debtId: e['debtId'],
                 channel: e['channel'],
                 number: e['number']))
             .toList(),
@@ -85,18 +84,16 @@ class Transactions {
 enum IsApproved { success, error, pending }
 
 class PayChannels {
-  final String debtId;
   final String channel;
   final String number;
 
   const PayChannels(
-      {required this.debtId, required this.channel, required this.number});
+      {required this.channel, required this.number});
 
   factory PayChannels.fromFireStore(
       DocumentSnapshot<Map<String, dynamic>> doc) {
     Map<String, dynamic> data = doc.data()!;
     return PayChannels(
-        debtId: data['debtId'],
         channel: data['channel'],
         number: data['number']);
   }
