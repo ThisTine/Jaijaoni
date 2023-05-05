@@ -33,7 +33,7 @@ class _AddPeopleState extends ConsumerState<AddPeople> {
     List<SelectedFirend> calculatedPeopleList = peopleList
         .map((e) => e.id == id
             ? SelectedFirend(
-                id, e.imagePath, e.name, double.parse(price.toStringAsFixed(2)),
+              id: id,imagePath:  e.imagePath,name:  e.name,price:  double.parse(price.toStringAsFixed(2)), username: e.username,
                 isCustomed: true)
             : e)
         .toList();
@@ -57,10 +57,11 @@ class _AddPeopleState extends ConsumerState<AddPeople> {
         .map((e) => e.isCustomed
             ? e
             : SelectedFirend(
-                e.id,
-                e.imagePath,
-                e.name,
-                double.parse(
+              id:                 e.id,
+               imagePath:  e.imagePath,
+               name:  e.name,
+               username: e.username,
+               price:   double.parse(
                     (remainingPrice / peopleWithNoCustom).toStringAsFixed(2))))
         .toList();
 

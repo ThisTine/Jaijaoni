@@ -70,7 +70,7 @@ class _EditPaymentState extends State<EditPayment> {
                 });
               }),
               ...paymentList.map((e) =>
-                  PaymentMethodBox(method: e["method"]!, number: e["number"]!)),
+                  PaymentMethodBox(method: e["method"]!, number: e["number"]!,isCheck: false,switchIsCheck: ()=>{},)),
               const SizedBox(
                 height: 50,
               )

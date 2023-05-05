@@ -18,7 +18,8 @@ class _DebtFormState extends ConsumerState<DebtForm> {
   late final allInfo = ref.watch(createDebtDataProvider);
   final _formKey = GlobalKey<FormState>();
   late final _name = TextEditingController(text: allInfo.name);
-  late final _dueDate = TextEditingController(text: allInfo.dueDate);
+  late final _dueDate = TextEditingController(text: allInfo.dueDate == null ? "" : "${allInfo.dueDate!.year}-${allInfo.dueDate!.month}-${allInfo.dueDate!.day}");
+  late DateTime? dueDateTime = allInfo.dueDate;
   late final _price = TextEditingController(
       text:
           allInfo.totalPrice <= 0 ? "" : allInfo.totalPrice.toStringAsFixed(2));
@@ -28,15 +29,19 @@ class _DebtFormState extends ConsumerState<DebtForm> {
     try {
       final DateTime? picked = await showDatePicker(
           context: context,
-          initialDate: _dueDate.text == ""
-              ? DateTime.now()
-              : DateTime.parse(_dueDate.text),
+          initialDate: dueDateTime ?? DateTime.now() ,
           firstDate: DateTime.now(),
           lastDate: DateTime(2025));
       if (picked != null) {
         _dueDate.text = "${picked.year}-${picked.month}-${picked.day}";
+        setState(() {
+          dueDateTime = picked;
+        });
       } else {
         _dueDate.text = "";
+        setState(() {
+          dueDateTime = null;
+        });
       }
       setState(() {});
     } catch (err) {
@@ -154,7 +159,7 @@ class _DebtFormState extends ConsumerState<DebtForm> {
                     if (_formKey.currentState!.validate()) {
                       allInfo.changeDeptInfo(
                           name: _name.text,
-                          dueDate: _dueDate.text,
+                          dueDate: dueDateTime ?? DateTime.now(),
                           totalPrice: double.parse(_price.text));
                       Navigator.push(
                           context,

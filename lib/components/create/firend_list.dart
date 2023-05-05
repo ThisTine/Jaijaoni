@@ -32,12 +32,11 @@ class _FriendListState extends State<FriendList> {
 
   @override
   void initState() {
-    // TODO: implement initState
     getFriends(FirebaseAuth.instance.currentUser!.uid).then((value) {
       if (mounted) {
         setState(() {
-          friendList = value.friendList
-              .map((e) => SelectedFirend(e, "images/profile/dazai", e, 0))
+          friendList = value
+              .map((e) => SelectedFirend(id:e.id,imagePath: "",name: e.name,price: 0,username: e.username))
               .toList();
           _isLoading = false;
         });
