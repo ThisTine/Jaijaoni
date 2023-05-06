@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:jaijaoni/functions/utils/find_user_by_id.dart';
 import 'package:jaijaoni/model/user.model.dart';
-import 'package:jaijaoni/providers/friends/show_snackBar.dart';
+import 'package:jaijaoni/providers/friends/show_snackbar.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class ViewQRAddFriend extends StatefulWidget {

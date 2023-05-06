@@ -3,7 +3,7 @@ import 'package:jaijaoni/components/friends/addfriend_alert_dialog.dart';
 import 'package:jaijaoni/components/friends/unfriend_alert_dialog.dart';
 import 'package:jaijaoni/functions/friends/accept_firend_request.dart';
 import 'package:jaijaoni/functions/friends/reject_friend_request.dart';
-import 'package:jaijaoni/providers/friends/show_snackBar.dart';
+import 'package:jaijaoni/providers/friends/show_snackbar.dart';
 import 'package:jaijaoni/screens/friend_profile.dart';
 
 class FriendItem extends StatelessWidget {
