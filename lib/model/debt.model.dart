@@ -6,7 +6,7 @@ class Debts {
   final String username;
   final List<String> borrowersUserId;
   final String debtName;
-  final int debtTotal;
+  final double debtTotal;
   final Timestamp createTime;
   final Timestamp due;
   final List<PayChannels> payChannels;
