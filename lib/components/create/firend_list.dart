@@ -33,6 +33,8 @@ class _FriendListState extends State<FriendList> {
   @override
   void initState() {
     getFriends(FirebaseAuth.instance.currentUser!.uid).then((value) {
+          print(friendList);
+
       if (mounted) {
         setState(() {
           friendList = value
@@ -43,6 +45,8 @@ class _FriendListState extends State<FriendList> {
       }
     }).onError(
       (error, stackTrace) {
+          print(error);
+
         // print(error);
 
         ScaffoldMessenger.of(context)
