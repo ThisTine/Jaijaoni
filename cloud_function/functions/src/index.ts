@@ -36,7 +36,7 @@ export const recalculateDebt = functions.firestore
     const createdDate = snapshot.createTime.toDate();
     const monthLabel = `${
       MONTHS[createdDate.getMonth()]
-    },${createdDate.getFullYear()}`;
+    }, ${createdDate.getFullYear()}`;
     const borrowerData = snapshot.data() as {
       borrowId: string;
       lenderUserId: string;

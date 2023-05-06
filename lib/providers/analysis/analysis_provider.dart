@@ -25,7 +25,7 @@ class AnalysisData extends ChangeNotifier {
         lentPrice: 500, borrowPrice: 10, yearMonthLabel: "April,2023")
   ];
   bool isBarLoading = false;
-  String selectedBar = 'April,2023';
+  String selectedBar = 'April, 2023';
   AnalysisData();
 
   void setSelectedBar(String yearMonthLabel) {
