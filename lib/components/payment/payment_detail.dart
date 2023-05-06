@@ -3,14 +3,15 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:jaijaoni/components/payment/paymen_upload.dart';
+import 'package:jaijaoni/functions/payment/check_paych.dart';
 import 'package:promptpay_qrcode_generate/promptpay_qrcode_generate.dart';
 import 'package:image_picker/image_picker.dart';
 import '../custom_app_bar.dart';
 
 class PaymentDetail extends StatefulWidget {
-  const PaymentDetail({Key? key, required this.amounts}) : super(key: key);
-
+  const PaymentDetail({super.key, required this.amounts, required this.deptId});
   final double amounts;
+  final String deptId;
 
   @override
   State<PaymentDetail> createState() => _PaymentDetailState();
@@ -19,6 +20,11 @@ class PaymentDetail extends StatefulWidget {
 class _PaymentDetailState extends State<PaymentDetail> {
   File? imagefile;
   final ImagePicker _picker = ImagePicker();
+  late PayRes check;
+  _check() async {
+    check = await checkPaych(widget.deptId);
+  }
+
   _getFromGallery() async {
     XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
@@ -45,6 +51,7 @@ class _PaymentDetailState extends State<PaymentDetail> {
 
   @override
   Widget build(BuildContext context) {
+    _check();
     return Scaffold(
         appBar: customAppBarBuilder(context, text: "Pay", backButton: true),
         body: Stack(
@@ -57,9 +64,21 @@ class _PaymentDetailState extends State<PaymentDetail> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    Paydetail(
-                      amount: widget.amounts,
-                    ),
+                    // check.check == 1
+                    //     ? Payqr(
+                    //         amount: widget.amounts,
+                    //         promptPay: check.promptPay,
+                    //       )
+                    //     : check.check == 2
+                    //         ? Paybank(
+                    //             amount: widget.amounts,
+                    //             bank: check.bank,
+                    //           )
+                    //         : Paydetail(
+                    //             amount: widget.amounts,
+                    //             promptPay: check.promptPay,
+                    //             bank: check.bank,
+                    //           ),
                   ],
                 ),
               ),
@@ -86,8 +105,14 @@ class _PaymentDetailState extends State<PaymentDetail> {
 }
 
 class Paydetail extends StatefulWidget {
-  const Paydetail({super.key, required this.amount});
+  const Paydetail(
+      {super.key,
+      required this.amount,
+      required this.promptPay,
+      required this.bank});
   final double amount;
+  final PromptPay promptPay;
+  final Bank bank;
 
   @override
   State<Paydetail> createState() => PaydetailState();
@@ -128,8 +153,12 @@ class PaydetailState extends State<Paydetail> {
           child: payView == 0
               ? Payqr(
                   amount: widget.amount,
+                  promptPay: widget.promptPay,
                 )
-              : Paybank(amount: widget.amount),
+              : Paybank(
+                  amount: widget.amount,
+                  bank: widget.bank,
+                ),
         )
       ],
     );
@@ -137,8 +166,9 @@ class PaydetailState extends State<Paydetail> {
 }
 
 class Payqr extends StatelessWidget {
-  const Payqr({super.key, required this.amount});
+  const Payqr({super.key, required this.amount, required this.promptPay});
   final double amount;
+  final PromptPay promptPay;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -180,8 +210,9 @@ class Payqr extends StatelessWidget {
 
 // ignore: camel_case_types
 class Paybank extends StatelessWidget {
-  const Paybank({super.key, required this.amount});
+  const Paybank({super.key, required this.amount, required this.bank});
   final double amount;
+  final Bank bank;
   @override
   Widget build(BuildContext context) {
     return Column(
