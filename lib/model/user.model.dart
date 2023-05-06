@@ -57,8 +57,8 @@ class Accounts {
 
 class Charts {
   final String monthLabel;
-  final int lendTotal;
-  final int borrowTotal;
+  final double lendTotal;
+  final double borrowTotal;
 
   const Charts(
       {required this.monthLabel,
