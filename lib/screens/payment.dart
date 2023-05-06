@@ -39,6 +39,7 @@ class PaymentScreen extends ConsumerWidget {
             Paymentform(
               formKey: formKey,
               amount: amount,
+              detpId: debtId,
             ),
             Expanded(
               child: Align(
