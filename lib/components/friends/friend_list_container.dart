@@ -1,35 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:jaijaoni/model/user.model.dart';
 
 import 'friend_item.dart';
-import 'friend_mock_data.dart';
 
 class FriendListContainer extends StatelessWidget {
   final String searchData;
-  const FriendListContainer({super.key, required this.searchData});
+  final List<Users> friends;
+
+  const FriendListContainer({super.key, required this.searchData,required this.friends});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ...friendList
+        ...friends
             .where((element) =>
-                element['isRequest'] == false &&
+                // element['isRequest'] == false &&
                 (searchData.toString().startsWith('@')
                     ? true
-                    : element['isFriend'] == true) &&
+                    : true) &&
                 (searchData.toString().startsWith('@')
-                    ? element['username'].toString() == searchData
-                    : element['name'].toString().contains(searchData)))
+                    ? element.username.toString() == searchData
+                    : element.name.toString().contains(searchData)))
             .toList()
             .asMap()
             .map((key, value) => MapEntry(
                 key,
                 FriendItem(
+                  getData: (){},
                   id: key.toString(),
-                  name: value['name'],
-                  profile: "https://i.pravatar.cc/150?img=${value['username']}",
-                  username: value['username'],
-                  isFriend: value['isFriend'],
+                  name: value.name,
+                  profile: "https://i.pravatar.cc/150?img=${value.userId}",
+                  username: value.username,
+                  isFriend: true,
                 )))
             .values
             .toList()
