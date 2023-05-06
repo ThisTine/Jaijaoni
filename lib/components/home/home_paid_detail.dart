@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../screens/analysis.dart';
+import '../../screens/analysis.dart';
 
 class PaidDetail extends StatelessWidget {
   const PaidDetail({super.key});
@@ -35,7 +34,7 @@ class PaidDetail extends StatelessWidget {
         FilledButton(
           style: FilledButton.styleFrom(
               backgroundColor: Theme.of(context).colorScheme.primary,
-              fixedSize: const Size(125, 40)),
+              fixedSize: const Size(130, 40)),
           onPressed: () {
             Navigator.push(
                 context,
@@ -45,9 +44,9 @@ class PaidDetail extends StatelessWidget {
           child: const Text(
             "more details",
             style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-            ),
+                color: Colors.white,
+                fontSize: 16,
+                overflow: TextOverflow.visible),
           ),
         )
       ],

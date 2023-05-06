@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
+import 'debt_list_mock.dart';
 import 'debt_person_item.dart';
 
 class DebtListPeople extends StatefulWidget {
+  final String monthLabel;
   const DebtListPeople({
     super.key,
+    required this.monthLabel,
   });
 
   @override
@@ -15,6 +18,10 @@ class _DebtListPeopleState extends State<DebtListPeople> {
   Set<bool> _isLent = {false};
   @override
   Widget build(BuildContext context) {
+    mockDataDebtList.sort(
+      (a, b) => a['price'] > b['price'] ? 0 : 1,
+    );
+
     return Column(
       children: [
         SegmentedButton(
@@ -30,14 +37,20 @@ class _DebtListPeopleState extends State<DebtListPeople> {
           },
           multiSelectionEnabled: false,
         ),
-        for (int i = 0; i < 10; i++)
-          DebtPeopleItem(
-            name: "Tine",
-            position: i + 1,
-            id: i.toString(),
-            price: 200,
-            profileImage: "https://www.thistine.com/img/me.webp",
-          )
+        ...mockDataDebtList
+            .where((element) =>
+                element['montLabel'] == widget.monthLabel &&
+                element['isLent'] == _isLent.first)
+            .toList()
+            .asMap()
+            .entries
+            .map((e) => DebtPeopleItem(
+                id: e.key.toString(),
+                name: e.value['name'],
+                price: (e.value['price'] as int).toDouble(),
+                profileImage:
+                    "https://i.pravatar.cc/150?img=${e.value['name']}",
+                position: e.key + 1))
       ],
     );
   }

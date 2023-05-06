@@ -75,7 +75,10 @@ flutter:
   assets:
     - .env
     - images/authentication/
+    - images/profile/
+    - images/payment/
     - images/analysis/
+    - images/profile/
     - images/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

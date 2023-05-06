@@ -4,27 +4,52 @@ class Debts {
   final String debtId;
   final String userId;
   final String username;
+  final List<String> borrowersUserId;
   final String debtName;
+  final int debtTotal;
   final Timestamp createTime;
+  final Timestamp due;
+  final List<PayChannels> payChannels;
   final List<Transactions> transactions;
 
   const Debts(
       {required this.debtId,
       required this.userId,
       required this.username,
+      required this.borrowersUserId,
       required this.debtName,
+      required this.debtTotal,
       required this.createTime,
+      required this.due,
+      required this.payChannels,
       required this.transactions});
 
-  factory Debts.fromFireStore(DocumentSnapshot doc) {
-    Map data = doc.data as Map;
+  factory Debts.fromFireStore(DocumentSnapshot<Map<String, dynamic>> doc) {
+    Map<String, dynamic> data = doc.data()!;
     return Debts(
         debtId: doc.id,
         userId: data['userId'],
         username: data['username'],
+        borrowersUserId: List<dynamic>.from(data['borrowersUserId'] ?? [])
+            .map((e) => e.toString())
+            .toList(),
         debtName: data['debtname'],
+        debtTotal: data['debtTotal'],
         createTime: data['createTime'],
-        transactions: data['transactions'] ?? []);
+        due: data['due'],
+        payChannels: List<Map<String, dynamic>>.from(data['payChannels'] ?? [])
+            .map((e) => PayChannels(channel: e['channel'], number: e['number']))
+            .toList(),
+        transactions:
+            List<Map<String, dynamic>>.from(data['transactions'] ?? [])
+                .map((e) => Transactions(
+                    borrowId: e['borrowId'],
+                    username: e['username'],
+                    profilePic: e['profilePic'],
+                    amount: e['amount'],
+                    isApproved: e['isApproved'],
+                    errMessage: e['errMessage']))
+                .toList());
   }
 }
 
@@ -44,8 +69,9 @@ class Transactions {
       required this.isApproved,
       required this.errMessage});
 
-  factory Transactions.fromFireStore(DocumentSnapshot doc) {
-    Map data = doc.data as Map;
+  factory Transactions.fromFireStore(
+      DocumentSnapshot<Map<String, dynamic>> doc) {
+    Map<String, dynamic> data = doc.data()!;
     return Transactions(
         borrowId: data['borrowId'],
         username: data['username'],
@@ -57,3 +83,16 @@ class Transactions {
 }
 
 enum IsApproved { success, error, pending }
+
+class PayChannels {
+  final String channel;
+  final String number;
+
+  const PayChannels({required this.channel, required this.number});
+
+  factory PayChannels.fromFireStore(
+      DocumentSnapshot<Map<String, dynamic>> doc) {
+    Map<String, dynamic> data = doc.data()!;
+    return PayChannels(channel: data['channel'], number: data['number']);
+  }
+}

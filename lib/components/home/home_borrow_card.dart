@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:jaijaoni/screens/detail_creator.dart';
+import 'package:jaijaoni/screens/detail_customer.dart';
 
-class HomeCard extends StatefulWidget {
+class BorrowCard extends StatefulWidget {
   final String name;
   final String date;
   final String amount;
   final String image;
   final int debtor;
-
-  const HomeCard({
+  const BorrowCard({
     Key? key,
     required this.name,
     required this.date,
@@ -18,40 +17,42 @@ class HomeCard extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<HomeCard> createState() => _HomeCardState();
+  State<BorrowCard> createState() => _BorrowCardState();
 }
 
-class _HomeCardState extends State<HomeCard> {
+class _BorrowCardState extends State<BorrowCard> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 190, //MediaQuery.of(context).size.width * 0.5, //190
       width: 360,
       child: GestureDetector(
-        onTap: () => Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const DetailCreator())),
+        onTap: () => {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const DetailCustomer()))
+        },
         child: Card(
-          color: Theme.of(context).colorScheme.primary,
+          color: const Color(0xFFB05D5D),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12.0),
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Expanded(
+              Flexible(
+                flex: 10,
+                //use flexible 10 to make the debt name take the appropriate width size
                 child: Padding(
                   padding: const EdgeInsets.all(20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        width: 200,
-                        child: Text(
-                          widget.name, // Debt Name
-                          style: const TextStyle(
-                              fontSize: 34, color: Colors.white, height: 1.0),
-                        ),
+                      Text(
+                        widget.name, // Debt Name
+                        style: const TextStyle(
+                            fontSize: 34, color: Colors.white, height: 1.0),
                       ),
+
                       // const SizedBox(
                       //   height: 80, // space divider
                       // ),
@@ -71,6 +72,7 @@ class _HomeCardState extends State<HomeCard> {
                 ),
               ),
               Flexible(
+                  flex: 8,
                   fit: FlexFit.tight,
                   child: Padding(
                       padding: const EdgeInsets.all(20),
@@ -79,14 +81,14 @@ class _HomeCardState extends State<HomeCard> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           SizedBox(
-                              width: 60,
+                              width: 70,
                               child: Row(
                                 children: [
                                   const SizedBox(width: 13),
                                   ClipOval(
                                     child: SizedBox.fromSize(
                                       size: const Size.fromRadius(15),
-                                      child: Image.network(
+                                      child: Image.asset(
                                         widget.image,
                                         fit: BoxFit.cover,
                                       ),

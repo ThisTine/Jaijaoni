@@ -31,6 +31,7 @@ class JaiJaoNi extends ConsumerWidget {
         final router = ref.watch(routerProvider);
         return MaterialApp.router(
           title: 'Jai jaoni',
+          debugShowCheckedModeBanner: false,
           theme: ThemeData(
             useMaterial3: true,
             colorScheme: lightScheme,
