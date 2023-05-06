@@ -25,12 +25,12 @@ class _PaymentformState extends State<Paymentform> {
 
   @override
   void initState() {
-    findborrwerBytwoId(widget.detpId).then((value) => print(value));
-    // getblockarray(widget.detpId)
-    //     .then((value) => setState(() {
-    //           payamount = value;
-    //         }))
-    //     .onError((error, stackTrace) => {print("WTF")});
+    // findborrwerBytwoId(widget.detpId).then((value) => print(value));
+    getblockarray(widget.detpId)
+        .then((value) => setState(() {
+              payamount = value;
+            }))
+        .onError((error, stackTrace) => {print("WTF")});
 
     super.initState();
   }

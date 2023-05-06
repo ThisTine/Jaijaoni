@@ -19,8 +19,8 @@ Future<BorrowerData> getBorrower(String debtId) async {
         username: borrower.borrowerUsername,
         total: borrower.debtRemaining);
   } catch (err) {
-    print("catch2");
-    print(err.toString());
+    // print("catch2");
+    // print(err.toString());
     rethrow;
   }
 }
