@@ -35,7 +35,7 @@ class Borrowers {
         borrowerUsername: data['borrowerUsername'],
         debtTotal: data['debtTotal'],
         debtRemaining: data['debtRemaining'],
-        due: data['due'],
+        due: (data['due'] as Timestamp).toDate(),
         borrowedTime: data['borrowedTime']);
   }
 }
