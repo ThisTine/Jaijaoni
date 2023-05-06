@@ -102,7 +102,7 @@ Future<List<DebtPeopleItemObject>> getBorrowersbymonthLabel(String monthLabel) a
           DebtPeopleItemObject(
               name: lender.borrowerUsername,
               id: lender.borrowerUserId,
-              total: lender.debtTotal)
+              total: lender.debtTotal,isLent: true)
         ];
       }
     }

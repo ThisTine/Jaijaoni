@@ -25,50 +25,63 @@ class DebtAnalysisScreen extends ConsumerWidget {
         body: Center(
           child: Container(
             constraints: wrapperConstranints,
-            child: ListView(
-              children: [
-                SizedBox(
-                    height: 300,
-
-                    // color: Colors.red,
-                    child: userStream.when(
-                        data: (data) {
-                          double maxV = 0;
-                          for (Charts barData in data.charts) {
-                            maxV = max(maxV,
-                                max(barData.borrowTotal, barData.lendTotal));
-                          }
-                          return SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: [
-                                for (Charts bardata in data.charts)
-                                  MonthConclute(
-                                      isSelected: bardata.monthLabel ==
-                                          barDataList.selectedBar,
-                                      lentBar: BarValue(
-                                          amountLabel: bardata.lendTotal,
-                                          barPercentage: (bardata.lendTotal /
-                                                  maxV) *
-                                              100),
-                                      borrowBar: BarValue(
-                                          amountLabel: bardata.borrowTotal,
-                                          barPercentage: (bardata.borrowTotal /
-                                                  maxV) *
-                                              100),
-                                      text: bardata.monthLabel)
-                              ],
-                            ),
-                          );
-                        },
-                        error: (error, stackTrace) => Center(child: Text(error.toString())),
-                        loading: () => const Center(child: Text("Loading data....")))),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: DebtListPeople(monthLabel: barDataList.selectedBar),
-                ),
-              ],
-            ),
+            child: userStream.when(
+                data: (data) {
+                  if(data.charts.isEmpty){
+                    return const Text("You don't have any data yet, please add some debt to see the analysis");
+                  }
+                  // changeSelected(data.charts.last.monthLabel);
+                  double maxV = 0;
+                  for (Charts barData in data.charts) {
+                    maxV =
+                        max(maxV, max(barData.borrowTotal, barData.lendTotal));
+                  }
+                  return ListView(
+                    children: [
+                      SizedBox(
+                        height: 300,
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              ...data.charts
+                                  .asMap()
+                                  .map((key, bardata) => MapEntry(
+                                      key,
+                                      MonthConclute(
+                                          isSelected: barDataList.selectedBar ==
+                                                  ''
+                                              ? key + 1 == data.charts.length
+                                              : bardata.monthLabel ==
+                                                  barDataList.selectedBar,
+                                          lentBar: BarValue(
+                                              amountLabel: bardata.lendTotal,
+                                              barPercentage:
+                                                  (bardata.lendTotal / maxV) *
+                                                      100),
+                                          borrowBar: BarValue(
+                                              amountLabel: bardata.borrowTotal,
+                                              barPercentage:
+                                                  (bardata.borrowTotal / maxV) *
+                                                      100),
+                                          text: bardata.monthLabel)))
+                                  .values
+                                  .toList(),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child:
+                            DebtListPeople(monthLabel: barDataList.selectedBar == '' ? data.charts.last.monthLabel : barDataList.selectedBar),
+                      ),
+                    ],
+                  );
+                },
+                error: (error, stackTrace) =>
+                    Center(child: Text(error.toString())),
+                loading: () => const Center(child: Text("Loading data...."))),
           ),
         ));
   }
