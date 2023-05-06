@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class FriendsReqs {
   final String username;
   final String anotherUsername;
-  final Status status;
+  final String status;
   final String id;
 
   const FriendsReqs(
