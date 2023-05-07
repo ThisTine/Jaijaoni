@@ -60,7 +60,7 @@ class Transactions {
   final String username;
   final String profilePic;
   final double amount;
-  final IsApproved isApproved;
+  final String isApproved;
   final String errMessage;
 
   const Transactions(
@@ -86,7 +86,7 @@ class Transactions {
   }
 }
 
-enum IsApproved { success, error, pending }
+// enum IsApproved { success, error, pending }
 
 class PayChannels {
   final String channel;
