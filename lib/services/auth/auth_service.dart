@@ -25,17 +25,17 @@ class AuthService {
 
   Future<void> login(String email, String password) async {
     try {
-      var signedInCredential = await _firebaseAuth.signInWithEmailAndPassword(
+      await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
-      umodal.Users user = umodal.Users(
-          userId: signedInCredential.user!.uid,
-          profilePic: signedInCredential.user!.photoURL ?? "",
-          username: signedInCredential.user!.email ?? "",
-          name: signedInCredential.user!.email ?? "",
-          charts: [],
-          friendList: [],
-          accs: []);
-      await _addUserToDB(user);
+      // umodal.Users user = umodal.Users(
+      //     userId: signedInCredential.user!.uid,
+      //     profilePic: signedInCredential.user!.photoURL ?? "",
+      //     username: signedInCredential.user!.email ?? "",
+      //     name: signedInCredential.user!.email ?? "",
+      //     charts: [],
+      //     friendList: [],
+      //     accs: []);
+      // await _addUserToDB(user);
     } on fauth.FirebaseAuthException {
       rethrow;
     }

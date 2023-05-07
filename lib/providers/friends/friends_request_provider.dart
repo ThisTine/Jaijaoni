@@ -20,15 +20,18 @@ final friendsRequestProvider = StreamProvider<List<Users>>((ref) async* {
       query.snapshots();
 
   await for (var snapshot in snapshots) {
-
     if (snapshot.docs.isEmpty) {
       yield [];
     }
     List<FriendsReqs> freq =
         snapshot.docs.map((e) => FriendsReqs.fromFireStore(e)).toList();
-    List<Users> friends =
-        await findUserByUsername(freq.map((e) => e.username).toList());
-    yield friends;
+    if (freq.isNotEmpty) {
+      List<Users> friends =
+          await findUserByUsername(freq.map((e) => e.username).toList());
+      yield friends;
+    } else {
+      yield [];
+    }
   }
   yield [];
 });
