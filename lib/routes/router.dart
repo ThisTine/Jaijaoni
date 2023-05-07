@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jaijaoni/components/bottom_nav.dart';
+import 'package:jaijaoni/screens/home_wrapper.dart';
 import 'package:jaijaoni/screens/analysis.dart';
 import 'package:jaijaoni/screens/create.dart';
 import 'package:jaijaoni/screens/detail.dart';
@@ -11,7 +12,6 @@ import 'package:jaijaoni/screens/edit_profile.dart';
 import 'package:jaijaoni/screens/explore.dart';
 import 'package:jaijaoni/screens/friend_profile.dart';
 import 'package:jaijaoni/screens/friends.dart';
-import 'package:jaijaoni/screens/home.dart';
 import 'package:jaijaoni/screens/login.dart';
 import 'package:jaijaoni/screens/loading.dart';
 import 'package:jaijaoni/screens/payment.dart';
@@ -60,7 +60,7 @@ class AppGoRouter extends ChangeNotifier {
             GoRoute(
               parentNavigatorKey: _shellRouteKey,
               path: "/",
-              builder: (context, state) => const HomeScreen(),
+              builder: (context, state) => const HomeWrapper(),
             ),
             GoRoute(
               parentNavigatorKey: _shellRouteKey,
