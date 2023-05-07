@@ -66,34 +66,35 @@ class _HomeScreenState extends State<HomeScreen> {
   //   },
   // ];
 
-  final List<Map<String, dynamic>> borrowlist = [
-    {
-      "id": 1,
-      "name": "Seven Eleven",
-      "date": "4/04/23",
-      "amount": "350",
-      "image": "images/profile/dazai.jpg",
-      "debtor": 5
-    },
-    {
-      "id": 2,
-      "name": "ปะแหล่ม",
-      "date": "5/04/23",
-      "amount": "350",
-      "image": "images/profile/dazai.jpg",
-      "debtor": 4
-    },
-    {
-      "id": 3,
-      "name": "Mc Donald",
-      "date": "7/04/23",
-      "amount": "350",
-      "image": "images/profile/dazai.jpg",
-      "debtor": 2
-    },
-  ];
+  // final List<Map<String, dynamic>> borrowlist = [
+  //   {
+  //     "id": 1,
+  //     "name": "Seven Eleven",
+  //     "date": "4/04/23",
+  //     "amount": "350",
+  //     "image": "images/profile/dazai.jpg",
+  //     "debtor": 5
+  //   },
+  //   {
+  //     "id": 2,
+  //     "name": "ปะแหล่ม",
+  //     "date": "5/04/23",
+  //     "amount": "350",
+  //     "image": "images/profile/dazai.jpg",
+  //     "debtor": 4
+  //   },
+  //   {
+  //     "id": 3,
+  //     "name": "Mc Donald",
+  //     "date": "7/04/23",
+  //     "amount": "350",
+  //     "image": "images/profile/dazai.jpg",
+  //     "debtor": 2
+  //   },
+  // ];
 
   List<Map<String, dynamic>>? lendList;
+  List<Map<String, dynamic>>? borrowlist;
   List<Map<String, dynamic>> foundLend = [];
   List<Map<String, dynamic>> foundBorrow = [];
   bool isVisible = true;
@@ -103,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
   initState() {
     _getlend();
     // foundLend = lendList;
-    foundBorrow = borrowlist;
+    // foundBorrow = borrowlist;
     // need to add borrowList
     super.initState();
   }
@@ -115,9 +116,14 @@ class _HomeScreenState extends State<HomeScreen> {
             }))
         .onError(
             (error, stackTrace) => showSnackBar(context, error.toString()));
-    await getBow().then((value) => print(value));
+    await getBow()
+        .then((value) => setState(() {
+              borrowlist = value;
+            }))
+        .onError(
+            (error, stackTrace) => showSnackBar(context, error.toString()));
     setState(() {
-      foundLend = lendList!;
+      runFilter("");
       isLoading = false;
     });
     print(isLoading);
@@ -128,7 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
     List<Map<String, dynamic>> borrowResults = [];
     if (enteredKeyword.isEmpty) {
       lendResults += lendList!;
-      borrowResults += borrowlist;
+      borrowResults += borrowlist!;
       isVisible = true;
       // if no enteredkeyword show all debt cards normally
       // need to add borrowList
@@ -137,7 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
           .where((debt) =>
               debt["name"].toLowerCase().contains(enteredKeyword.toLowerCase()))
           .toList();
-      borrowResults += borrowlist
+      borrowResults += borrowlist!
           .where((debt) =>
               debt["name"].toLowerCase().contains(enteredKeyword.toLowerCase()))
           .toList();
@@ -287,10 +293,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 shrinkWrap: true,
                                 itemCount: foundBorrow.length,
                                 itemBuilder: (context, index) {
+                                  var tsdate = foundBorrow[index]["date"];
                                   return BorrowCard(
                                     key: ValueKey(foundBorrow[index]["id"]),
                                     name: foundBorrow[index]["name"],
-                                    date: foundBorrow[index]["date"],
+                                    date:
+                                        "${tsdate.day}/${tsdate.month}/${tsdate.year}",
                                     amount: foundBorrow[index]["amount"],
                                     image: foundBorrow[index]["image"],
                                     debtor: foundBorrow[index]["debtor"],
