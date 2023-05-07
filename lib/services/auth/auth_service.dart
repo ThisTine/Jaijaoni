@@ -83,16 +83,16 @@ class AuthService {
       if (signedInCredential.user!.displayName == null) {
         await signedInCredential.user!
             .updateDisplayName(signedInCredential.user!.email);
-        umodal.Users user = umodal.Users(
-            userId: signedInCredential.user!.uid,
-            profilePic: signedInCredential.user!.photoURL ?? "",
-            username: signedInCredential.user!.email ?? "",
-            name: signedInCredential.user!.email ?? "",
-            charts: [],
-            friendList: [],
-            accs: []);
-        await _addUserToDB(user);
       }
+      umodal.Users user = umodal.Users(
+          userId: signedInCredential.user!.uid,
+          profilePic: signedInCredential.user!.photoURL ?? "",
+          username: signedInCredential.user!.email ?? "",
+          name: signedInCredential.user!.email ?? "",
+          charts: [],
+          friendList: [],
+          accs: []);
+      await _addUserToDB(user);
     } on fauth.FirebaseAuthException {
       rethrow;
     }
