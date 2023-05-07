@@ -1,11 +1,13 @@
 //Phon
 import 'package:flutter/material.dart';
 import 'package:jaijaoni/components/home/home_collect_chart.dart';
+import 'package:jaijaoni/functions/utils/find_debt_by_user_id.dart';
 import '../components/home/home_borrow_card.dart';
 import '../components/home/home_collect_detail.dart';
 import '../components/home/home_lend_card.dart';
 import '../components/home/home_paid_chart.dart';
 import '../components/home/home_paid_detail.dart';
+import '../model/debt.model.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,50 +17,50 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final List<Map<String, dynamic>> lendList = [
-    {
-      "id": 1,
-      // "cardColor": const Color(0xFF5DB08D),
-      // Can not use {Theme.of(context).colorScheme.primary,} because of {context}
-      "name": "Bonchon Chicken",
-      "date": "3/04/23",
-      "amount": "1000",
-      "image": "images/profile/dazai.jpg",
-      "debtor": 3
-    },
-    {
-      "id": 2,
-      "name": "ส้มตำร้านเด็ด",
-      "date": "7/04/23",
-      "amount": "700",
-      "image": "images/profile/dazai.jpg",
-      "debtor": 5
-    },
-    {
-      "id": 3,
-      "name": "KFB เจ้าดัง",
-      "date": "12/04/23",
-      "amount": "540",
-      "image": "images/profile/dazai.jpg",
-      "debtor": 1
-    },
-    {
-      "id": 4,
-      "name": "ตี๋น้อย",
-      "date": "13/04/23",
-      "amount": "870",
-      "image": "images/profile/dazai.jpg",
-      "debtor": 4
-    },
-    {
-      "id": 5,
-      "name": "Pizza Company",
-      "date": "15/04/23",
-      "amount": "430",
-      "image": "images/profile/dazai.jpg",
-      "debtor": 3
-    },
-  ];
+  // final List<Map<String, dynamic>> lendList = [
+  //   {
+  //     "id": 1,
+  //     // "cardColor": const Color(0xFF5DB08D),
+  //     // Can not use {Theme.of(context).colorScheme.primary,} because of {context}
+  //     "name": "Bonchon Chicken",
+  //     "date": "3/04/23",
+  //     "amount": "1000",
+  //     "image": "images/profile/dazai.jpg",
+  //     "debtor": 3
+  //   },
+  //   {
+  //     "id": 2,
+  //     "name": "ส้มตำร้านเด็ด",
+  //     "date": "7/04/23",
+  //     "amount": "700",
+  //     "image": "images/profile/dazai.jpg",
+  //     "debtor": 5
+  //   },
+  //   {
+  //     "id": 3,
+  //     "name": "KFB เจ้าดัง",
+  //     "date": "12/04/23",
+  //     "amount": "540",
+  //     "image": "images/profile/dazai.jpg",
+  //     "debtor": 1
+  //   },
+  //   {
+  //     "id": 4,
+  //     "name": "ตี๋น้อย",
+  //     "date": "13/04/23",
+  //     "amount": "870",
+  //     "image": "images/profile/dazai.jpg",
+  //     "debtor": 4
+  //   },
+  //   {
+  //     "id": 5,
+  //     "name": "Pizza Company",
+  //     "date": "15/04/23",
+  //     "amount": "430",
+  //     "image": "images/profile/dazai.jpg",
+  //     "debtor": 3
+  //   },
+  // ];
 
   final List<Map<String, dynamic>> borrowlist = [
     {
@@ -87,13 +89,15 @@ class _HomeScreenState extends State<HomeScreen> {
     },
   ];
 
+  List<Debts>? lendList ;
   List<Map<String, dynamic>> foundLend = [];
   List<Map<String, dynamic>> foundBorrow = [];
   bool isVisible = true;
   // turn Chart & Detail visible/invisible
   @override
   initState() {
-    foundLend = lendList;
+    lendList = findDebtsByUserId() as List<Debts>?;
+    // foundLend = lendList;
     foundBorrow = borrowlist;
     // need to add borrowList
     super.initState();
@@ -228,6 +232,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   key: ValueKey(foundLend[index]["id"]),
                                   name: foundLend[index]["name"],
                                   date: foundLend[index]["date"],
+                                  
                                   amount: foundLend[index]["amount"],
                                   image: foundLend[index]["image"],
                                   debtor: foundLend[index]["debtor"],
