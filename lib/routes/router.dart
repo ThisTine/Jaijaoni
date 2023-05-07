@@ -69,8 +69,9 @@ class AppGoRouter extends ChangeNotifier {
             ),
             GoRoute(
               parentNavigatorKey: _shellRouteKey,
-              path: "/edit",
-              builder: (context, state) => const EditDebtScreen(),
+              path: "/edit/:debtId",
+              builder: (context, state) =>
+                  EditDebtScreen(debtId: state.params['debtId']!),
             ),
             GoRoute(
               parentNavigatorKey: _shellRouteKey,
@@ -117,12 +118,14 @@ class AppGoRouter extends ChangeNotifier {
         GoRoute(
           parentNavigatorKey: _mainRouteKey,
           path: "/detail/:debtId",
-          builder: (context, state) => DebtDetailScreen(debtId: state.params['debtId']!),
+          builder: (context, state) =>
+              DebtDetailScreen(debtId: state.params['debtId']!),
         ),
         GoRoute(
           parentNavigatorKey: _mainRouteKey,
           path: "/payment/:debtId",
-          builder: (context, state) =>  PaymentScreen(debtId: state.params['debtId']!),
+          builder: (context, state) =>
+              PaymentScreen(debtId: state.params['debtId']!),
         ),
         GoRoute(
           parentNavigatorKey: _mainRouteKey,
