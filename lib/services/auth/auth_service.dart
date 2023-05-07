@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart' as fstore;
 import 'package:firebase_auth/firebase_auth.dart' as fauth;
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:jaijaoni/firebase_options.dart';
+import 'package:jaijaoni/functions/utils/find_user_by_id.dart';
 import 'package:jaijaoni/model/user.model.dart' as umodal;
+import 'package:jaijaoni/services/store/fire_store_service.dart';
 
 class User {
   final String uid;
@@ -24,8 +26,17 @@ class AuthService {
 
   Future<void> login(String email, String password) async {
     try {
-      await _firebaseAuth.signInWithEmailAndPassword(
+      var signedInCredential = await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
+      umodal.Users user = umodal.Users(
+          userId: signedInCredential.user!.uid,
+          profilePic: signedInCredential.user!.photoURL ?? "",
+          username: signedInCredential.user!.email ?? "",
+          name: signedInCredential.user!.email ?? "",
+          charts: [],
+          friendList: [],
+          accs: []);
+      await _addUserToDB(user);
     } on fauth.FirebaseAuthException {
       rethrow;
     }
@@ -54,13 +65,24 @@ class AuthService {
 
   Future<void> _addUserToDB(umodal.Users user) async {
     try {
-      await _fireStore.collection("Users").doc(user.userId).set({
+      print("Users");
+      var usr = await FireStoreService.collection.users.doc(user.userId).get();
+      print(usr);
+      var payloadMap = {
         "username": user.username,
         "name": user.name,
         "profilePic": user.profilePic,
         "accs": [],
         "friendList": []
-      });
+      };
+      if (usr.exists) {
+        await _fireStore
+            .collection("Users")
+            .doc(user.userId)
+            .update(payloadMap);
+      } else {
+        await _fireStore.collection("Users").doc(user.userId).set(payloadMap);
+      }
     } catch (err) {
       rethrow;
     }
@@ -80,10 +102,6 @@ class AuthService {
       final signedInCredential =
           await _firebaseAuth.signInWithCredential(credential);
 
-      if (signedInCredential.user!.displayName == null) {
-        await signedInCredential.user!
-            .updateDisplayName(signedInCredential.user!.email);
-      }
       umodal.Users user = umodal.Users(
           userId: signedInCredential.user!.uid,
           profilePic: signedInCredential.user!.photoURL ?? "",
@@ -93,6 +111,11 @@ class AuthService {
           friendList: [],
           accs: []);
       await _addUserToDB(user);
+
+      if (signedInCredential.user!.displayName == null) {
+        await signedInCredential.user!
+            .updateDisplayName(signedInCredential.user!.email);
+      }
     } on fauth.FirebaseAuthException {
       rethrow;
     }
@@ -112,16 +135,16 @@ class AuthService {
       if (signedInCredential.user!.displayName == null) {
         await signedInCredential.user!
             .updateDisplayName(signedInCredential.user!.email);
-        umodal.Users user = umodal.Users(
-            userId: signedInCredential.user!.uid,
-            profilePic: signedInCredential.user!.photoURL ?? "",
-            username: signedInCredential.user!.displayName ?? "",
-            name: signedInCredential.user!.email ?? "",
-            charts: [],
-            friendList: [],
-            accs: []);
-        await _addUserToDB(user);
       }
+      umodal.Users user = umodal.Users(
+          userId: signedInCredential.user!.uid,
+          profilePic: signedInCredential.user!.photoURL ?? "",
+          username: signedInCredential.user!.displayName ?? "",
+          name: signedInCredential.user!.email ?? "",
+          charts: [],
+          friendList: [],
+          accs: []);
+      await _addUserToDB(user);
     } on fauth.FirebaseAuthException {
       rethrow;
     }
