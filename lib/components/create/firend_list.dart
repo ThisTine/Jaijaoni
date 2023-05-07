@@ -33,7 +33,6 @@ class _FriendListState extends State<FriendList> {
   @override
   void initState() {
     getFriends(FirebaseAuth.instance.currentUser!.uid).then((value) {
-          print(friendList);
 
       if (mounted) {
         setState(() {
@@ -45,7 +44,6 @@ class _FriendListState extends State<FriendList> {
       }
     }).onError(
       (error, stackTrace) {
-          print(error);
 
         // print(error);
 
