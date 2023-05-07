@@ -2,6 +2,8 @@ import { initializeApp } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
 import * as functions from "firebase-functions";
 import { log } from "firebase-functions/logger";
+import { messaging,firestore } from "firebase-admin";
+import { MulticastMessage } from "firebase-admin/lib/messaging/messaging-api";
 
 initializeApp();
 
@@ -11,11 +13,11 @@ const db = getFirestore();
 // // https://firebase.google.com/docs/functions/typescript
 
 interface userData {
-  charts: { monthLabel: string; lendTotal: number; borrowTotal: number }[];
+  charts?: { monthLabel: string; lendTotal?: number; borrowTotal?: number }[];
 }
 
 export const recalculateDebt = functions.firestore
-  .document("/Borrowers/{borrowersId}")
+  .document("Borrowers/{borrowersId}")
   .onCreate(async (snapshot) => {
     const MONTHS = [
       "January",
@@ -36,12 +38,12 @@ export const recalculateDebt = functions.firestore
     const createdDate = snapshot.createTime.toDate();
     const monthLabel = `${
       MONTHS[createdDate.getMonth()]
-    },${createdDate.getFullYear()}`;
+    }, ${createdDate.getFullYear()}`;
     const borrowerData = snapshot.data() as {
       borrowId: string;
       lenderUserId: string;
       borrowerUserId: string;
-      amount: number;
+      debtTotal: number;
     };
     try {
       const lenderDoc = await userCollection
@@ -50,14 +52,17 @@ export const recalculateDebt = functions.firestore
       const borrowerDoc = await userCollection
         .doc(borrowerData.borrowerUserId)
         .get();
-      const lenderDataMonth = (lenderDoc.data() as userData).charts;
-      const borrowerDataMonth = (borrowerDoc.data() as userData).charts;
+      const lenderDataMonth = (lenderDoc.data() as userData).charts || [];
+      const borrowerDataMonth = (borrowerDoc.data() as userData).charts || [];
       let updatedLenderMonthData = lenderDataMonth;
       let updatedBorrowerMonthData = borrowerDataMonth;
       if (lenderDataMonth.map((item) => item.monthLabel).includes(monthLabel)) {
         updatedLenderMonthData = updatedLenderMonthData.map((item) =>
           item.monthLabel == monthLabel
-            ? { ...item, lendTotal: item.lendTotal + borrowerData.amount }
+            ? {
+              ...item,
+              lendTotal: item.lendTotal || 0 + borrowerData.debtTotal || 0,
+            }
             : item
         );
       } else {
@@ -65,7 +70,7 @@ export const recalculateDebt = functions.firestore
           ...updatedLenderMonthData,
           {
             borrowTotal: 0,
-            lendTotal: borrowerData.amount,
+            lendTotal: borrowerData.debtTotal || 0,
             monthLabel: monthLabel,
           },
         ];
@@ -76,7 +81,11 @@ export const recalculateDebt = functions.firestore
       ) {
         updatedBorrowerMonthData = updatedBorrowerMonthData.map((item) =>
           item.monthLabel == monthLabel
-            ? { ...item, borrowTotal: item.borrowTotal + borrowerData.amount }
+            ? {
+              ...item,
+              borrowTotal:
+                  item.borrowTotal || 0 + borrowerData.debtTotal || 0,
+            }
             : item
         );
       } else {
@@ -84,18 +93,43 @@ export const recalculateDebt = functions.firestore
           ...updatedBorrowerMonthData,
           {
             lendTotal: 0,
-            borrowTotal: borrowerData.amount,
+            borrowTotal: borrowerData.debtTotal || 0,
             monthLabel: monthLabel,
           },
         ];
       }
       await userCollection
         .doc(borrowerData.lenderUserId)
-        .update({ charts: updatedLenderMonthData });
+        .set({ ...lenderDoc.data(), charts: updatedLenderMonthData });
       await userCollection
         .doc(borrowerData.borrowerUserId)
-        .update({ charts: updatedBorrowerMonthData });
+        .set({ ...borrowerDoc.data(), charts: updatedBorrowerMonthData });
     } catch (err) {
       log(err);
     }
   });
+
+export const notifyDebtors = functions.firestore.document("Debts/{debtId}").onCreate( async (snapshot)=>{
+  try{
+    const data = snapshot.data() as {borrowersUserId?: string[],due?: firestore.Timestamp,debtName?: string};
+    const users = await db.collection("Users").where(firestore.FieldPath.documentId(), "in", [...data?.borrowersUserId || []] ).get();
+    let messages:string[] = [];
+    for(const usr of users.docs){
+      for(const token of (usr.data() as {tokens?:string[]}).tokens || []){
+        messages = [...messages,token];
+      }
+    }
+    const multicastMsg: MulticastMessage = {
+      data: {
+        content: `${data.debtName} has been created.`
+      },
+      tokens: messages
+      
+    }
+    await messaging().sendEachForMulticast(multicastMsg)
+  }catch(err){
+    log(err)
+  }
+
+
+});

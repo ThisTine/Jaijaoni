@@ -3,11 +3,18 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:jaijaoni/functions/payment/upload_payment.dart';
 
 class Paymentuploadsheet extends StatelessWidget {
-  const Paymentuploadsheet({Key? key, required this.imagefile})
+  const Paymentuploadsheet(
+      {Key? key,
+      required this.imagefile,
+      required this.deptId,
+      required this.amount})
       : super(key: key);
   final File? imagefile;
+  final String deptId;
+  final double amount;
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +87,10 @@ class Paymentuploadsheet extends StatelessWidget {
                           horizontal: 16, vertical: 8),
                       child: FilledButton(
                         onPressed: () {
+                          uploadPayment(deptId, amount, imagefile!);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text("Upload Successfully")));
                           return context.go("/detail");
                         },
                         style: FilledButton.styleFrom(

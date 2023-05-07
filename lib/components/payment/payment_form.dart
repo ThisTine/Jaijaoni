@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:jaijaoni/functions/payment/get_blockarray.dart';
+import 'package:jaijaoni/providers/friends/show_snackbar.dart';
 
 // final valueAmount = StateProvider<TextEditingController>((ref) => TextEditingController());
 
 class Paymentform extends StatefulWidget {
-  const Paymentform({super.key, required this.formKey, required this.amount});
+  const Paymentform(
+      {super.key,
+      required this.formKey,
+      required this.amount,
+      required this.detpId});
+  final String detpId;
   final GlobalKey formKey;
   final TextEditingController amount;
 
@@ -12,10 +19,19 @@ class Paymentform extends StatefulWidget {
 }
 
 class _PaymentformState extends State<Paymentform> {
+  List<double> payamount = [];
   // final amount = TextEditingController();
 
   @override
   void initState() {
+    // findborrwerBytwoId(widget.detpId).then((value) => print(value));
+    getblockarray(widget.detpId)
+        .then((value) => setState(() {
+              payamount = value;
+            }))
+        .onError(
+            (error, stackTrace) => {showSnackBar(context, error.toString())});
+
     super.initState();
   }
 
@@ -25,14 +41,12 @@ class _PaymentformState extends State<Paymentform> {
     super.dispose();
   }
 
-  setamount(int num) {
+  setamount(double num) {
     widget.amount.text = num.toString();
   }
 
   @override
   Widget build(BuildContext context) {
-    List<int> payamount = [25, 50, 100, 300, 500, 1000];
-
     // var amount = {};
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,

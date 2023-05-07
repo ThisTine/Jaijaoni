@@ -6,7 +6,7 @@ class Debts {
   final String username;
   final List<String> borrowersUserId;
   final String debtName;
-  final int debtTotal;
+  final double debtTotal;
   final Timestamp createTime;
   final Timestamp due;
   final List<PayChannels> payChannels;
@@ -33,7 +33,7 @@ class Debts {
         borrowersUserId: List<dynamic>.from(data['borrowersUserId'] ?? [])
             .map((e) => e.toString())
             .toList(),
-        debtName: data['debtname'],
+        debtName: data['debtName'],
         debtTotal: data['debtTotal'],
         createTime: data['createTime'],
         due: data['due'],
@@ -43,6 +43,7 @@ class Debts {
         transactions:
             List<Map<String, dynamic>>.from(data['transactions'] ?? [])
                 .map((e) => Transactions(
+                    transactionId: e['transactionId'],
                     borrowId: e['borrowId'],
                     username: e['username'],
                     profilePic: e['profilePic'],
@@ -54,15 +55,17 @@ class Debts {
 }
 
 class Transactions {
+  final String transactionId;
   final String borrowId;
   final String username;
   final String profilePic;
   final double amount;
-  final IsApproved isApproved;
+  final String isApproved;
   final String errMessage;
 
   const Transactions(
-      {required this.borrowId,
+      {required this.transactionId,
+      required this.borrowId,
       required this.username,
       required this.profilePic,
       required this.amount,
@@ -73,6 +76,7 @@ class Transactions {
       DocumentSnapshot<Map<String, dynamic>> doc) {
     Map<String, dynamic> data = doc.data()!;
     return Transactions(
+        transactionId: data['transactionId'],
         borrowId: data['borrowId'],
         username: data['username'],
         profilePic: data['profilePic'],
@@ -82,7 +86,7 @@ class Transactions {
   }
 }
 
-enum IsApproved { success, error, pending }
+// enum IsApproved { success, error, pending }
 
 class PayChannels {
   final String channel;
