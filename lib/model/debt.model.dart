@@ -33,7 +33,7 @@ class Debts {
         borrowersUserId: List<dynamic>.from(data['borrowersUserId'] ?? [])
             .map((e) => e.toString())
             .toList(),
-        debtName: data['debtname'],
+        debtName: data['debtName'],
         debtTotal: data['debtTotal'],
         createTime: data['createTime'],
         due: data['due'],
