@@ -11,7 +11,7 @@ const db = getFirestore();
 // // https://firebase.google.com/docs/functions/typescript
 
 interface userData {
-  charts?: { monthLabel: string; lendTotal: number; borrowTotal: number }[];
+  charts?: { monthLabel: string; lendTotal?: number; borrowTotal?: number }[];
 }
 
 export const recalculateDebt = functions.firestore
@@ -57,7 +57,10 @@ export const recalculateDebt = functions.firestore
       if (lenderDataMonth.map((item) => item.monthLabel).includes(monthLabel)) {
         updatedLenderMonthData = updatedLenderMonthData.map((item) =>
           item.monthLabel == monthLabel
-            ? { ...item, lendTotal: item.lendTotal + borrowerData.debtTotal }
+            ? {
+              ...item,
+              lendTotal: item.lendTotal || 0 + borrowerData.debtTotal || 0,
+            }
             : item
         );
       } else {
@@ -65,7 +68,7 @@ export const recalculateDebt = functions.firestore
           ...updatedLenderMonthData,
           {
             borrowTotal: 0,
-            lendTotal: borrowerData.debtTotal,
+            lendTotal: borrowerData.debtTotal || 0,
             monthLabel: monthLabel,
           },
         ];
@@ -78,7 +81,8 @@ export const recalculateDebt = functions.firestore
           item.monthLabel == monthLabel
             ? {
               ...item,
-              borrowTotal: item.borrowTotal + borrowerData.debtTotal,
+              borrowTotal:
+                  item.borrowTotal || 0 + borrowerData.debtTotal || 0,
             }
             : item
         );
@@ -87,7 +91,7 @@ export const recalculateDebt = functions.firestore
           ...updatedBorrowerMonthData,
           {
             lendTotal: 0,
-            borrowTotal: borrowerData.debtTotal,
+            borrowTotal: borrowerData.debtTotal || 0,
             monthLabel: monthLabel,
           },
         ];

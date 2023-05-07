@@ -60,8 +60,7 @@ class _FriendListState extends State<FriendList> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return const SizedBox(
-          height: 200, width: 200, child: CircularProgressIndicator());
+      return const Center(child: Text("Retrieving data..."));
     }
     return SingleChildScrollView(
       child: Wrap(
