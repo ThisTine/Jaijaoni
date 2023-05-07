@@ -37,14 +37,14 @@ class _AddPaymentState extends ConsumerState<AddPayment> {
   @override
   void initState() {
     super.initState();
-    getPaymentOption()
-        .then((value) => allInfo.addPayment(paymentList: value));
+    getPaymentOption().then((value) => allInfo.addPayment(paymentList: value));
   }
 
   // late List<PaymentOption> paymentList = allInfo.paymentList;
 
   @override
   Widget build(BuildContext context) {
+    // print(allInfo.paymentList.map((e) => e.isCheck));
     return Scaffold(
       appBar: customAppBarBuilder(context, text: "Create", backButton: true),
       body: Stack(
@@ -87,7 +87,10 @@ class _AddPaymentState extends ConsumerState<AddPayment> {
                       isCheck: e.isCheck,
                       method: e.channel,
                       number: e.number,
-                      switchIsCheck: () => allInfo.switchSelectPayment(e),
+                      switchIsCheck: () {
+                        allInfo.switchSelectPayment(e);
+                        setState(() {});
+                      },
                     );
                   }),
                   const SizedBox(
@@ -125,7 +128,9 @@ class _AddPaymentState extends ConsumerState<AddPayment> {
                   ),
                   Expanded(
                     child: FilledButton(
-                        onPressed: allInfo.paymentList.isEmpty
+                        onPressed: allInfo.paymentList
+                                .where((element) => element.isCheck)
+                                .isEmpty
                             ? null
                             : () {
                                 createDebtHandeler();

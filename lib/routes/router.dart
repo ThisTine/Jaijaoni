@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jaijaoni/components/bottom_nav.dart';
+import 'package:jaijaoni/functions/edit/get_debt_by_debt_id.dart';
 import 'package:jaijaoni/screens/analysis.dart';
 import 'package:jaijaoni/screens/create.dart';
 import 'package:jaijaoni/screens/detail.dart';
@@ -69,8 +70,9 @@ class AppGoRouter extends ChangeNotifier {
             ),
             GoRoute(
               parentNavigatorKey: _shellRouteKey,
-              path: "/edit",
-              builder: (context, state) => const EditDebtScreen(),
+              path: "/edit/:debtId",
+              builder: (context, state) =>
+                  EditDebtScreen(debtId: state.params['debtId']!),
             ),
             GoRoute(
               parentNavigatorKey: _shellRouteKey,
@@ -117,12 +119,14 @@ class AppGoRouter extends ChangeNotifier {
         GoRoute(
           parentNavigatorKey: _mainRouteKey,
           path: "/detail/:debtId",
-          builder: (context, state) => DebtDetailScreen(debtId: state.params['debtId']!),
+          builder: (context, state) =>
+              DebtDetailScreen(debtId: state.params['debtId']!),
         ),
         GoRoute(
           parentNavigatorKey: _mainRouteKey,
           path: "/payment/:debtId",
-          builder: (context, state) =>  PaymentScreen(debtId: state.params['debtId']!),
+          builder: (context, state) =>
+              PaymentScreen(debtId: state.params['debtId']!),
         ),
         GoRoute(
           parentNavigatorKey: _mainRouteKey,

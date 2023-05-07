@@ -33,36 +33,45 @@ class CreateDebtData extends ChangeNotifier {
   }
 
   void changePayment({required List<PaymentOption> paymentList}) {
-    this.paymentList = paymentList;
+    List<String> existingPayment = this.paymentList.map((e) => e.channel+e.number).toList(); 
+    // print(existingPayment);
+    this.paymentList = [...this.paymentList, ...paymentList.where((element) => !existingPayment.contains(element.channel+element.number)).toList()];
     notifyListeners();
   }
 
   void addPayment({required List<PaymentOption> paymentList}) {
-    var updatedpaymentOption = this
-        .paymentList
-        .where((element) => !paymentList
-            .where((element2) =>
-                element.channel == element2.channel &&
-                element.number == element2.number)
-            .toList()
-            .isNotEmpty)
-        .toList();
-    for (var payment in paymentList) {
-      updatedpaymentOption
-          .add(PaymentOption(channel: payment.channel, number: payment.number));
-    }
-    this.paymentList = updatedpaymentOption;
+    // print("adding debt");
+    List<String> existingPayment = this.paymentList.map((e) => e.channel+e.number).toList(); 
+    this.paymentList = [...this.paymentList, ...paymentList.where((element) => !existingPayment.contains(element.channel+element.number)).toList()];
+
+    // var updatedpaymentOption = this
+    //     .paymentList
+    //     .where((element) => !paymentList
+    //         .where((element2) =>
+    //             element.channel == element2.channel &&
+    //             element.number == element2.number)
+    //         .toList()
+    //         .isNotEmpty)
+    //     .toList();
+    // for (var payment in paymentList) {
+    //   updatedpaymentOption
+    //       .add(PaymentOption(channel: payment.channel, number: payment.number));
+    // }
+    // this.paymentList = updatedpaymentOption;
     notifyListeners();
     // updatedpaymentOption.add(PaymentOption(channel: channel, number: number))
   }
 
   void switchSelectPayment(PaymentOption paymentoption) {
+    bool isPromptpay = paymentoption.channel == "PromptPay";
+    bool isCheck = !paymentoption.isCheck;
     List<PaymentOption> updatedPaymentList = paymentList
         .map((e) => e.channel == paymentoption.channel &&
                 e.number == paymentoption.number
             ? PaymentOption(
                 channel: e.channel, number: e.number, isCheck: !e.isCheck)
-            : e)
+            : ((e.channel == "PromptPay" && isPromptpay) || (e.channel != "PromptPay" && !isPromptpay)) && isCheck ? PaymentOption(
+                channel: e.channel, number: e.number, isCheck: false) :  e)
         .toList();
     paymentList = updatedPaymentList;
     notifyListeners();
