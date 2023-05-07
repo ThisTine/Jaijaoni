@@ -27,8 +27,9 @@ class DebtAnalysisScreen extends ConsumerWidget {
             constraints: wrapperConstranints,
             child: userStream.when(
                 data: (data) {
-                  if(data.charts.isEmpty){
-                    return const Text("You don't have any data yet, please add some debt to see the analysis");
+                  if (data.charts.isEmpty) {
+                    return const Text(
+                        "You don't have any data yet, please add some debt to see the analysis");
                   }
                   // changeSelected(data.charts.last.monthLabel);
                   double maxV = 0;
@@ -73,8 +74,10 @@ class DebtAnalysisScreen extends ConsumerWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child:
-                            DebtListPeople(monthLabel: barDataList.selectedBar == '' ? data.charts.last.monthLabel : barDataList.selectedBar),
+                        child: DebtListPeople(
+                            monthLabel: barDataList.selectedBar == ''
+                                ? data.charts.last.monthLabel
+                                : barDataList.selectedBar),
                       ),
                     ],
                   );
