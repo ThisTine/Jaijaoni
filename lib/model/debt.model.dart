@@ -76,7 +76,7 @@ class Transactions {
       DocumentSnapshot<Map<String, dynamic>> doc) {
     Map<String, dynamic> data = doc.data()!;
     return Transactions(
-        transactionId: doc.id,
+        transactionId: data['transactionId'],
         borrowId: data['borrowId'],
         username: data['username'],
         profilePic: data['profilePic'],
