@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,14 +7,14 @@ import 'package:jaijaoni/components/create/payment_bottom_sheet.dart';
 import 'package:jaijaoni/components/create/payment_method_box.dart';
 import 'package:jaijaoni/components/custom_app_bar.dart';
 import 'package:jaijaoni/config/theme/custom_wrapper.dart';
-import 'package:jaijaoni/functions/create/create_debt.dart';
-import 'package:jaijaoni/functions/create/get_payment_options.dart';
+
 import 'package:jaijaoni/functions/edit/edit_payment_channel.dart';
 import 'package:jaijaoni/functions/edit/get_debt_by_debt_id.dart';
 import 'package:jaijaoni/functions/utils/find_user_by_id.dart';
 import 'package:jaijaoni/functions/utils/loading_dialog.dart';
 import 'package:jaijaoni/model/debt.model.dart';
 import 'package:jaijaoni/providers/create/create_debt_data_provider.dart';
+import 'package:jaijaoni/providers/friends/show_snackbar.dart';
 
 class EditDebtScreen extends ConsumerStatefulWidget {
   final String debtId;
@@ -64,10 +62,10 @@ class _EditDebtScreenState extends ConsumerState<EditDebtScreen> {
                 .toList());
         setState(() {});
       }).onError((error, stackTrace) {
-        print(error.toString());
+        showSnackBar(context, error.toString());
       });
     }).onError((error, stackTrace) {
-      print(error.toString());
+      showSnackBar(context,error.toString());
     });
   }
 
@@ -116,7 +114,6 @@ class _EditDebtScreenState extends ConsumerState<EditDebtScreen> {
                     setState(() {});
                   }),
                   ...allInfo.paymentList.map((e) {
-                    // print(e.isCheck);
                     return Dismissible(
                       onDismissed: (direction) {
                         allInfo.deletePaymentMethod(e);
