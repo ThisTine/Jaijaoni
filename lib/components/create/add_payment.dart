@@ -82,15 +82,21 @@ class _AddPaymentState extends ConsumerState<AddPayment> {
                     // });
                   }),
                   ...allInfo.paymentList.map((e) {
-                    // print(e.isCheck);
-                    return PaymentMethodBox(
-                      isCheck: e.isCheck,
-                      method: e.channel,
-                      number: e.number,
-                      switchIsCheck: () {
-                        allInfo.switchSelectPayment(e);
+                    return Dismissible(
+                      onDismissed: (direction) {
+                        allInfo.deletePaymentMethod(e);
                         setState(() {});
                       },
+                      key: Key(e.channel + e.number),
+                      child: PaymentMethodBox(
+                        isCheck: e.isCheck,
+                        method: e.channel,
+                        number: e.number,
+                        switchIsCheck: () {
+                          allInfo.switchSelectPayment(e);
+                          setState(() {});
+                        },
+                      ),
                     );
                   }),
                   const SizedBox(

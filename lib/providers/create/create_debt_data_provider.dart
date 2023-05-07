@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jaijaoni/components/create/selected_friend.dart';
+import 'package:jaijaoni/functions/utils/remove_payment_channel_from_user.dart';
 
 class PaymentOption {
   final String channel;
@@ -33,16 +34,23 @@ class CreateDebtData extends ChangeNotifier {
   }
 
   void changePayment({required List<PaymentOption> paymentList}) {
-    List<String> existingPayment = this.paymentList.map((e) => e.channel+e.number).toList(); 
+    // List<String> existingPayment = this.paymentList.map((e) => e.channel+e.number).toList();
     // print(existingPayment);
-    this.paymentList = [...this.paymentList, ...paymentList.where((element) => !existingPayment.contains(element.channel+element.number)).toList()];
+    this.paymentList = paymentList;
     notifyListeners();
   }
 
   void addPayment({required List<PaymentOption> paymentList}) {
     // print("adding debt");
-    List<String> existingPayment = this.paymentList.map((e) => e.channel+e.number).toList(); 
-    this.paymentList = [...this.paymentList, ...paymentList.where((element) => !existingPayment.contains(element.channel+element.number)).toList()];
+    List<String> existingPayment =
+        this.paymentList.map((e) => e.channel + e.number).toList();
+    this.paymentList = [
+      ...this.paymentList,
+      ...paymentList
+          .where((element) =>
+              !existingPayment.contains(element.channel + element.number))
+          .toList()
+    ];
 
     // var updatedpaymentOption = this
     //     .paymentList
@@ -70,11 +78,27 @@ class CreateDebtData extends ChangeNotifier {
                 e.number == paymentoption.number
             ? PaymentOption(
                 channel: e.channel, number: e.number, isCheck: !e.isCheck)
-            : ((e.channel == "PromptPay" && isPromptpay) || (e.channel != "PromptPay" && !isPromptpay)) && isCheck ? PaymentOption(
-                channel: e.channel, number: e.number, isCheck: false) :  e)
+            : ((e.channel == "PromptPay" && isPromptpay) ||
+                        (e.channel != "PromptPay" && !isPromptpay)) &&
+                    isCheck
+                ? PaymentOption(
+                    channel: e.channel, number: e.number, isCheck: false)
+                : e)
         .toList();
     paymentList = updatedPaymentList;
     notifyListeners();
+  }
+
+  Future<void> deletePaymentMethod(PaymentOption paymentOption) async {
+    try {
+      paymentList = paymentList
+          .where((e) => !(e.channel == paymentOption.channel &&
+              e.number == paymentOption.number))
+          .toList();
+      removePaymentChannelFromUser(paymentOption);
+    } catch (err) {
+      rethrow;
+    }
   }
 
   void _reCalculatePrice() {

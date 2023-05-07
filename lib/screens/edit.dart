@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -8,14 +11,16 @@ import 'package:jaijaoni/components/custom_app_bar.dart';
 import 'package:jaijaoni/config/theme/custom_wrapper.dart';
 import 'package:jaijaoni/functions/create/create_debt.dart';
 import 'package:jaijaoni/functions/create/get_payment_options.dart';
+import 'package:jaijaoni/functions/edit/edit_payment_channel.dart';
 import 'package:jaijaoni/functions/edit/get_debt_by_debt_id.dart';
+import 'package:jaijaoni/functions/utils/find_user_by_id.dart';
 import 'package:jaijaoni/functions/utils/loading_dialog.dart';
 import 'package:jaijaoni/model/debt.model.dart';
 import 'package:jaijaoni/providers/create/create_debt_data_provider.dart';
 
 class EditDebtScreen extends ConsumerStatefulWidget {
   final String debtId;
-  const EditDebtScreen({super.key,this.debtId = ""});
+  const EditDebtScreen({super.key, this.debtId = ""});
 
   @override
   ConsumerState<EditDebtScreen> createState() => _EditDebtScreenState();
@@ -26,30 +31,51 @@ class _EditDebtScreenState extends ConsumerState<EditDebtScreen> {
 
   Debts? debt;
 
-
-  void createDebtHandeler() {
-    showLoadingDialog(context, "Creating Debt");
-    createDebt(allInfo).then((value) {
+  void editPaymentHandeler() {
+    showLoadingDialog(context, "Updating Debt");
+    editPaymentChannels(
+            allInfo.paymentList.where((element) => element.isCheck).toList(),
+            widget.debtId)
+        .then((value) {
       allInfo.clear();
       context.pop();
-      context.go("/detail/$value");
-      // loading
+      context.go("/detail/${widget.debtId}");
     }).onError((error, stackTrace) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(error.toString())));
     });
   }
 
+  void initData() {
+    // showLoadingDialog(context, "Creating Debt");
+    getDebtById(widget.debtId).then((value) {
+      // context.pop();
+      allInfo.clear();
+      allInfo.changePayment(
+          paymentList: value.payChannels
+              .map((e) => PaymentOption(
+                  channel: e.channel, number: e.number, isCheck: true))
+              .toList());
+      setState(() {});
+      findUserById(FirebaseAuth.instance.currentUser!.uid).then((value) {
+        allInfo.addPayment(
+            paymentList: value.accs
+                .map((e) => PaymentOption(channel: e.accName, number: e.accNo))
+                .toList());
+        setState(() {});
+      }).onError((error, stackTrace) {
+        print(error.toString());
+      });
+    }).onError((error, stackTrace) {
+      print(error.toString());
+    });
+  }
+
   @override
   void initState() {
-    getDebtById(widget.debtId).then((value){
-      print(value);
-      setState(() {
-        debt = value;
-      });
-    }).onError((error, stackTrace){print(error.toString());});
     super.initState();
-    getPaymentOption().then((value) => allInfo.addPayment(paymentList: value));
+    initData();
+    // getPaymentOption().then((value) => allInfo.addPayment(paymentList: value));
   }
 
   // late List<PaymentOption> paymentList = allInfo.paymentList;
@@ -58,7 +84,7 @@ class _EditDebtScreenState extends ConsumerState<EditDebtScreen> {
   Widget build(BuildContext context) {
     // print(allInfo.paymentList.map((e) => e.isCheck));
     return Scaffold(
-      appBar: customAppBarBuilder(context, text: "Create", backButton: true),
+      appBar: customAppBarBuilder(context, text: "Edit", backButton: true),
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -88,21 +114,24 @@ class _EditDebtScreenState extends ConsumerState<EditDebtScreen> {
                       (List<PaymentOption> newPaymentList) {
                     allInfo.changePayment(paymentList: newPaymentList);
                     setState(() {});
-
-                    // setState(() {
-                    //   paymentList = newPaymentList;
-                    // });
                   }),
                   ...allInfo.paymentList.map((e) {
                     // print(e.isCheck);
-                    return PaymentMethodBox(
-                      isCheck: e.isCheck,
-                      method: e.channel,
-                      number: e.number,
-                      switchIsCheck: () {
-                        allInfo.switchSelectPayment(e);
+                    return Dismissible(
+                      onDismissed: (direction) {
+                        allInfo.deletePaymentMethod(e);
                         setState(() {});
                       },
+                      key: Key(e.channel + e.number),
+                      child: PaymentMethodBox(
+                        isCheck: e.isCheck,
+                        method: e.channel,
+                        number: e.number,
+                        switchIsCheck: () {
+                          allInfo.switchSelectPayment(e);
+                          setState(() {});
+                        },
+                      ),
                     );
                   }),
                   const SizedBox(
@@ -128,7 +157,7 @@ class _EditDebtScreenState extends ConsumerState<EditDebtScreen> {
                                 .isEmpty
                             ? null
                             : () {
-                                createDebtHandeler();
+                                editPaymentHandeler();
                               },
                         child: Text(
                           'Edit debt',
