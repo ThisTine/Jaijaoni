@@ -15,3 +15,4 @@ A Flutter project.
 - promptpay_qrcode_generate
 - image_picker
 - image_picker_for_web
+- uuid

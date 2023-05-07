@@ -50,6 +50,8 @@ dependencies:
   image_picker: ^0.8.7+4
   image_picker_for_web: ^2.1.12
   firebase_storage: ^11.1.2
+  firebase_messaging: ^14.5.0
+  uuid: ^3.0.7
 
 dev_dependencies:
   flutter_test:
