@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:jaijaoni/components/debt_detail_payer_card.dart';
 import 'package:jaijaoni/components/detail_card.dart';
+import 'package:jaijaoni/model/debt.model.dart';
 
 import '../components/custom_app_bar.dart';
 
 class DetailCreator extends StatefulWidget {
-  const DetailCreator({super.key});
-
+  final Debts debt;
+  const DetailCreator({super.key, required this.debt});
   @override
   State<DetailCreator> createState() => _DetailCreatorState();
 }
