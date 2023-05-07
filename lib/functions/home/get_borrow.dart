@@ -1,12 +1,15 @@
-import 'package:jaijaoni/functions/edit/get_debt_by_debt_id.dart';
-import 'package:jaijaoni/functions/payment/get_debt.dart';
-import 'package:jaijaoni/functions/utils/find_debt_by_user_id.dart';
+import 'package:jaijaoni/functions/utils/find_borrower_by_user_id.dart';
+import 'package:jaijaoni/functions/utils/find_debt_by_id.dart';
+import 'package:jaijaoni/model/borrower.model.dart';
 import 'package:jaijaoni/model/debt.model.dart';
 
-Future<List<Map<String, dynamic>>> getLend() async {
+Future<List<Map<String, dynamic>>> getBow() async {
   try {
     List<Map<String, dynamic>> lend;
-    List<Debts> debts = await findDebtsByUserId();
+    List<Borrowers> bows = await findBorrowerByUserId();
+    List<String> debtId = bows.map((e) => e.debtId).toList();
+
+    List<Debts> debts = bows.map((e) => (findDebtById(e.debtId))).toList();
     lend = debts
         .map((e) => {
               "id": e.debtId,
@@ -17,6 +20,7 @@ Future<List<Map<String, dynamic>>> getLend() async {
               "debtor": e.borrowersUserId.length
             })
         .toList();
+    print(lend);
     return lend;
   } catch (err) {
     rethrow;
