@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jaijaoni/functions/payment/get_blockarray.dart';
-
-import '../../functions/utils/find_borrower_debt_user_by_id.dart';
+import 'package:jaijaoni/providers/friends/show_snackbar.dart';
 
 // final valueAmount = StateProvider<TextEditingController>((ref) => TextEditingController());
 
@@ -30,7 +29,8 @@ class _PaymentformState extends State<Paymentform> {
         .then((value) => setState(() {
               payamount = value;
             }))
-        .onError((error, stackTrace) => {print("WTF")});
+        .onError(
+            (error, stackTrace) => {showSnackBar(context, error.toString())});
 
     super.initState();
   }

@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:jaijaoni/services/store/fire_store_service.dart';
 import 'package:jaijaoni/model/debt.model.dart';
-
 import '../utils/find_debt_by_id.dart';
 
 class DebtData {

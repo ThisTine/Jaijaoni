@@ -1,43 +1,31 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:io';
+
 import 'package:jaijaoni/functions/payment/create_transction.dart';
 import 'package:jaijaoni/functions/payment/get_borrower.dart';
 import 'package:jaijaoni/functions/payment/get_debt.dart';
+import 'package:jaijaoni/functions/payment/upload_bill.dart';
 import 'package:jaijaoni/model/debt.model.dart';
+import 'package:uuid/uuid.dart';
 
-class Uploadpay {
-  final String borrowId;
-  final String username;
-  final String profilePic;
-  final double amount;
-  final String isApproved;
-  final String errMessage;
-  const Uploadpay(
-      {required this.borrowId,
-      required this.username,
-      required this.profilePic,
-      required this.amount,
-      required this.isApproved,
-      required this.errMessage});
-}
-
-Future<void> uploadPayment(String debtId, double amount) async {
+Future<void> uploadPayment(String debtId, double amount, File file) async {
   try {
+    var uuid = const Uuid();
+    var id = uuid.v4();
     DebtData debts = await getDebt(debtId);
     BorrowerData borrwer = await getBorrower(debtId);
     Transactions upload = Transactions(
+      transactionId: id,
       borrowId: borrwer.id,
       username: borrwer.username,
       profilePic: '',
       isApproved: 'pending',
       errMessage: '',
-      amount: amount, transactionId: '',
+      amount: amount,
     );
-    createTransction(upload, debts);
-    debts = await getDebt(debtId);
-    print('ตรงนี้');
-    print(debts.transactions.toString());
-
-    // return "asd";
+    List<Transactions> req = debts.transactions;
+    req.add(upload);
+    await createTransction(req, debts);
+    uploadBill(file, id);
   } catch (err) {
     rethrow;
   }

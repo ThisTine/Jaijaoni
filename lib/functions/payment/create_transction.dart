@@ -3,16 +3,23 @@ import 'package:jaijaoni/model/debt.model.dart';
 import 'package:jaijaoni/services/store/fire_store_service.dart';
 
 Future<void> createTransction(
-  Transactions upload,
+  List<Transactions> req,
   DebtData debts,
 ) async {
   try {
+    List<Map<String, dynamic>> res = req
+        .map((e) => {
+              "transactionId": e.transactionId,
+              "borrowId": e.borrowId,
+              "username": e.username,
+              "profilePic": e.profilePic,
+              "isApproved": e.isApproved,
+              "errMessage": e.errMessage,
+              "amount": e.amount
+            })
+        .toList();
     var query = FireStoreService.collection.debts.doc(debts.id);
-    List<Transactions> up = debts.transactions;
-    up.add(upload);
-    await query.update({"transactions": up});
-    print('upload sucess');
-    // return query.toString();
+    await query.update({"transactions": res});
   } catch (err) {
     rethrow;
   }

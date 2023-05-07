@@ -21,17 +21,13 @@ class Bank {
 
 Future<PayRes> checkPaych(String debtId) async {
   try {
-    print("เข้าไหม");
-    print(debtId);
     int returncheck = 0;
     int prom = 0;
     int bank = 0;
     List<bool> check = [false, false];
     DebtData debtData = await getDebt(debtId);
-    print(debtData.toString());
-    print(debtData.paych[0].channel);
+
     for (int i = 0; i < debtData.paych.length; i++) {
-      print(debtData.paych[i].channel);
       if ("PromptPay" == debtData.paych[i].channel) {
         check[0] = true;
         prom = i;
@@ -46,13 +42,7 @@ Future<PayRes> checkPaych(String debtId) async {
     if (check[1] == true) {
       returncheck += 2;
     }
-    print(PayRes(
-            check: returncheck,
-            promptPay: PromptPay(promptPayId: debtData.paych[prom].number),
-            bank: Bank(
-                bankName: debtData.paych[bank].channel,
-                bankId: debtData.paych[bank].number))
-        .toString());
+
     return PayRes(
         check: returncheck,
         promptPay: PromptPay(promptPayId: debtData.paych[prom].number),

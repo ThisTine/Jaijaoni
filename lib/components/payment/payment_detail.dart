@@ -2,7 +2,6 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:jaijaoni/components/payment/paymen_upload.dart';
 import 'package:jaijaoni/functions/payment/check_paych.dart';
 import 'package:jaijaoni/providers/friends/show_snackbar.dart';
@@ -23,28 +22,28 @@ class _PaymentDetailState extends State<PaymentDetail> {
   File? imagefile;
   final ImagePicker _picker = ImagePicker();
   PayRes? check;
+  bool loading = true;
   @override
   void initState() {
     // _check();
-    checkPaych(widget.deptId)
+    _initcheck();
+    super.initState();
+  }
+
+  _initcheck() async {
+    setState(() {
+      loading = true;
+    });
+    await checkPaych(widget.deptId)
         .then((value) => setState(() {
               check = value;
             }))
         .onError(
             (error, stackTrace) => showSnackBar(context, error.toString()));
-    super.initState();
+    setState(() {
+      loading = false;
+    });
   }
-
-  // _check() {
-  //   try {
-  //     setState(() async {
-  //       check = await checkPaych(widget.deptId);
-  //     });
-  //   } catch (err) {
-  //     showSnackBar(context, err.toString());
-  //     rethrow;
-  //   }
-  // }
 
   _getFromGallery() async {
     XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
@@ -75,55 +74,73 @@ class _PaymentDetailState extends State<PaymentDetail> {
   @override
   Widget build(BuildContext context) {
     // print(check!.check);
-    return Scaffold(
-        appBar: customAppBarBuilder(context, text: "Pay", backButton: true),
-        body: Stack(
-          children: [
-            SingleChildScrollView(
-              child: Container(
-                constraints: BoxConstraints(
-                    minHeight: MediaQuery.of(context).size.height - 55),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    check!.check == 1
-                        ? Payqr(
-                            amount: widget.amounts,
-                            promptPay: check!.promptPay,
-                          )
-                        : check!.check == 2
-                            ? Paybank(
-                                amount: widget.amounts,
-                                bank: check!.bank,
-                              )
-                            : Paydetail(
-                                amount: widget.amounts,
-                                promptPay: check!.promptPay,
-                                bank: check!.bank,
-                              ),
-                  ],
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: FilledButton(
-                  onPressed: () {
-                    _getFromGallery();
-                  },
-                  style: FilledButton.styleFrom(
-                    minimumSize: const Size.fromHeight(50),
-                    padding: const EdgeInsets.all(10.00),
+    if (!loading) {
+      return Scaffold(
+          appBar: customAppBarBuilder(context, text: "Pay", backButton: true),
+          body: Stack(
+            children: [
+              SingleChildScrollView(
+                child: Container(
+                  constraints: BoxConstraints(
+                      minHeight: MediaQuery.of(context).size.height - 55),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      check!.check == 1
+                          ? Payqr(
+                              amount: widget.amounts,
+                              promptPay: check!.promptPay,
+                            )
+                          : check!.check == 2
+                              ? Paybank(
+                                  amount: widget.amounts,
+                                  bank: check!.bank,
+                                )
+                              : Paydetail(
+                                  amount: widget.amounts,
+                                  promptPay: check!.promptPay,
+                                  bank: check!.bank,
+                                ),
+                    ],
                   ),
-                  child: const Text('Upload Payment '),
                 ),
               ),
-            ),
-          ],
-        ));
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: FilledButton(
+                    onPressed: () {
+                      _getFromGallery();
+                    },
+                    style: FilledButton.styleFrom(
+                      minimumSize: const Size.fromHeight(50),
+                      padding: const EdgeInsets.all(10.00),
+                    ),
+                    child: const Text('Upload Payment '),
+                  ),
+                ),
+              ),
+            ],
+          ));
+    } else {
+      return Scaffold(
+          appBar: customAppBarBuilder(context, text: "Pay", backButton: true),
+          body: Stack(children: [
+            SingleChildScrollView(
+                child: Container(
+              alignment: Alignment.center,
+              constraints: BoxConstraints(
+                  minHeight: MediaQuery.of(context).size.height - 55),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: const [Center(child: Text('Loading...'))],
+              ),
+            ))
+          ]));
+    }
   }
 }
 
@@ -240,78 +257,92 @@ class Paybank extends StatelessWidget {
   final Bank? bank;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          width: double.infinity,
-          constraints: const BoxConstraints(maxWidth: 576),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(19),
-            color:
-                Theme.of(context).colorScheme.primaryContainer.withOpacity(0.6),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Padding(
-                padding: EdgeInsets.all(16),
-                child: Text(
-                  'bank.bankId',
-                  style: TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.bold),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 48, bottom: 42, right: 48, top: 0),
-                child: Text(
-                  bank!.bankId,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w400,
-                      fontSize:
-                          Theme.of(context).textTheme.headlineLarge!.fontSize),
-                ),
-              )
-            ],
-          ),
-          // )
-        ),
-        Container(
-          margin: const EdgeInsets.only(top: 24),
-          constraints: const BoxConstraints(maxWidth: 576),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(19),
-            color:
-                Theme.of(context).colorScheme.primaryContainer.withOpacity(0.6),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: double.infinity,
+            constraints: const BoxConstraints(maxWidth: 576),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(19),
+              color: Theme.of(context)
+                  .colorScheme
+                  .primaryContainer
+                  .withOpacity(0.6),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  'Amount',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w400,
-                      fontSize:
-                          Theme.of(context).textTheme.headlineSmall!.fontSize),
+                const Padding(
+                  padding: EdgeInsets.all(16),
+                  child: Text(
+                    'bank.bankId',
+                    style: TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold),
+                  ),
                 ),
-                Text(
-                  amount.toString(),
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w400,
-                      fontSize:
-                          Theme.of(context).textTheme.headlineMedium!.fontSize),
-                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 48, bottom: 42, right: 48, top: 0),
+                  child: Text(
+                    bank!.bankId,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w400,
+                        fontSize: Theme.of(context)
+                            .textTheme
+                            .headlineLarge!
+                            .fontSize),
+                  ),
+                )
               ],
             ),
+            // )
           ),
-        )
-      ],
+          Container(
+            margin: const EdgeInsets.only(top: 24),
+            constraints: const BoxConstraints(maxWidth: 576),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(19),
+              color: Theme.of(context)
+                  .colorScheme
+                  .primaryContainer
+                  .withOpacity(0.6),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Amount',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w400,
+                        fontSize: Theme.of(context)
+                            .textTheme
+                            .headlineSmall!
+                            .fontSize),
+                  ),
+                  Text(
+                    amount.toString(),
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w400,
+                        fontSize: Theme.of(context)
+                            .textTheme
+                            .headlineMedium!
+                            .fontSize),
+                  ),
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

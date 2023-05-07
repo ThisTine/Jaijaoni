@@ -1,15 +1,28 @@
-// import 'dart:html';
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 
-// import 'get_debt.dart';
-// import 'package:firebase_storage/firebase_storage.dart';
+Future<void> uploadBill(File file, String namepic) async {
+  try {
+    final storage = FirebaseStorage.instance;
+    final storageRef = storage.ref();
+    final mountainsRef = storageRef.child("bill/$namepic");
 
-// Future<String> uploadBill(File file, String namepic) async {
-//   try {
-//     final storageRef = FirebaseStorage.instance.ref();
-//     final mountainsRef = storageRef.child("bill/$namepic");
-//     await mountainsRef.putFile(file);
-//     return '';
-//   } catch (err) {
-//     rethrow;
-//   }
-// }
+    if (kIsWeb) {
+      await mountainsRef.putString(file.path);
+      // await mountainsRef.putFile(file);
+      // await mountainsRef.putData(
+      //   file.readAsBytes() as Uint8List,
+      //   SettableMetadata(contentType: 'image/jpeg'),
+      // );
+    } else {
+      await mountainsRef.putFile(
+          file,
+          SettableMetadata(
+            contentType: "image/*",
+          ));
+    }
+  } catch (err) {
+    rethrow;
+  }
+}
