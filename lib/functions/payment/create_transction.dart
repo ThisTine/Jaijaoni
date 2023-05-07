@@ -11,6 +11,7 @@ Future<void> createTransction(
     List<Transactions> up = debts.transactions;
     up.add(upload);
     await query.update({"transactions": up});
+    print('upload sucess');
     // return query.toString();
   } catch (err) {
     rethrow;

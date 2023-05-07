@@ -70,7 +70,6 @@ class Paymentuploadsheet extends StatelessWidget {
                             icon: const Icon(Icons.cancel_outlined),
                             // color: Colors.black,
                             onPressed: () {
-                              uploadPayment(deptId, amount);
                               Navigator.pop(context);
                             },
                           ),
@@ -88,7 +87,8 @@ class Paymentuploadsheet extends StatelessWidget {
                           horizontal: 16, vertical: 8),
                       child: FilledButton(
                         onPressed: () {
-                          return context.go("/detail");
+                          uploadPayment(deptId, amount);
+                          return context.go("/payment/u7ir1bEY3x7qQ0mseCxg");
                         },
                         style: FilledButton.styleFrom(
                           minimumSize: const Size.fromHeight(50),

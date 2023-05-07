@@ -2,12 +2,18 @@ import 'dart:math';
 
 import 'package:jaijaoni/functions/utils/find_borrower_debt_user_by_id.dart';
 import 'package:jaijaoni/model/borrower.model.dart';
+import 'package:jaijaoni/model/debt.model.dart';
 
 class BorrowerData {
   final String id;
+  final String debtid;
   final String username;
   final double total;
-  BorrowerData({required this.id, required this.username, required this.total});
+  BorrowerData(
+      {required this.id,
+      required this.debtid,
+      required this.username,
+      required this.total});
 }
 
 Future<BorrowerData> getBorrower(String debtId) async {
@@ -15,7 +21,8 @@ Future<BorrowerData> getBorrower(String debtId) async {
     Borrowers borrower = await findborrwerBytwoId(debtId);
 
     return BorrowerData(
-        id: borrower.debtId,
+        id: borrower.borrowId,
+        debtid: borrower.debtId,
         username: borrower.borrowerUsername,
         total: borrower.debtRemaining);
   } catch (err) {
