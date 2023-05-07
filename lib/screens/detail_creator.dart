@@ -8,7 +8,6 @@ import '../components/custom_app_bar.dart';
 class DetailCreator extends StatefulWidget {
   final Debts debt;
   const DetailCreator({super.key, required this.debt});
-
   @override
   State<DetailCreator> createState() => _DetailCreatorState();
 }
