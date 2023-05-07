@@ -60,7 +60,7 @@ class Transactions {
   final String username;
   final String profilePic;
   final double amount;
-  final IsApproved isApproved;
+  final String isApproved;
   final String errMessage;
 
   const Transactions(
@@ -76,7 +76,7 @@ class Transactions {
       DocumentSnapshot<Map<String, dynamic>> doc) {
     Map<String, dynamic> data = doc.data()!;
     return Transactions(
-        transactionId: doc.id,
+        transactionId: data['transactionId'],
         borrowId: data['borrowId'],
         username: data['username'],
         profilePic: data['profilePic'],
@@ -86,7 +86,7 @@ class Transactions {
   }
 }
 
-enum IsApproved { success, error, pending }
+// enum IsApproved { success, error, pending }
 
 class PayChannels {
   final String channel;
