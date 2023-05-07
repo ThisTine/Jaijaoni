@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart' as fstore;
 import 'package:firebase_auth/firebase_auth.dart' as fauth;
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:jaijaoni/firebase_options.dart';
-import 'package:jaijaoni/functions/utils/find_user_by_id.dart';
 import 'package:jaijaoni/model/user.model.dart' as umodal;
 import 'package:jaijaoni/services/store/fire_store_service.dart';
 
@@ -65,9 +64,9 @@ class AuthService {
 
   Future<void> _addUserToDB(umodal.Users user) async {
     try {
-      print("Users");
+      // print("Users");
       var usr = await FireStoreService.collection.users.doc(user.userId).get();
-      print(usr);
+      // print(usr);
       var payloadMap = {
         "username": user.username,
         "name": user.name,
