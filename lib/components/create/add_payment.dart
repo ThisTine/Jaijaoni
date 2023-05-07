@@ -25,6 +25,7 @@ class _AddPaymentState extends ConsumerState<AddPayment> {
     showLoadingDialog(context, "Creating Debt");
     createDebt(allInfo).then((value) {
       allInfo.clear();
+      context.pop();
       context.go("/detail/$value");
       // loading
     }).onError((error, stackTrace) {
