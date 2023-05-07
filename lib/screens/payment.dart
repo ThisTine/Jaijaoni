@@ -7,7 +7,7 @@ import '../components/custom_app_bar.dart';
 
 class PaymentScreen extends ConsumerWidget {
   final String debtId;
-  const PaymentScreen({super.key,this.debtId = ""});
+  const PaymentScreen({super.key, this.debtId = ""});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -39,6 +39,7 @@ class PaymentScreen extends ConsumerWidget {
             Paymentform(
               formKey: formKey,
               amount: amount,
+              detpId: debtId,
             ),
             Expanded(
               child: Align(
@@ -52,6 +53,7 @@ class PaymentScreen extends ConsumerWidget {
                             MaterialPageRoute(builder: (context) {
                           return PaymentDetail(
                             amounts: double.parse(amount.text),
+                            deptId: debtId,
                           );
                         }));
                       }
