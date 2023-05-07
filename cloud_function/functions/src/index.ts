@@ -2,6 +2,8 @@ import { initializeApp } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
 import * as functions from "firebase-functions";
 import { log } from "firebase-functions/logger";
+import { messaging,firestore } from "firebase-admin";
+import { MulticastMessage } from "firebase-admin/lib/messaging/messaging-api";
 
 initializeApp();
 
@@ -106,3 +108,28 @@ export const recalculateDebt = functions.firestore
       log(err);
     }
   });
+
+export const notifyDebtors = functions.firestore.document("Debts/{debtId}").onCreate( async (snapshot)=>{
+  try{
+    const data = snapshot.data() as {borrowersUserId?: string[],due?: firestore.Timestamp,debtName?: string};
+    const users = await db.collection("Users").where(firestore.FieldPath.documentId(), "in", [...data?.borrowersUserId || []] ).get();
+    let messages:string[] = [];
+    for(const usr of users.docs){
+      for(const token of (usr.data() as {tokens?:string[]}).tokens || []){
+        messages = [...messages,token];
+      }
+    }
+    const multicastMsg: MulticastMessage = {
+      data: {
+        content: `${data.debtName} has been created.`
+      },
+      tokens: messages
+      
+    }
+    await messaging().sendEachForMulticast(multicastMsg)
+  }catch(err){
+    log(err)
+  }
+
+
+});
