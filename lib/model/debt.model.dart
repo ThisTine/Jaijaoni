@@ -33,7 +33,7 @@ class Debts {
         borrowersUserId: List<dynamic>.from(data['borrowersUserId'] ?? [])
             .map((e) => e.toString())
             .toList(),
-        debtName: data['debtname'],
+        debtName: data['debtName'],
         debtTotal: data['debtTotal'],
         createTime: data['createTime'],
         due: data['due'],
@@ -58,7 +58,7 @@ class Transactions {
   final String username;
   final String profilePic;
   final double amount;
-  final IsApproved isApproved;
+  final String isApproved;
   final String errMessage;
 
   const Transactions(
@@ -82,7 +82,7 @@ class Transactions {
   }
 }
 
-enum IsApproved { success, error, pending }
+// enum IsApproved { success, error, pending }
 
 class PayChannels {
   final String channel;

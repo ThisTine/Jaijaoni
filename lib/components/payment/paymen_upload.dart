@@ -3,11 +3,18 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:jaijaoni/functions/payment/upload_payment.dart';
 
 class Paymentuploadsheet extends StatelessWidget {
-  const Paymentuploadsheet({Key? key, required this.imagefile})
+  const Paymentuploadsheet(
+      {Key? key,
+      required this.imagefile,
+      required this.deptId,
+      required this.amount})
       : super(key: key);
   final File? imagefile;
+  final String deptId;
+  final double amount;
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +70,7 @@ class Paymentuploadsheet extends StatelessWidget {
                             icon: const Icon(Icons.cancel_outlined),
                             // color: Colors.black,
                             onPressed: () {
+                              uploadPayment(deptId, amount);
                               Navigator.pop(context);
                             },
                           ),

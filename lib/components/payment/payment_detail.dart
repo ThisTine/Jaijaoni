@@ -2,8 +2,10 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:jaijaoni/components/payment/paymen_upload.dart';
 import 'package:jaijaoni/functions/payment/check_paych.dart';
+import 'package:jaijaoni/providers/friends/show_snackbar.dart';
 import 'package:promptpay_qrcode_generate/promptpay_qrcode_generate.dart';
 import 'package:image_picker/image_picker.dart';
 import '../custom_app_bar.dart';
@@ -20,10 +22,29 @@ class PaymentDetail extends StatefulWidget {
 class _PaymentDetailState extends State<PaymentDetail> {
   File? imagefile;
   final ImagePicker _picker = ImagePicker();
-  late PayRes check;
-  _check() async {
-    check = await checkPaych(widget.deptId);
+  PayRes? check;
+  @override
+  void initState() {
+    // _check();
+    checkPaych(widget.deptId)
+        .then((value) => setState(() {
+              check = value;
+            }))
+        .onError(
+            (error, stackTrace) => showSnackBar(context, error.toString()));
+    super.initState();
   }
+
+  // _check() {
+  //   try {
+  //     setState(() async {
+  //       check = await checkPaych(widget.deptId);
+  //     });
+  //   } catch (err) {
+  //     showSnackBar(context, err.toString());
+  //     rethrow;
+  //   }
+  // }
 
   _getFromGallery() async {
     XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
@@ -41,6 +62,8 @@ class _PaymentDetailState extends State<PaymentDetail> {
                       filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
                       child: Paymentuploadsheet(
                         imagefile: imagefile,
+                        deptId: widget.deptId,
+                        amount: widget.amounts,
                       )),
                 ],
               );
@@ -51,7 +74,7 @@ class _PaymentDetailState extends State<PaymentDetail> {
 
   @override
   Widget build(BuildContext context) {
-    _check();
+    // print(check!.check);
     return Scaffold(
         appBar: customAppBarBuilder(context, text: "Pay", backButton: true),
         body: Stack(
@@ -64,21 +87,21 @@ class _PaymentDetailState extends State<PaymentDetail> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    // check.check == 1
-                    //     ? Payqr(
-                    //         amount: widget.amounts,
-                    //         promptPay: check.promptPay,
-                    //       )
-                    //     : check.check == 2
-                    //         ? Paybank(
-                    //             amount: widget.amounts,
-                    //             bank: check.bank,
-                    //           )
-                    //         : Paydetail(
-                    //             amount: widget.amounts,
-                    //             promptPay: check.promptPay,
-                    //             bank: check.bank,
-                    //           ),
+                    check!.check == 1
+                        ? Payqr(
+                            amount: widget.amounts,
+                            promptPay: check!.promptPay,
+                          )
+                        : check!.check == 2
+                            ? Paybank(
+                                amount: widget.amounts,
+                                bank: check!.bank,
+                              )
+                            : Paydetail(
+                                amount: widget.amounts,
+                                promptPay: check!.promptPay,
+                                bank: check!.bank,
+                              ),
                   ],
                 ),
               ),
@@ -171,51 +194,54 @@ class Payqr extends StatelessWidget {
   final PromptPay promptPay;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 16),
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      constraints: const BoxConstraints(maxWidth: 350),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(19),
-        color: Theme.of(context).colorScheme.primaryContainer.withOpacity(0.6),
-      ),
-      child: Column(children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: Align(
-            alignment: Alignment.topLeft,
-            child: Text(
-              // textDirection: TextDirection.ltr,
-              "Scan this QR",
-              style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontSize:
-                      Theme.of(context).textTheme.headlineLarge!.fontSize),
+    return Center(
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        constraints: const BoxConstraints(maxWidth: 350),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(19),
+          color:
+              Theme.of(context).colorScheme.primaryContainer.withOpacity(0.6),
+        ),
+        child: Column(children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+                // textDirection: TextDirection.ltr,
+                "Scan this QR",
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize:
+                        Theme.of(context).textTheme.headlineLarge!.fontSize),
+              ),
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: Align(
-              alignment: Alignment.center,
-              child: QRCodeGenerate(
-                promptPayId: '0962200825',
-                amount: amount,
-              )),
-        ),
-      ]),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            child: Align(
+                alignment: Alignment.center,
+                child: QRCodeGenerate(
+                  promptPayId: promptPay.promptPayId,
+                  amount: amount,
+                )),
+          ),
+        ]),
+      ),
     );
   }
 }
 
-// ignore: camel_case_types
 class Paybank extends StatelessWidget {
   const Paybank({super.key, required this.amount, required this.bank});
   final double amount;
-  final Bank bank;
+  final Bank? bank;
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
           width: double.infinity,
@@ -231,7 +257,7 @@ class Paybank extends StatelessWidget {
               const Padding(
                 padding: EdgeInsets.all(16),
                 child: Text(
-                  'Krungthai',
+                  'bank.bankId',
                   style: TextStyle(
                       color: Colors.black, fontWeight: FontWeight.bold),
                 ),
@@ -240,7 +266,7 @@ class Paybank extends StatelessWidget {
                 padding: const EdgeInsets.only(
                     left: 48, bottom: 42, right: 48, top: 0),
                 child: Text(
-                  '203-0-49317-1',
+                  bank!.bankId,
                   style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.w400,

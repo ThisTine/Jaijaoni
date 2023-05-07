@@ -23,7 +23,7 @@ Future<DebtData> getDebt(String deptId) async {
   try {
     DocumentSnapshot<Map<String, dynamic>> dept =
         await FireStoreService.collection.debts.doc(deptId).get();
-    Debts userData = Debts.fromFireStore(dept);
+    // Debts userData = Debts.fromFireStore(dept);
     Debts debt = await findDebtById(deptId);
 
     return DebtData(
@@ -31,7 +31,8 @@ Future<DebtData> getDebt(String deptId) async {
         username: debt.username,
         total: debt.debtTotal,
         paych: debt.payChannels,
-        transactions: debt.transactions);
+        transactions: debt.transactions
+        );
   } catch (err) {
     rethrow;
   }
