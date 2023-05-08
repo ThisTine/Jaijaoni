@@ -9,7 +9,6 @@ import 'package:jaijaoni/services/auth/auth_service.dart';
 
 import '../components/circle_avata.dart';
 import '../components/quote.dart';
-import 'dart:async';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -253,7 +252,7 @@ Widget menuBox(BuildContext context) {
           ),
           child: Column(
             children: [
-              GestureDetector(
+              InkWell(
                 onTap: () {
                   context.push("/create");
                 },
@@ -305,7 +304,7 @@ Widget menuBox(BuildContext context) {
                 ],
               ),
               const SizedBox(height: 8),
-              GestureDetector(
+              InkWell(
                 onTap: () {
                   context.push("/profile/message");
                 },
@@ -351,7 +350,7 @@ Widget menuBox(BuildContext context) {
                 ],
               ),
               const SizedBox(height: 8),
-              GestureDetector(
+              InkWell(
                 onTap: () {
                   context.push("/friends");
                 },
@@ -397,7 +396,7 @@ Widget menuBox(BuildContext context) {
                 ],
               ),
               const SizedBox(height: 8),
-              GestureDetector(
+              InkWell(
                 onTap: () {
                   context.push("/analysis");
                 },

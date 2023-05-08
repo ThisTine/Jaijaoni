@@ -59,24 +59,6 @@ Widget cardProfile(BuildContext context,
       builder: (context, snapshot) => Column(
         children: [
           const SizedBox(height: 100),
-          // FutureBuilder<String>(
-          //   future: username(),
-          //   builder: (context, snapshot) {
-          //     if (snapshot.connectionState == ConnectionState.waiting) {
-          //       return const Text('Loading...');
-          //     }
-          //     if (snapshot.hasError) {
-          //       return Text('Error: ${snapshot.error}');
-          //     }
-          //     return Text(
-          //       ' ${snapshot.data ?? ''}',
-          //       style: TextStyle(
-          //         color: Theme.of(context).colorScheme.primary,
-          //         fontSize: Theme.of(context).textTheme.headlineSmall!.fontSize,
-          //       ),
-          //     );
-          //   },
-          // ),
           Text("${snapshot.data?.name}",
               style: TextStyle(
                   color: Theme.of(context).colorScheme.primary,
