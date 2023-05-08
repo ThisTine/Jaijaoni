@@ -133,3 +133,17 @@ export const notifyDebtors = functions.firestore.document("Debts/{debtId}").onCr
 
 
 });
+
+export const cleanupDebt = functions.firestore.document("Debts/{debtId}").onDelete( async (snapshot)=>{
+  try {
+    const debtId = snapshot.id;
+    const docs = await db.collection("Borrowers").where("debtId","==",debtId).get()
+    const batch = db.batch()
+    for(const doc of docs.docs){
+      batch.delete(db.collection("Borrowers").doc(doc.id))
+    }
+    await batch.commit()
+  } catch (error) {
+    log(error);
+  }
+})

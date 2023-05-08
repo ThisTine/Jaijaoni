@@ -72,15 +72,15 @@ class AuthService {
         "name": user.name,
         "profilePic": user.profilePic,
         "accs": [],
-        "friendList": []
+        "friendList": [],
+        "charts": []
       };
-      if (usr.exists) {
-        await _fireStore
-            .collection("Users")
-            .doc(user.userId)
-            .update(payloadMap);
-      } else {
+      if (!usr.exists) {
         await _fireStore.collection("Users").doc(user.userId).set(payloadMap);
+        // await _fireStore
+        //     .collection("Users")
+        //     .doc(user.userId)
+        //     .update(payloadMap);
       }
     } catch (err) {
       rethrow;
