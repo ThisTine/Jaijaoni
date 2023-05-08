@@ -10,15 +10,16 @@ class Users {
   final List<String> friendList;
   final List<Accounts> accs;
 
-  const Users(
-      {required this.userId,
-      required this.profilePic,
-      required this.username,
-      required this.name,
-      this.quote,
-      required this.charts,
-      required this.friendList,
-      required this.accs});
+  const Users({
+    required this.userId,
+    required this.profilePic,
+    required this.username,
+    required this.name,
+    this.quote,
+    required this.charts,
+    required this.friendList,
+    required this.accs,
+  });
 
   factory Users.fromFireStore(DocumentSnapshot<Map<String, dynamic>> doc) {
     Map<String, dynamic> data = doc.data()!;

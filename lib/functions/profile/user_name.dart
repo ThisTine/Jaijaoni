@@ -6,7 +6,7 @@ Future<String> username() async {
   try {
     String userName = FirebaseAuth.instance.currentUser!.uid;
     Users user = await findUserById(userName);
-    return user.username;
+    return user.name;
   } catch (err) {
     rethrow;
   }
