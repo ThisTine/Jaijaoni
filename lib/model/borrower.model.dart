@@ -33,8 +33,8 @@ class Borrowers {
         lenderUsername: data['lenderUsername'],
         borrowerUserId: data['borrowerUserId'],
         borrowerUsername: data['borrowerUsername'],
-        debtTotal: data['debtTotal'],
-        debtRemaining: data['debtRemaining'],
+        debtTotal: double.parse(data['debtTotal'].toString()),
+        debtRemaining: double.parse(data['debtRemaining'].toString()),
         due: (data['due'] as Timestamp).toDate(),
         borrowedTime: data['borrowedTime']);
   }

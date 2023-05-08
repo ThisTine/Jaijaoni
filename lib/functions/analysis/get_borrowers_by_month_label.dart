@@ -29,7 +29,8 @@ const months = [
   "December",
 ];
 
-Future<List<DebtPeopleItemObject>> getBorrowersbymonthLabel(String monthLabel) async {
+Future<List<DebtPeopleItemObject>> getBorrowersbymonthLabel(
+    String monthLabel) async {
   try {
     String userId = FirebaseAuth.instance.currentUser!.uid;
     List<String> splittedLabel = monthLabel.split(", ");
@@ -102,7 +103,8 @@ Future<List<DebtPeopleItemObject>> getBorrowersbymonthLabel(String monthLabel) a
           DebtPeopleItemObject(
               name: lender.borrowerUsername,
               id: lender.borrowerUserId,
-              total: lender.debtTotal,isLent: true)
+              total: lender.debtTotal,
+              isLent: true)
         ];
       }
     }
