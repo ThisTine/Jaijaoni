@@ -2,7 +2,7 @@ import { initializeApp } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
 import * as functions from "firebase-functions";
 import { log } from "firebase-functions/logger";
-import { messaging,firestore } from "firebase-admin";
+import { messaging, firestore } from "firebase-admin";
 import { MulticastMessage } from "firebase-admin/lib/messaging/messaging-api";
 
 initializeApp();
@@ -109,41 +109,61 @@ export const recalculateDebt = functions.firestore
     }
   });
 
-export const notifyDebtors = functions.firestore.document("Debts/{debtId}").onCreate( async (snapshot)=>{
-  try{
-    const data = snapshot.data() as {borrowersUserId?: string[],due?: firestore.Timestamp,debtName?: string};
-    const users = await db.collection("Users").where(firestore.FieldPath.documentId(), "in", [...data?.borrowersUserId || []] ).get();
-    let messages:string[] = [];
-    for(const usr of users.docs){
-      for(const token of (usr.data() as {tokens?:string[]}).tokens || []){
-        messages = [...messages,token];
+export const notifyDebtors = functions.firestore
+  .document("Debts/{debtId}")
+  .onCreate(async (snapshot) => {
+    try {
+      const data = snapshot.data() as {
+        borrowersUserId?: string[];
+        due?: firestore.Timestamp;
+        debtName?: string;
+      };
+      const users = await db
+        .collection("Users")
+        .where(firestore.FieldPath.documentId(), "in", [
+          ...(data?.borrowersUserId || []),
+        ])
+        .get();
+      let messages: string[] = [];
+      for (const usr of users.docs) {
+        for (const token of (usr.data() as { tokens?: string[] }).tokens ||
+          []) {
+          messages = [...messages, token];
+        }
       }
+      const multicastMsg: MulticastMessage = {
+        notification: {
+          title: `${data.debtName} has been created.`,
+          body: `Please make a payment by ${data.due?.toDate().toISOString()}`,
+        },
+        data: {
+          content: `${data.debtName} has been created.`,
+        },
+        tokens: messages,
+      };
+      log("Sending to debt");
+      await messaging().sendEachForMulticast(multicastMsg);
+      log("Sending", multicastMsg);
+    } catch (err) {
+      log(err);
     }
-    const multicastMsg: MulticastMessage = {
-      data: {
-        content: `${data.debtName} has been created.`
-      },
-      tokens: messages
-      
+  });
+
+export const cleanupDebt = functions.firestore
+  .document("Debts/{debtId}")
+  .onDelete(async (snapshot) => {
+    try {
+      const debtId = snapshot.id;
+      const docs = await db
+        .collection("Borrowers")
+        .where("debtId", "==", debtId)
+        .get();
+      const batch = db.batch();
+      for (const doc of docs.docs) {
+        batch.delete(db.collection("Borrowers").doc(doc.id));
+      }
+      await batch.commit();
+    } catch (error) {
+      log(error);
     }
-    await messaging().sendEachForMulticast(multicastMsg)
-  }catch(err){
-    log(err)
-  }
-
-
-});
-
-export const cleanupDebt = functions.firestore.document("Debts/{debtId}").onDelete( async (snapshot)=>{
-  try {
-    const debtId = snapshot.id;
-    const docs = await db.collection("Borrowers").where("debtId","==",debtId).get()
-    const batch = db.batch()
-    for(const doc of docs.docs){
-      batch.delete(db.collection("Borrowers").doc(doc.id))
-    }
-    await batch.commit()
-  } catch (error) {
-    log(error);
-  }
-})
+  });
