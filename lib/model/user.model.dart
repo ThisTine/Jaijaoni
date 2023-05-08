@@ -26,8 +26,8 @@ class Users {
         userId: doc.id,
         profilePic: data['profilePic'] ?? '',
         username: data['username'],
-        name: data['name'],
-        quote: data['quote'],
+        name: data['name'] ?? '',
+        quote: data['quote'] ?? '',
         charts: List<Map<String, dynamic>>.from(data['charts'] ?? [])
             .map((e) => Charts(
                 monthLabel: e['monthLabel'],

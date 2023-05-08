@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jaijaoni/components/circle_avata.dart';
 import 'package:jaijaoni/components/custom_app_bar.dart';
+import 'package:jaijaoni/functions/profile/user_name.dart';
 
 import '../config/theme/custom_color.g.dart';
 
@@ -58,7 +59,23 @@ class EditProfile extends StatelessWidget {
                       children: [
                         textlebel(context, "Name"),
                         const SizedBox(width: 65),
-                        hintlebel(context, "Default Name"),
+
+                        FutureBuilder<String>(
+                          future: username(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return hintlebel(context, snapshot.data!);
+                            } else if (snapshot.hasError) {
+                              return hintlebel(
+                                  context, 'Error: ${snapshot.error}');
+                            }
+                            return hintlebel(
+                              context,
+                              ' ${snapshot.data ?? ''}',
+                            );
+                          },
+                        ),
+                        // hintlebel(context, "name"),
                       ],
                     ),
                     const SizedBox(height: 20),
@@ -67,7 +84,23 @@ class EditProfile extends StatelessWidget {
                       children: [
                         textlebel(context, "Quote"),
                         const SizedBox(width: 65),
-                        hintlebel(context, "add quote"),
+
+                        FutureBuilder<String>(
+                          future: quoteprefill(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return hintlebel(context, snapshot.data!);
+                            } else if (snapshot.hasError) {
+                              return hintlebel(
+                                  context, 'Error: ${snapshot.error}');
+                            }
+                            return hintlebel(
+                              context,
+                              ' ${snapshot.data ?? ''}',
+                            );
+                          },
+                        ),
+                        // hintlebel(context, "add quote"),
                       ],
                     ),
                     const SizedBox(height: 40),

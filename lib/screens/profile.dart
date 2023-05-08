@@ -1,16 +1,18 @@
 //Fah
 // import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jaijaoni/config/theme/custom_color.g.dart';
+import 'package:jaijaoni/functions/profile/user_name.dart';
 import 'package:jaijaoni/services/auth/auth_service.dart';
 
 import '../components/circle_avata.dart';
 import '../components/quote.dart';
+import 'dart:async';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,12 +43,24 @@ class ProfileScreen extends StatelessWidget {
               children: [
                 circleAvata(radius: 50.0),
                 const SizedBox(height: 15),
-                Text(
-                  "Name's",
-                  style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                      fontSize:
-                          Theme.of(context).textTheme.headlineSmall!.fontSize),
+                FutureBuilder<String>(
+                  future: username(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Text('Loading...');
+                    }
+                    if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    }
+                    return Text(
+                      ' ${snapshot.data ?? ''}',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                        fontSize:
+                            Theme.of(context).textTheme.headlineSmall!.fontSize,
+                      ),
+                    );
+                  },
                 ),
                 const SizedBox(height: 15),
                 quote(context, height: 100),
