@@ -35,9 +35,10 @@ class _DetailCustomerState extends State<DetailCustomer> {
                   //   height: 13,
                   // ),
                   DetailCard(
+                    id: widget.debt.debtId,
                     cardColor: Theme.of(context).colorScheme.primary,
-                    name: "Seven Eleven",
-                    amount: "350",
+                    name: widget.debt.debtName, //"Seven Eleven",
+                    amount: widget.debt.debtTotal.toString(),
                     edit: false,
                   ),
                   const SizedBox(

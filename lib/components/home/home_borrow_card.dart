@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class BorrowCard extends StatefulWidget {
+  final String id;
   final String name;
   final String date;
   final String amount;
   final String image;
   final int debtor;
   const BorrowCard({
-    Key? key,
+    super.key,
+    required this.id,
     required this.name,
     required this.date,
     required this.amount,
     required this.image,
     required this.debtor,
-  }) : super(key: key);
+  });
 
   @override
   State<BorrowCard> createState() => _BorrowCardState();
@@ -27,9 +30,8 @@ class _BorrowCardState extends State<BorrowCard> {
       width: 360,
       child: GestureDetector(
         onTap: () => {
-          // Navigator.push(context,
-          //     MaterialPageRoute(builder: (context) => const DetailCustomer()))
-          // ใช้ context.go("/detail/${debtId}")
+          // GoRouter.of(context).go("/detail/${widget.id}")
+          context.go("/detail/${widget.id}")
         },
         child: Card(
           color: const Color(0xFFB05D5D),
@@ -110,10 +112,12 @@ class _BorrowCardState extends State<BorrowCard> {
                           SizedBox(
                             child: Text(
                               widget.amount, // Money amount
+                              maxLines: 1,
                               style: const TextStyle(
                                   fontSize: 45,
                                   color: Colors.white,
-                                  height: 1.0),
+                                  height: 1.0,
+                                  overflow: TextOverflow.visible),
                             ),
                           ),
                           const SizedBox(

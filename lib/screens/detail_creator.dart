@@ -13,6 +13,34 @@ class DetailCreator extends StatefulWidget {
 }
 
 class _DetailCreatorState extends State<DetailCreator> {
+  late DateTime _date;
+  late double _paid;
+
+  void initData() {
+    List<Transactions> _transactions = widget.debt.transactions
+        .map((e) => Transactions(
+              transactionId: e.transactionId,
+              borrowId: e.borrowId,
+              username: e.username,
+              profilePic: e.profilePic,
+              amount: e.amount,
+              isApproved: e.isApproved,
+              errMessage: e.errMessage,
+            ))
+        .toList();
+        _transactions[0]['amount'];
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initData();
+    _date = DateTime.fromMillisecondsSinceEpoch(widget.debt.due.seconds * 1000);
+    _paid = widget.debt.debtTotal -
+        widget.debt.transactions
+            .fold(0, (previous, current) => previous + current);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,9 +57,10 @@ class _DetailCreatorState extends State<DetailCreator> {
               height: 5,
             ),
             DetailCard(
+                id: widget.debt.debtId,
                 cardColor: Theme.of(context).colorScheme.primary,
-                name: "Bonchon Chicken",
-                amount: "1000",
+                name: widget.debt.debtName,
+                amount: widget.debt.debtTotal.toString(),
                 edit: true),
             const SizedBox(
               height: 23,
@@ -67,7 +96,8 @@ class _DetailCreatorState extends State<DetailCreator> {
                         ),
                         TextSpan(
                             // Date Text
-                            text: "Tue, Feburary 2023",
+                            text:
+                                "${_date.day}/${_date.month}/${_date.year}", //"Tue, Feburary 2023",
                             style: TextStyle(
                                 color: Theme.of(context)
                                     .colorScheme
@@ -109,7 +139,7 @@ class _DetailCreatorState extends State<DetailCreator> {
                                   .onPrimaryContainer),
                         ),
                         TextSpan(
-                            text: "\n10",
+                            text: widget.debt.borrowersUserId.length.toString(),
                             style: TextStyle(
                                 color: Theme.of(context)
                                     .colorScheme

@@ -274,7 +274,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 itemBuilder: (context, index) {
                                   var tsdate = foundLend[index]["date"];
                                   return LendCard(
-                                    key: ValueKey(foundLend[index]["id"]),
+                                    id: foundLend[index]["id"],
                                     name: foundLend[index]["name"],
                                     date:
                                         "${tsdate.day}/${tsdate.month}/${tsdate.year}",
@@ -295,7 +295,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 itemBuilder: (context, index) {
                                   var tsdate = foundBorrow[index]["date"];
                                   return BorrowCard(
-                                    key: ValueKey(foundBorrow[index]["id"]),
+                                    id: foundBorrow[index]["id"],
                                     name: foundBorrow[index]["name"],
                                     date:
                                         "${tsdate.day}/${tsdate.month}/${tsdate.year}",
