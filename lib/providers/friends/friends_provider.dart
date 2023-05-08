@@ -12,13 +12,18 @@ final friendsProvider = StreamProvider<List<Users>>((ref) async* {
       FireStoreService.collection.users.doc(userId);
   late final Stream<DocumentSnapshot<Map<String, dynamic>>> snapshots =
       query.snapshots();
-
   await for (var snapshot in snapshots) {
     if (snapshot.exists) {
       yield [];
     }
     List<String> usr = Users.fromFireStore(snapshot).friendList;
-    List<Users> friends = await findUserByUsername(usr);
-    yield friends;
+    if (usr.isNotEmpty) {
+      List<Users> friends = await findUserByUsername(usr);
+      yield friends;
+    } else {
+      yield [];
+    }
+
+    // print("Yielding");
   }
 });

@@ -31,8 +31,8 @@ class Users {
         charts: List<Map<String, dynamic>>.from(data['charts'] ?? [])
             .map((e) => Charts(
                 monthLabel: e['monthLabel'],
-                lendTotal: e['lendTotal'],
-                borrowTotal: e['borrowTotal']))
+                lendTotal: double.parse(e['lendTotal'].toString()),
+                borrowTotal: double.parse(e['borrowTotal'].toString())))
             .toList(),
         friendList: List<dynamic>.from(data['friendList'] ?? [])
             .map((e) => e.toString())

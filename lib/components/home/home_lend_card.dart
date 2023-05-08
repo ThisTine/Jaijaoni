@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:jaijaoni/screens/detail_creator.dart';
 
 class LendCard extends StatefulWidget {
   final String name;
@@ -28,8 +27,9 @@ class _LendCardState extends State<LendCard> {
       width: 360,
       child: GestureDetector(
         onTap: () => {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const DetailCreator()))
+          // Navigator.push(context,
+          // MaterialPageRoute(builder: (context) => const DetailCreator()))
+          // ใช้ context.go("/detail/${debtId}")
         },
         child: Card(
           color:
