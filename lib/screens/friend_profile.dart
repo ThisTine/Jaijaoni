@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:jaijaoni/components/custom_app_bar.dart';
 import 'package:jaijaoni/components/friends/addfriend_alert_dialog.dart';
 import 'package:jaijaoni/components/quote.dart';
+import 'package:jaijaoni/functions/profile/analaysis_friend_profile.dart';
 import 'package:jaijaoni/functions/profile/find_friend_profile.dart';
 import 'package:jaijaoni/functions/utils/find_user_by_id.dart';
 import 'package:jaijaoni/screens/profile.dart';
@@ -55,7 +56,17 @@ class FriendProfile extends StatelessWidget {
                               usersnapshot.data?.username ?? ''),
                           builder: (context, username) {
                             return username.data == true
-                                ? debtAnalysisBox(context)
+                                ? FutureBuilder(
+                                    future: analaysisFriendProfile(
+                                        usersnapshot.data?.userId ?? ''),
+                                    builder: (context, snapshot) {
+                                      return debtAnalysisBox(
+                                          context,
+                                          snapshot.data?.paid.toString() ??
+                                              '0.0',
+                                          snapshot.data?.unpaid.toString() ??
+                                              '0.0');
+                                    })
                                 : Container();
                           });
                     })
