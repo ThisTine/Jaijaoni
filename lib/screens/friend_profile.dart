@@ -31,7 +31,12 @@ class FriendProfile extends StatelessWidget {
                       ),
                       Positioned(
                         top: -90,
-                        child: circleAvataDefuq(radius: 80),
+                        child: FutureBuilder(
+                            future: profilepic(),
+                            builder: (context, snapshot) {
+                              return circleAvataUser(
+                                  radius: 80, imgUrl: snapshot.data.toString());
+                            }),
                       ),
                     ],
                   ),
@@ -94,7 +99,13 @@ Widget cardProfile(BuildContext context,
                           children: [
                             Row(
                               children: [
-                                circleAvataDefuq(radius: 30),
+                                FutureBuilder(
+                                    future: profilepic(),
+                                    builder: (context, snapshot) {
+                                      return circleAvataUser(
+                                          radius: 30,
+                                          imgUrl: snapshot.data.toString());
+                                    }),
                                 const SizedBox(width: 24),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,

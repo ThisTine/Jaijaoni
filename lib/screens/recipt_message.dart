@@ -23,7 +23,12 @@ class ReciptMessage extends StatelessWidget {
             builder: (context, snapshot) => Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                circleAvataDefuq(radius: 50),
+                FutureBuilder(
+                    future: profilepic(),
+                    builder: (context, snapshot) {
+                      return circleAvataUser(
+                          radius: 50, imgUrl: snapshot.data.toString());
+                    }),
                 const SizedBox(height: 15),
                 Text("${snapshot.data?.name}",
                     style: TextStyle(
@@ -99,7 +104,12 @@ Widget reciptList(BuildContext context, bool read, FriendData snapshot) {
     children: [
       Row(
         children: [
-          circleAvataDefuq(radius: 15),
+          FutureBuilder(
+              future: profilepic(),
+              builder: (context, snapshot) {
+                return circleAvataUser(
+                    radius: 15, imgUrl: snapshot.data.toString());
+              }),
           const SizedBox(width: 12),
           Text(snapshot.name,
               style: TextStyle(
@@ -126,7 +136,11 @@ Widget reciptList(BuildContext context, bool read, FriendData snapshot) {
                         children: [
                           Row(
                             children: [
-                              circleAvataDefuq(radius: 30),
+                              FutureBuilder(builder: (context, snapshot) {
+                                return circleAvataUser(
+                                    radius: 30,
+                                    imgUrl: snapshot.data.toString());
+                              }),
                               const SizedBox(width: 24),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,

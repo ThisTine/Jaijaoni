@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jaijaoni/components/utils/profile_circle_avatar.dart';
 
 class ListOfFriend extends StatefulWidget {
   const ListOfFriend(
@@ -22,12 +23,7 @@ class _ListOfFriendState extends State<ListOfFriend> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: ClipOval(
-        child: SizedBox.fromSize(
-          size: const Size.fromRadius(20),
-          child: Image.asset(widget.imagePath, fit: BoxFit.cover),
-        ),
-      ),
+      leading: ProfileCircleAvatar(userId: widget.id),
       title: Text(widget.name),
       trailing: Checkbox(
           value: widget.check,
