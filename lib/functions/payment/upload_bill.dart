@@ -7,7 +7,7 @@ Future<void> uploadPicture(XFile file, String namepic, String type) async {
     final storage = FirebaseStorage.instance;
     final storageRef = storage.ref();
     final mountainsRef = storageRef.child("$type/$namepic");
-    print(mountainsRef);
+    // print(mountainsRef);
     final Uint8List fileData = await file.readAsBytes();
     // final files = File(file.path);
     // print("ตรงนี้นะ");

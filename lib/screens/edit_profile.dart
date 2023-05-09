@@ -1,8 +1,4 @@
-import 'dart:io';
-import 'dart:html' as html;
-import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
@@ -16,7 +12,7 @@ import '../functions/profile/updateinfo.dart';
 import '../model/user.model.dart';
 
 class EditProfile extends StatefulWidget {
-  EditProfile({super.key});
+  const EditProfile({super.key});
 
   @override
   State<EditProfile> createState() => _EditProfileState();

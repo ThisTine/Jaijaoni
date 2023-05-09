@@ -17,11 +17,11 @@ Future<Borrowers> findborrwerBytwoId(String deptID) async {
         .where("borrowerUserId",
             isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .get();
-    print(borrowerQuery.docs.map((e) => e.data()));
+    // print(borrowerQuery.docs.map((e) => e.data()));
     Borrowers borrower = Borrowers.fromFireStore(borrowerQuery.docs.first);
     return borrower;
   } catch (err) {
-    print(err);
+    // print(err);
     rethrow;
   }
 }
