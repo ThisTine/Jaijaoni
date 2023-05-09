@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:jaijaoni/components/circle_avata.dart';
 import 'package:jaijaoni/components/custom_app_bar.dart';
 import 'package:jaijaoni/components/debt_detail_payer_card.dart';
 import 'package:jaijaoni/functions/create/get_friends.dart';
 import 'package:jaijaoni/functions/friends/find_transaction_from_friend_id.dart';
 import 'package:jaijaoni/functions/utils/find_user_by_id.dart';
-import '../components/circle_avata.dart';
 
 class ReciptMessage extends StatelessWidget {
   const ReciptMessage({super.key});
@@ -23,7 +23,7 @@ class ReciptMessage extends StatelessWidget {
             builder: (context, snapshot) => Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                circleAvata(radius: 50),
+                circleAvataDefuq(radius: 50),
                 const SizedBox(height: 15),
                 Text("${snapshot.data?.name}",
                     style: TextStyle(
@@ -99,7 +99,7 @@ Widget reciptList(BuildContext context, bool read, FriendData snapshot) {
     children: [
       Row(
         children: [
-          circleAvata(radius: 15),
+          circleAvataDefuq(radius: 15),
           const SizedBox(width: 12),
           Text(snapshot.name,
               style: TextStyle(
@@ -126,7 +126,7 @@ Widget reciptList(BuildContext context, bool read, FriendData snapshot) {
                         children: [
                           Row(
                             children: [
-                              circleAvata(radius: 30),
+                              circleAvataDefuq(radius: 30),
                               const SizedBox(width: 24),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,

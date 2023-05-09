@@ -14,6 +14,7 @@ class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
   @override
   Widget build(BuildContext context) {
+    // String imgurl = '';
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -37,40 +38,50 @@ class ProfileScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                circleAvata(radius: 50.0),
-                const SizedBox(height: 15),
-                FutureBuilder<String>(
-                  future: username(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Text('Loading...');
-                    }
-                    if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
-                    }
-                    return Text(
-                      ' ${snapshot.data ?? ''}',
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
-                        fontSize:
-                            Theme.of(context).textTheme.headlineSmall!.fontSize,
+            child: FutureBuilder<String>(
+                future: profilepic(),
+                builder: (context, snapshot) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      circleAvataUser(
+                        radius: 50.0,
+                        imgUrl: snapshot.data ?? '',
                       ),
-                    );
-                  },
-                ),
-                const SizedBox(height: 15),
-                quote(context, height: 100),
-                const SizedBox(height: 15),
-                debtAnalysisBox(context),
-                const SizedBox(height: 15),
-                menuBox(context),
-                const SizedBox(height: 15),
-                logoutButton(context),
-              ],
-            ),
+                      const SizedBox(height: 15),
+                      FutureBuilder<String>(
+                        future: username(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Text('Loading...');
+                          }
+                          if (snapshot.hasError) {
+                            return Text('Error: ${snapshot.error}');
+                          }
+                          return Text(
+                            ' ${snapshot.data ?? ''}',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                              fontSize: Theme.of(context)
+                                  .textTheme
+                                  .headlineSmall!
+                                  .fontSize,
+                            ),
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 15),
+                      quote(context, height: 100),
+                      const SizedBox(height: 15),
+                      debtAnalysisBox(context),
+                      const SizedBox(height: 15),
+                      menuBox(context),
+                      const SizedBox(height: 15),
+                      logoutButton(context),
+                    ],
+                  );
+                }),
           ),
         ),
       ),

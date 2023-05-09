@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 
 Future<String> getPicture(String namepic, String type) async {

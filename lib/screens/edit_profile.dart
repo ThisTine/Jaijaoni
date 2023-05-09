@@ -26,12 +26,13 @@ class _EditProfileState extends State<EditProfile> {
   XFile? imagefile;
   final ImagePicker _picker = ImagePicker();
   final TextEditingController _name = TextEditingController();
-
+  String imgUrl = '';
   final TextEditingController _quote = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    _getImage();
     username().then((uname) {
       _name.text = uname;
     });
@@ -49,8 +50,15 @@ class _EditProfileState extends State<EditProfile> {
       setState(() {
         imagefile = pickedFile;
       });
-      setState(() {});
+      // setState(() {});
     }
+  }
+
+  _getImage() async {
+    String imgurl = await profilepic();
+    setState(() {
+      imgUrl = imgurl;
+    });
   }
 
   Widget build(BuildContext context) {
@@ -69,7 +77,9 @@ class _EditProfileState extends State<EditProfile> {
           padding: const EdgeInsets.symmetric(vertical: 16),
           child: Column(
             children: [
-              circleAvata(radius: 70),
+              imagefile != null
+                  ? circleAvata(radius: 70, imagefile: imagefile!)
+                  : circleAvataUser(radius: 70, imgUrl: imgUrl),
               const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
