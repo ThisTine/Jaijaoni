@@ -4,7 +4,14 @@ import 'package:jaijaoni/model/debt.model.dart';
 import 'package:jaijaoni/model/user.model.dart';
 import 'package:jaijaoni/services/store/fire_store_service.dart';
 
-Future<List<Transactions>> findTransactionFromFriendId(String friendId) async {
+class TransactionsWithDebtId {
+  final Transactions transac;
+  final String debtId;
+  TransactionsWithDebtId({required this.transac, required this.debtId});
+}
+
+Future<List<TransactionsWithDebtId>> findTransactionFromFriendId(
+    String friendId) async {
   try {
     // Find friend from database by using given friendId
     Users friend = await findUserById(friendId);
@@ -19,7 +26,7 @@ Future<List<Transactions>> findTransactionFromFriendId(String friendId) async {
     List<Debts> debts =
         debtQuery.docs.map((e) => Debts.fromFireStore(e)).toList();
     // create empity list of transaction
-    List<Transactions> relatedTransactions = [];
+    List<TransactionsWithDebtId> relatedTransactions = [];
     for (Debts debt in debts) {
       // add the transaction that created by friend in to the list
       relatedTransactions = [
@@ -27,6 +34,7 @@ Future<List<Transactions>> findTransactionFromFriendId(String friendId) async {
         ...debt.transactions
             .where((friendTransaction) =>
                 friendTransaction.username == friend.username)
+            .map((e) => TransactionsWithDebtId(transac: e, debtId: debt.debtId))
             .toList()
       ];
     }
