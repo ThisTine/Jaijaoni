@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jaijaoni/components/utils/profile_circle_avatar.dart';
 
 import '../../screens/friend_profile.dart';
 
@@ -18,7 +19,7 @@ class DebtPeopleItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         Navigator.push(
             context,
@@ -35,8 +36,7 @@ class DebtPeopleItem extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  CircleAvatar(
-                      foregroundImage: NetworkImage(profileImage ?? "")),
+                  ProfileCircleAvatar(userId: id),
                   const SizedBox(
                     width: 10,
                   ),

@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jaijaoni/components/utils/profile_circle_avatar.dart';
 
 class PayerItemUnpaid extends ConsumerStatefulWidget {
   final void Function(String, double) handleCustomCalculation;
@@ -63,9 +64,10 @@ class _PayerItemUnpaidState extends ConsumerState<PayerItemUnpaid> {
                     margin: const EdgeInsets.all(20),
                     child: Column(
                       children: [
-                        CircleAvatar(
-                          foregroundImage: AssetImage(widget.imagePath),
-                        ),
+                        ProfileCircleAvatar(userId: widget.id),
+                        // CircleAvatar(
+                        //   foregroundImage: AssetImage(widget.imagePath),
+                        // ),
                         // ClipOval(
                         //   child: SizedBox.fromSize(
                         //     size: const Size.fromRadius(50),
@@ -155,12 +157,7 @@ class _PayerItemUnpaidState extends ConsumerState<PayerItemUnpaid> {
                     const SizedBox(
                       width: 13,
                     ),
-                    ClipOval(
-                      child: SizedBox.fromSize(
-                        size: const Size.fromRadius(30),
-                        child: Image.asset(widget.imagePath, fit: BoxFit.cover),
-                      ),
-                    ),
+                    ProfileCircleAvatar(userId: widget.id),
                     const SizedBox(
                       width: 13,
                     ),
