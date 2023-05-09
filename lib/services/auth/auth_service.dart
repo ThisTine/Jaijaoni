@@ -115,7 +115,7 @@ class AuthService {
         await signedInCredential.user!
             .updateDisplayName(signedInCredential.user!.email);
       }
-    } on fauth.FirebaseAuthException {
+    } catch (err) {
       rethrow;
     }
   }

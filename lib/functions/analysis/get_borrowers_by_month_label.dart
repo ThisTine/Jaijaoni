@@ -44,22 +44,32 @@ Future<List<DebtPeopleItemObject>> getBorrowersbymonthLabel(
     DateTime monthlb = DateTime(int.parse(splittedLabel.last), monthIndex);
     var queryborrower = FireStoreService.collection.borrowers
         .where("borrowedTime",
-            isLessThanOrEqualTo: DateTime(monthlb.year, monthlb.month + 1, 0))
+            isLessThanOrEqualTo: DateTime(monthlb.year, monthlb.month + 2, 0))
         .where("borrowedTime",
-            isGreaterThanOrEqualTo: DateTime(monthlb.year, monthlb.month, 1))
+            isGreaterThanOrEqualTo:
+                DateTime(monthlb.year, monthlb.month + 1, 1))
         .where("borrowerUserId", isEqualTo: userId);
+
     var querylender = FireStoreService.collection.borrowers
         .where("borrowedTime",
-            isLessThanOrEqualTo: DateTime(monthlb.year, monthlb.month + 1, 0))
+            isLessThanOrEqualTo: DateTime(monthlb.year, monthlb.month + 2, 0))
         .where("borrowedTime",
-            isGreaterThanOrEqualTo: DateTime(monthlb.year, monthlb.month, 1))
+            isGreaterThanOrEqualTo:
+                DateTime(monthlb.year, monthlb.month + 1, 1))
         .where("lenderUserId", isEqualTo: userId);
     var docsBorrower = await queryborrower.get();
     var docsLender = await querylender.get();
+    // print(docsBorrower.docs.map((e) => e.data()));
+    // print(docsLender.docs.map((e) => e.data()));
     List<Borrowers> borrowers =
         docsBorrower.docs.map((e) => Borrowers.fromFireStore(e)).toList();
     List<Borrowers> lenders =
         docsLender.docs.map((e) => Borrowers.fromFireStore(e)).toList();
+
+    // print(lenders.map((e) => {
+    //       "t": e.borrowedTime.toDate().toString(),
+    //       "amount": e.debtTotal.toString()
+    //     }));
 
     List<DebtPeopleItemObject> db = [];
     for (var borrower in borrowers) {
@@ -108,6 +118,7 @@ Future<List<DebtPeopleItemObject>> getBorrowersbymonthLabel(
         ];
       }
     }
+    db.sort((a, b) => b.total.compareTo(a.total));
     return db;
   } catch (err) {
     rethrow;

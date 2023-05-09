@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:jaijaoni/functions/profile/user_name.dart';
 
-Widget quote(BuildContext context, {required double height}) {
+Widget quote(BuildContext context,
+    {required double height, String? customQuote}) {
   return Row(
     children: [
       Expanded(
@@ -24,15 +26,29 @@ Widget quote(BuildContext context, {required double height}) {
               Center(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    "\"Quote\"",
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
-                        fontSize: Theme.of(context)
-                            .textTheme
-                            .headlineSmall!
-                            .fontSize),
-                  ),
+                  child: customQuote != null
+                      ? Text(customQuote,
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                              fontSize: Theme.of(context)
+                                  .textTheme
+                                  .headlineSmall!
+                                  .fontSize))
+                      : FutureBuilder<String>(
+                          future: quoteprefill(),
+                          builder: (context, snapshot) {
+                            return Text(
+                              !(snapshot.data == null || snapshot.data == "")
+                                  ? snapshot.data ?? ""
+                                  : "Type your quote here",
+                              style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontSize: Theme.of(context)
+                                      .textTheme
+                                      .headlineSmall!
+                                      .fontSize),
+                            );
+                          }),
                 ),
               ),
             ],

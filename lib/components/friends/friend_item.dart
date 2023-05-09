@@ -76,7 +76,8 @@ class FriendItem extends StatelessWidget {
         const SizedBox(
           height: 10,
         ),
-        GestureDetector(
+        InkWell(
+          borderRadius: BorderRadius.circular(10),
           onTap: () {
             Navigator.push(
                 context,
@@ -100,11 +101,9 @@ class FriendItem extends StatelessWidget {
                     children: [
                       Text(
                         name,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineSmall!
-                            .copyWith(
-                                color: Theme.of(context).colorScheme.primary),
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: Theme.of(context).colorScheme.primary),
                       ),
                       Text(
                         "@$username",

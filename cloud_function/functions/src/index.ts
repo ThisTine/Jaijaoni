@@ -2,7 +2,7 @@ import { initializeApp } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
 import * as functions from "firebase-functions";
 import { log } from "firebase-functions/logger";
-import { messaging,firestore } from "firebase-admin";
+import { messaging, firestore } from "firebase-admin";
 import { MulticastMessage } from "firebase-admin/lib/messaging/messaging-api";
 
 initializeApp();
@@ -54,14 +54,18 @@ export const recalculateDebt = functions.firestore
         .get();
       const lenderDataMonth = (lenderDoc.data() as userData).charts || [];
       const borrowerDataMonth = (borrowerDoc.data() as userData).charts || [];
+      log("old lender data",lenderDataMonth)
+      log("old borrower data",borrowerDataMonth)
+
       let updatedLenderMonthData = lenderDataMonth;
       let updatedBorrowerMonthData = borrowerDataMonth;
+      
       if (lenderDataMonth.map((item) => item.monthLabel).includes(monthLabel)) {
         updatedLenderMonthData = updatedLenderMonthData.map((item) =>
           item.monthLabel == monthLabel
             ? {
               ...item,
-              lendTotal: item.lendTotal || 0 + borrowerData.debtTotal || 0,
+              lendTotal: (item.lendTotal || 0) + (borrowerData.debtTotal || 0),
             }
             : item
         );
@@ -70,7 +74,7 @@ export const recalculateDebt = functions.firestore
           ...updatedLenderMonthData,
           {
             borrowTotal: 0,
-            lendTotal: borrowerData.debtTotal || 0,
+            lendTotal: (borrowerData.debtTotal || 0),
             monthLabel: monthLabel,
           },
         ];
@@ -84,7 +88,7 @@ export const recalculateDebt = functions.firestore
             ? {
               ...item,
               borrowTotal:
-                  item.borrowTotal || 0 + borrowerData.debtTotal || 0,
+                  (item.borrowTotal || 0) + (borrowerData.debtTotal || 0),
             }
             : item
         );
@@ -93,7 +97,7 @@ export const recalculateDebt = functions.firestore
           ...updatedBorrowerMonthData,
           {
             lendTotal: 0,
-            borrowTotal: borrowerData.debtTotal || 0,
+            borrowTotal: (borrowerData.debtTotal || 0),
             monthLabel: monthLabel,
           },
         ];
@@ -101,49 +105,72 @@ export const recalculateDebt = functions.firestore
       await userCollection
         .doc(borrowerData.lenderUserId)
         .set({ ...lenderDoc.data(), charts: updatedLenderMonthData });
+      log("updating...",borrowerData.lenderUserId,updatedLenderMonthData);
       await userCollection
         .doc(borrowerData.borrowerUserId)
         .set({ ...borrowerDoc.data(), charts: updatedBorrowerMonthData });
+      log("updating...",borrowerData.borrowerUserId,updatedBorrowerMonthData);
+
     } catch (err) {
       log(err);
     }
   });
 
-export const notifyDebtors = functions.firestore.document("Debts/{debtId}").onCreate( async (snapshot)=>{
-  try{
-    const data = snapshot.data() as {borrowersUserId?: string[],due?: firestore.Timestamp,debtName?: string};
-    const users = await db.collection("Users").where(firestore.FieldPath.documentId(), "in", [...data?.borrowersUserId || []] ).get();
-    let messages:string[] = [];
-    for(const usr of users.docs){
-      for(const token of (usr.data() as {tokens?:string[]}).tokens || []){
-        messages = [...messages,token];
+export const notifyDebtors = functions.firestore
+  .document("Debts/{debtId}")
+  .onCreate(async (snapshot) => {
+    try {
+      const data = snapshot.data() as {
+        borrowersUserId?: string[];
+        due?: firestore.Timestamp;
+        debtName?: string;
+      };
+      const users = await db
+        .collection("Users")
+        .where(firestore.FieldPath.documentId(), "in", [
+          ...(data?.borrowersUserId || []),
+        ])
+        .get();
+      let messages: string[] = [];
+      for (const usr of users.docs) {
+        for (const token of (usr.data() as { tokens?: string[] }).tokens ||
+          []) {
+          messages = [...messages, token];
+        }
       }
+      const multicastMsg: MulticastMessage = {
+        notification: {
+          title: `${data.debtName} has been created.`,
+          body: `Please make a payment by ${data.due?.toDate().toISOString()}`,
+        },
+        data: {
+          content: `${data.debtName} has been created.`,
+        },
+        tokens: messages,
+      };
+      log("Sending to debt");
+      await messaging().sendEachForMulticast(multicastMsg);
+      log("Sending", multicastMsg);
+    } catch (err) {
+      log(err);
     }
-    const multicastMsg: MulticastMessage = {
-      data: {
-        content: `${data.debtName} has been created.`
-      },
-      tokens: messages
-      
+  });
+
+export const cleanupDebt = functions.firestore
+  .document("Debts/{debtId}")
+  .onDelete(async (snapshot) => {
+    try {
+      const debtId = snapshot.id;
+      const docs = await db
+        .collection("Borrowers")
+        .where("debtId", "==", debtId)
+        .get();
+      const batch = db.batch();
+      for (const doc of docs.docs) {
+        batch.delete(db.collection("Borrowers").doc(doc.id));
+      }
+      await batch.commit();
+    } catch (error) {
+      log(error);
     }
-    await messaging().sendEachForMulticast(multicastMsg)
-  }catch(err){
-    log(err)
-  }
-
-
-});
-
-export const cleanupDebt = functions.firestore.document("Debts/{debtId}").onDelete( async (snapshot)=>{
-  try {
-    const debtId = snapshot.id;
-    const docs = await db.collection("Borrowers").where("debtId","==",debtId).get()
-    const batch = db.batch()
-    for(const doc of docs.docs){
-      batch.delete(db.collection("Borrowers").doc(doc.id))
-    }
-    await batch.commit()
-  } catch (error) {
-    log(error);
-  }
-})
+  });
