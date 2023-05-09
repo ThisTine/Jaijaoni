@@ -1,20 +1,58 @@
+import 'dart:io';
+import 'dart:html' as html;
+import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:jaijaoni/components/circle_avata.dart';
 import 'package:jaijaoni/components/custom_app_bar.dart';
+import 'package:jaijaoni/functions/profile/set_profile_picture.dart';
 import 'package:jaijaoni/functions/profile/user_name.dart';
 
 import '../config/theme/custom_color.g.dart';
 import '../functions/profile/updateinfo.dart';
 import '../model/user.model.dart';
 
-class EditProfile extends StatelessWidget {
-  final TextEditingController _name = TextEditingController();
-  final TextEditingController _quote = TextEditingController();
+class EditProfile extends StatefulWidget {
   EditProfile({super.key});
 
   @override
+  State<EditProfile> createState() => _EditProfileState();
+}
+
+class _EditProfileState extends State<EditProfile> {
+  XFile? imagefile;
+  final ImagePicker _picker = ImagePicker();
+  final TextEditingController _name = TextEditingController();
+
+  final TextEditingController _quote = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    username().then((uname) {
+      _name.text = uname;
+    });
+    quoteprefill().then((quote) {
+      _quote.text = quote;
+    });
+  }
+
+  _getFromGallery() async {
+    XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      // var image = await pickedFile.readAsBytes();
+      // var imgFile = await File("test.png").writeAsBytes(image);
+      // print(await pickedFile.readAsBytes());
+      setState(() {
+        imagefile = pickedFile;
+      });
+      setState(() {});
+    }
+  }
+
   Widget build(BuildContext context) {
     void save(context) {
       SnackBar snackBar = const SnackBar(
@@ -46,6 +84,8 @@ class EditProfile extends StatelessWidget {
                               .fontSize)),
                   IconButton(
                       onPressed: () {
+                        _getFromGallery();
+
                         // showModalBottomSheet(
                         //     context: context,
                         //     builder: (context) => Padding(
@@ -164,6 +204,7 @@ class EditProfile extends StatelessWidget {
                               friendList: [],
                               accs: [],
                             ));
+                            setProfilepicture(imagefile!);
                             save(context);
                             context.go('/profile');
                           });

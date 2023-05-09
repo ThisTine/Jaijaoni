@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:jaijaoni/components/custom_app_bar.dart';
 import 'package:jaijaoni/components/debt_detail_payer_card.dart';
-import 'package:jaijaoni/components/debt_detail_transactions.dart';
 import 'package:jaijaoni/functions/create/get_friends.dart';
+import 'package:jaijaoni/functions/friends/find_transaction_from_friend_id.dart';
 import 'package:jaijaoni/functions/utils/find_user_by_id.dart';
 import '../components/circle_avata.dart';
 
@@ -120,49 +120,55 @@ Widget reciptList(BuildContext context, bool read, FriendData snapshot) {
               builder: (context) => Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: FutureBuilder(
-                  future: ,
-                  builder: (context, transacSnapshot) {
-                    return ListView(
-                      children: [
-                        Row(
-                          children: [
-                            circleAvata(radius: 30),
-                            const SizedBox(width: 24),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(snapshot.name,
-                                    style: TextStyle(
-                                        color:
-                                            Theme.of(context).colorScheme.primary,
-                                        fontSize: Theme.of(context)
-                                            .textTheme
-                                            .headlineSmall!
-                                            .fontSize)),
-                                Text("@${snapshot.username}",
-                                    style: TextStyle(
-                                        color:
-                                            Theme.of(context).colorScheme.primary,
-                                        fontSize: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall!
-                                            .fontSize)),
-                              ],
-                            ),
-                            const SizedBox(height: 41),
-                          ],
-                        ),
-                        const SizedBox(height: 27),
-                        // PayerCard(
-                        //   name: snapshot.name,
-                        //   image: "https://i.pravatar.cc/150?img=${snapshot}",
-                        //   amount: ,
-                        //   done: true,
-                        // ),
-                      ],
-                    );
-                  }
-                ),
+                    future: findTransactionFromFriendId(snapshot.id),
+                    builder: (context, transacSnapshot) {
+                      return ListView(
+                        children: [
+                          Row(
+                            children: [
+                              circleAvata(radius: 30),
+                              const SizedBox(width: 24),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(snapshot.name,
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                          fontSize: Theme.of(context)
+                                              .textTheme
+                                              .headlineSmall!
+                                              .fontSize)),
+                                  Text("@${snapshot.username}",
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                          fontSize: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall!
+                                              .fontSize)),
+                                ],
+                              ),
+                              const SizedBox(height: 41),
+                            ],
+                          ),
+                          const SizedBox(height: 27),
+                          ...(transacSnapshot.data ?? [])
+                              .map(
+                                (e) => PayerCard(
+                                  name: snapshot.name,
+                                  image:
+                                      "https://i.pravatar.cc/150?img=${snapshot.id}",
+                                  amount: e.amount.toString(),
+                                  done: true,
+                                ),
+                              )
+                              .toList()
+                        ],
+                      );
+                    }),
               ),
             );
           })

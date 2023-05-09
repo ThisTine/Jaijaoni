@@ -9,6 +9,7 @@ Future<Users> findUserById(String username) async {
         await FireStoreService.collection.users.doc(username).get();
     // List<Users> users = usersDoc.docs.map((e) => Users.fromFireStore(e)).toList();
     Users user = Users.fromFireStore(usersDoc);
+
     return user;
   } catch (err) {
     rethrow;
