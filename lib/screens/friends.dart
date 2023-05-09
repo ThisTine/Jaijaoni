@@ -65,8 +65,8 @@ class _FriendsScreenState extends ConsumerState<FriendsScreen> {
       });
     }).onError((error, stackTrace) {
       setState(() {
-      isLoading = false;
-    });
+        isLoading = false;
+      });
       showSnackBar(context, "Couldn't find ${_searchController.text}");
     });
   }
@@ -151,8 +151,8 @@ class _FriendsScreenState extends ConsumerState<FriendsScreen> {
                   ),
                   _searchController.text.startsWith("@")
                       ? UsernameSearch(
-                        getData: getData,
-                        isLoading: isLoading,
+                          getData: getData,
+                          isLoading: isLoading,
                           usr: usr,
                           request: request,
                         )
@@ -177,6 +177,9 @@ class _FriendsScreenState extends ConsumerState<FriendsScreen> {
                                   return const Text(
                                       "There's no friend request at this moment.");
                                 }
+                                setState(() {
+                                  friendRequestCount = data.length;
+                                });
                                 return FriendRequestContainer(
                                   friends: [...data],
                                   searchData: _searchController.text,

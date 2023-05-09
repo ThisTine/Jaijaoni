@@ -54,14 +54,18 @@ export const recalculateDebt = functions.firestore
         .get();
       const lenderDataMonth = (lenderDoc.data() as userData).charts || [];
       const borrowerDataMonth = (borrowerDoc.data() as userData).charts || [];
+      log("old lender data",lenderDataMonth)
+      log("old borrower data",borrowerDataMonth)
+
       let updatedLenderMonthData = lenderDataMonth;
       let updatedBorrowerMonthData = borrowerDataMonth;
+      
       if (lenderDataMonth.map((item) => item.monthLabel).includes(monthLabel)) {
         updatedLenderMonthData = updatedLenderMonthData.map((item) =>
           item.monthLabel == monthLabel
             ? {
               ...item,
-              lendTotal: item.lendTotal || 0 + borrowerData.debtTotal || 0,
+              lendTotal: (item.lendTotal || 0) + (borrowerData.debtTotal || 0),
             }
             : item
         );
@@ -70,7 +74,7 @@ export const recalculateDebt = functions.firestore
           ...updatedLenderMonthData,
           {
             borrowTotal: 0,
-            lendTotal: borrowerData.debtTotal || 0,
+            lendTotal: (borrowerData.debtTotal || 0),
             monthLabel: monthLabel,
           },
         ];
@@ -84,7 +88,7 @@ export const recalculateDebt = functions.firestore
             ? {
               ...item,
               borrowTotal:
-                  item.borrowTotal || 0 + borrowerData.debtTotal || 0,
+                  (item.borrowTotal || 0) + (borrowerData.debtTotal || 0),
             }
             : item
         );
@@ -93,7 +97,7 @@ export const recalculateDebt = functions.firestore
           ...updatedBorrowerMonthData,
           {
             lendTotal: 0,
-            borrowTotal: borrowerData.debtTotal || 0,
+            borrowTotal: (borrowerData.debtTotal || 0),
             monthLabel: monthLabel,
           },
         ];
@@ -101,9 +105,12 @@ export const recalculateDebt = functions.firestore
       await userCollection
         .doc(borrowerData.lenderUserId)
         .set({ ...lenderDoc.data(), charts: updatedLenderMonthData });
+      log("updating...",borrowerData.lenderUserId,updatedLenderMonthData);
       await userCollection
         .doc(borrowerData.borrowerUserId)
         .set({ ...borrowerDoc.data(), charts: updatedBorrowerMonthData });
+      log("updating...",borrowerData.borrowerUserId,updatedBorrowerMonthData);
+
     } catch (err) {
       log(err);
     }
