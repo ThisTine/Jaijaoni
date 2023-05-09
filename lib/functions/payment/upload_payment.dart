@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:image_picker/image_picker.dart';
 import 'package:jaijaoni/functions/payment/create_transction.dart';
 import 'package:jaijaoni/functions/payment/get_borrower.dart';
 import 'package:jaijaoni/functions/payment/get_debt.dart';
@@ -7,7 +6,7 @@ import 'package:jaijaoni/functions/payment/upload_bill.dart';
 import 'package:jaijaoni/model/debt.model.dart';
 import 'package:uuid/uuid.dart';
 
-Future<void> uploadPayment(String debtId, double amount, File file) async {
+Future<void> uploadPayment(String debtId, double amount, XFile file) async {
   try {
     var uuid = const Uuid();
     var id = uuid.v4();
@@ -25,7 +24,7 @@ Future<void> uploadPayment(String debtId, double amount, File file) async {
     List<Transactions> req = debts.transactions;
     req.add(upload);
     await createTransction(req, debts);
-    uploadBill(file, id);
+    uploadPicture(file, id, 'bill');
   } catch (err) {
     rethrow;
   }

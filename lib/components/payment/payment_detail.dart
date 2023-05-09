@@ -1,6 +1,4 @@
-import 'dart:io';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:jaijaoni/components/payment/paymen_upload.dart';
 import 'package:jaijaoni/functions/payment/check_paych.dart';
@@ -19,7 +17,7 @@ class PaymentDetail extends StatefulWidget {
 }
 
 class _PaymentDetailState extends State<PaymentDetail> {
-  File? imagefile;
+  XFile? imagefile;
   final ImagePicker _picker = ImagePicker();
   PayRes? check;
   bool loading = true;
@@ -49,7 +47,7 @@ class _PaymentDetailState extends State<PaymentDetail> {
     XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       setState(() {
-        imagefile = File(pickedFile.path);
+        imagefile = pickedFile;
         showModalBottomSheet<void>(
             isScrollControlled: true,
             backgroundColor: Colors.transparent,

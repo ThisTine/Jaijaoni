@@ -10,7 +10,6 @@ import 'package:jaijaoni/components/friends/username_search.dart';
 import 'package:jaijaoni/config/theme/custom_text_field.dart';
 import 'package:jaijaoni/providers/friends/friends_request_provider.dart';
 import 'package:jaijaoni/screens/addfriend.dart';
-
 import '../functions/friends/find_friend_request.dart';
 import '../functions/utils/find_user_by_username.dart';
 import '../model/friends_req.model.dart';

@@ -23,6 +23,7 @@ Future<BorrowerData> getBorrower(String debtId) async {
         username: borrower.borrowerUsername,
         total: borrower.debtRemaining);
   } catch (err) {
+    // print("ตรงนี้");
     rethrow;
   }
 }
