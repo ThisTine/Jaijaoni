@@ -210,10 +210,17 @@ class _EditProfileState extends State<EditProfile> {
                               charts: [],
                               friendList: [],
                               accs: [],
-                            ));
-                            setProfilepicture(imagefile!);
-                            save(context);
-                            context.go('/profile');
+                            )).then((value) {
+                              if (imagefile != null) {
+                                setProfilepicture(imagefile!).then((value) {
+                                  save(context);
+                                  context.go("/profile");
+                                });
+                              } else {
+                                save(context);
+                                context.go('/profile');
+                              }
+                            });
                           });
                         },
                         child: Text(
