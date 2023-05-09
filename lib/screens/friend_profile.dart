@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:jaijaoni/components/custom_app_bar.dart';
+import 'package:jaijaoni/components/friends/addfriend_alert_dialog.dart';
 import 'package:jaijaoni/components/quote.dart';
+import 'package:jaijaoni/functions/profile/analaysis_friend_profile.dart';
+import 'package:jaijaoni/functions/profile/find_friend_profile.dart';
 import 'package:jaijaoni/functions/utils/find_user_by_id.dart';
 import 'package:jaijaoni/screens/profile.dart';
 import 'package:jaijaoni/components/circle_avata.dart';
+
+import '../components/friends/unfriend_alert_dialog.dart';
 
 class FriendProfile extends StatelessWidget {
   final String fid;
@@ -32,7 +38,7 @@ class FriendProfile extends StatelessWidget {
                       Positioned(
                         top: -90,
                         child: FutureBuilder(
-                            future: profilepic(),
+                            future: picFrined(fid),
                             builder: (context, snapshot) {
                               return circleAvataUser(
                                   radius: 80, imgUrl: snapshot.data.toString());
@@ -42,7 +48,28 @@ class FriendProfile extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 15),
-                debtAnalysisBox(context)
+                FutureBuilder(
+                    future: findUserById(fid),
+                    builder: (context, usersnapshot) {
+                      return FutureBuilder(
+                          future: findFriendProfile(
+                              usersnapshot.data?.username ?? ''),
+                          builder: (context, username) {
+                            return username.data == true
+                                ? FutureBuilder(
+                                    future: analaysisFriendProfile(
+                                        usersnapshot.data?.userId ?? ''),
+                                    builder: (context, snapshot) {
+                                      return debtAnalysisBox(
+                                          context,
+                                          snapshot.data?.paid.toString() ??
+                                              '0.0',
+                                          snapshot.data?.unpaid.toString() ??
+                                              '0.0');
+                                    })
+                                : Container();
+                          });
+                    })
               ],
             ),
           ),
@@ -53,7 +80,7 @@ class FriendProfile extends StatelessWidget {
 }
 
 Widget cardProfile(BuildContext context,
-    {bool read = false, bool friend = true, required String userId}) {
+    {bool read = false, profileFriend, required String userId}) {
   return (Container(
     width: 350,
     decoration: BoxDecoration(
@@ -100,7 +127,7 @@ Widget cardProfile(BuildContext context,
                             Row(
                               children: [
                                 FutureBuilder(
-                                    future: profilepic(),
+                                    future: picFrined(snapshot.data?.userId),
                                     builder: (context, snapshot) {
                                       return circleAvataUser(
                                           radius: 30,
@@ -143,40 +170,23 @@ Widget cardProfile(BuildContext context,
                     );
                   },
                 ),
-                OutlinedButton(
-                  onPressed: () {},
-                  style: OutlinedButton.styleFrom(
-                    side: BorderSide(
-                        color: Theme.of(context).colorScheme.primary, width: 1),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(21),
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                          friend
-                              ? Icons.person_remove_outlined
-                              : Icons.person_add_outlined,
-                          color: Theme.of(context).colorScheme.primary),
-                      const SizedBox(width: 8),
-                      Text(
-                        friend ? "FRIEND" : "ADD FRIEND",
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                            fontSize: Theme.of(context)
-                                .textTheme
-                                .labelLarge!
-                                .fontSize),
-                      ),
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  child: Icon(Icons.ios_share_outlined,
+                snapshot.data == null
+                    ? const CircularProgressIndicator()
+                    : FriendButton(username: snapshot.data?.username ?? ''),
+                IconButton(
+                  icon: Icon(Icons.ios_share_outlined,
                       color: Theme.of(context).colorScheme.primary),
-                  onTap: () {
+                  onPressed: () {
                     //share to other
+                    Clipboard.setData(
+                            ClipboardData(text: "@${snapshot.data?.username}"))
+                        .then((value) {
+                      const snackBar = SnackBar(
+                        content: Text("Copied to clipboard"),
+                        duration: Duration(seconds: 1),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    });
                   },
                 ),
               ],
@@ -186,4 +196,80 @@ Widget cardProfile(BuildContext context,
       ),
     ),
   ));
+}
+
+class FriendButton extends StatefulWidget {
+  final String username;
+  const FriendButton({
+    super.key,
+    required this.username,
+  });
+
+  @override
+  State<FriendButton> createState() => _FriendButtonState();
+}
+
+class _FriendButtonState extends State<FriendButton> {
+  void unfriend(String username) async {
+    await showDialog<bool>(
+      context: context,
+      builder: (context) => unfriendAlert(context, username),
+    );
+    setState(() {});
+  }
+
+  void addFriend(String username) async {
+    await showDialog<bool>(
+      context: context,
+      builder: (context) => addfriendAlert(context, username),
+    );
+
+    setState(() {});
+
+    // ADD FRIEND LOGIC
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: findFriendProfile(widget.username),
+        builder: (context, isFsnapshot) {
+          // print(isFsnapshot.data);
+          if (isFsnapshot.hasError) {
+            return Text(isFsnapshot.error.toString());
+          }
+          if (!isFsnapshot.hasData) {
+            return const CircularProgressIndicator();
+          }
+          return OutlinedButton(
+            onPressed: () => isFsnapshot.data == true
+                ? unfriend(widget.username)
+                : addFriend(widget.username),
+            style: OutlinedButton.styleFrom(
+              side: BorderSide(
+                  color: Theme.of(context).colorScheme.primary, width: 1),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(21),
+              ),
+            ),
+            child: Row(
+              children: [
+                Icon(
+                    isFsnapshot.data == true
+                        ? Icons.person_remove_outlined
+                        : Icons.person_add_outlined,
+                    color: Theme.of(context).colorScheme.primary),
+                const SizedBox(width: 8),
+                Text(
+                  isFsnapshot.data == true ? "FRIEND" : "ADD FRIEND",
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontSize:
+                          Theme.of(context).textTheme.labelLarge!.fontSize),
+                ),
+              ],
+            ),
+          );
+        });
+  }
 }
