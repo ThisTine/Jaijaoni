@@ -19,13 +19,13 @@ Widget circleAvata({required double radius, required XFile imagefile}) {
   );
 }
 
-Widget circleAvataDefuq({required double radius}) {
-  return Center(
-    child: CircleAvatar(
-        radius: radius,
-        backgroundImage: const AssetImage('assets/profile.jpg')),
-  );
-}
+// Widget circleAvataDefuq({required double radius}) {
+//   return Center(
+//     child: CircleAvatar(
+//         radius: radius,
+//         backgroundImage: const AssetImage('assets/profile.jpg')),
+//   );
+// }
 
 Widget circleAvataUser({required double radius, required String imgUrl}) {
   // if (imgUrl != '') {
