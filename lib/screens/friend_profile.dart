@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:jaijaoni/components/custom_app_bar.dart';
 import 'package:jaijaoni/components/friends/addfriend_alert_dialog.dart';
 import 'package:jaijaoni/components/quote.dart';
@@ -46,7 +47,18 @@ class FriendProfile extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 15),
-                debtAnalysisBox(context)
+                FutureBuilder(
+                    future: findUserById(fid),
+                    builder: (context, usersnapshot) {
+                      return FutureBuilder(
+                          future: findFriendProfile(
+                              usersnapshot.data?.username ?? ''),
+                          builder: (context, username) {
+                            return username.data == true
+                                ? debtAnalysisBox(context)
+                                : Container();
+                          });
+                    })
               ],
             ),
           ),
@@ -150,11 +162,20 @@ Widget cardProfile(BuildContext context,
                 snapshot.data == null
                     ? const CircularProgressIndicator()
                     : FriendButton(username: snapshot.data?.username ?? ''),
-                GestureDetector(
-                  child: Icon(Icons.ios_share_outlined,
+                IconButton(
+                  icon: Icon(Icons.ios_share_outlined,
                       color: Theme.of(context).colorScheme.primary),
-                  onTap: () {
+                  onPressed: () {
                     //share to other
+                    Clipboard.setData(
+                            ClipboardData(text: "@${snapshot.data?.username}"))
+                        .then((value) {
+                      const snackBar = SnackBar(
+                        content: Text("Copied to clipboard"),
+                        duration: Duration(seconds: 1),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    });
                   },
                 ),
               ],
