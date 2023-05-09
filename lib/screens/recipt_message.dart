@@ -176,7 +176,8 @@ Widget reciptList(BuildContext context, bool read, FriendData snapshot) {
                                   tId: e.transactionId,
                                   name: snapshot.name,
                                   // image: e.borrowId,
-                                  amount: e.amount, circleColorState: '',
+                                  amount: e.amount,
+                                  circleColorState: '',
                                   // done: true, circleColorState: e.borrowId,
                                 ),
                               )
