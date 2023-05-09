@@ -40,7 +40,7 @@ Future<String> createDebt(CreateDebtData debtData) async {
               "borrowerUsername": e.username,
               "debtTotal": debtData.totalPrice,
               "debtRemaining": debtData.totalPrice,
-              "borrowTime": FieldValue.serverTimestamp(),
+              "borrowedTime": FieldValue.serverTimestamp(),
               "due": dueDate,
             })
         .toList();
