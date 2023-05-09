@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:jaijaoni/model/debt.model.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 // import '../config/theme/custom_color.g.dart';
 
 class CollectChart extends StatefulWidget {
+  // final Debts debts;
   const CollectChart({super.key});
 
   @override

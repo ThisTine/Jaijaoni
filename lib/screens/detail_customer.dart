@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jaijaoni/components/debt_detail_transactions.dart';
 import 'package:jaijaoni/model/debt.model.dart';
 import 'package:jaijaoni/screens/payment.dart';
@@ -14,6 +15,8 @@ class DetailCustomer extends StatefulWidget {
 }
 
 class _DetailCustomerState extends State<DetailCustomer> {
+  late DateTime _date;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -146,51 +149,6 @@ class _DetailCustomerState extends State<DetailCustomer> {
                           amount: "200")
                     ],
                   ),
-
-                  // Padding(
-                  //   padding: const EdgeInsets.only(top: 50),
-                  //   child: FilledButton(
-                  //     style: FilledButton.styleFrom(
-                  //         backgroundColor:
-                  //             Theme.of(context).colorScheme.primary,
-                  //         fixedSize: const Size(355, 40)),
-                  //     onPressed: () => {
-                  //       Navigator.push(
-                  //           context,
-                  //           MaterialPageRoute(
-                  //               builder: (context) => const PaymentScreen()))
-                  //     },
-                  //     child: const Text(
-                  //       "Pay",
-                  //       style: TextStyle(
-                  //         color: Colors.white,
-                  //         fontSize: 16,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  //   crossAxisAlignment: CrossAxisAlignment.end,
-                  //   children: [
-                  //     FloatingActionButton.extended(
-                  //       onPressed: () => {
-                  //         Navigator.push(
-                  //             context,
-                  //             MaterialPageRoute(
-                  //                 builder: (context) => const PaymentScreen()))
-                  //       },
-                  //       label: const Text(
-                  //         "Pay",
-                  //         style: TextStyle(
-                  //           color: Colors.white,
-                  //           fontSize: 16,
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // )
                 ],
               ),
             )),
@@ -201,10 +159,11 @@ class _DetailCustomerState extends State<DetailCustomer> {
                     backgroundColor: Theme.of(context).colorScheme.primary,
                     fixedSize: const Size(355, 40)),
                 onPressed: () => {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const PaymentScreen()))
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => const PaymentScreen())
+                  (context.go("/payment/${widget.debt.debtId}"))
                 },
                 child: const Text(
                   "Pay",

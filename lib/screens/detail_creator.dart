@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jaijaoni/components/debt_detail_payer_card.dart';
 import 'package:jaijaoni/components/detail_card.dart';
-import 'package:jaijaoni/functions/payment/get_debt.dart';
 import 'package:jaijaoni/model/debt.model.dart';
 
 import '../components/custom_app_bar.dart';
@@ -9,35 +8,18 @@ import '../components/custom_app_bar.dart';
 class DetailCreator extends StatefulWidget {
   final Debts debt;
   const DetailCreator({super.key, required this.debt});
+
   @override
   State<DetailCreator> createState() => _DetailCreatorState();
 }
 
 class _DetailCreatorState extends State<DetailCreator> {
   late DateTime _date;
-  late double _paid;
+  late double _unpaid;
 
   void initData() {
     _date = DateTime.fromMillisecondsSinceEpoch(widget.debt.due.seconds * 1000);
-    // List<Map<String, dynamic>> _transactions = widget.debt.transactions
-    //     .map((e) => Transactions(
-    //           transactionId: e.transactionId,
-    //           borrowId: e.borrowId,
-    //           username: e.username,
-    //           profilePic: e.profilePic,
-    //           amount: e.amount,
-    //           isApproved: e.isApproved,
-    //           errMessage: e.errMessage,
-    //         ))
-    //     .toList() as List<Map<String, dynamic>>;
 
-    // print(widget.debt.borrowersUserId); // Test
-    // print(widget.debt.payChannels.map((e) => e.channel));
-    // print("trains:");
-    // print(widget.debt.transactions);
-    // print(widget.debt.transactions.toList());
-    // print(widget.debt.transactions.map((e) => e.amount));
-    // print(_transactions.toString());
     for (var e in widget.debt.transactions) {
       print("id: ${e.username} amount: ${e.amount}");
     }
@@ -50,9 +32,15 @@ class _DetailCreatorState extends State<DetailCreator> {
   void initState() {
     super.initState();
     initData();
-    // _paid = widget.debt.debtTotal -
-    //     widget.debt.transactions
-    //         .fold(0, (previous, current) => previous + current);
+    _unpaid = widget.debt.debtTotal - totalPaidTransactions();
+  }
+
+  totalPaidTransactions() {
+    double total = 0;
+    for (var e in widget.debt.transactions) {
+      total += e.amount;
+    }
+    return total;
   }
 
   createPayerCard() {
@@ -230,7 +218,7 @@ class _DetailCreatorState extends State<DetailCreator> {
                           text: TextSpan(
                             children: [
                               TextSpan(
-                                  text: "400",
+                                  text: totalPaidTransactions().toString(),
                                   style: TextStyle(
                                       color: Theme.of(context)
                                           .colorScheme
@@ -280,7 +268,7 @@ class _DetailCreatorState extends State<DetailCreator> {
                           text: TextSpan(
                             children: [
                               TextSpan(
-                                  text: "600",
+                                  text: _unpaid.toString(),
                                   style: TextStyle(
                                       color: Theme.of(context)
                                           .colorScheme
