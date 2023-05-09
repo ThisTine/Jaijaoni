@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:jaijaoni/model/borrower.model.dart';
 import 'package:jaijaoni/model/debt.model.dart';
 import 'package:jaijaoni/services/store/fire_store_service.dart';
 

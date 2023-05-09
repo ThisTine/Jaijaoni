@@ -4,7 +4,9 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 // import '../config/theme/custom_color.g.dart';
 
 class PaidChart extends StatefulWidget {
-  const PaidChart({super.key});
+  final double total;
+  final double paid;
+  const PaidChart({required this.paid, required this.total, super.key});
 
   @override
   State<PaidChart> createState() => _PaidChartState();
@@ -14,15 +16,17 @@ class _PaidChartState extends State<PaidChart> {
   @override
   Widget build(BuildContext context) {
     final List<ChartData> chartData = [
-      ChartData("Paid", 1960 / 3200, Theme.of(context).colorScheme.primary),
-      ChartData("Unpaid", 1 - (1960 / 3200), const Color(0xFFE8E8E8))
+      ChartData("Paid", widget.paid / widget.total,
+          Theme.of(context).colorScheme.primary),
+      ChartData(
+          "Unpaid", 1 - (widget.paid / widget.total), const Color(0xFFE8E8E8))
     ];
     return SfCircularChart(annotations: <CircularChartAnnotation>[
       CircularChartAnnotation(
           widget: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("1960 THB",
+          Text("${widget.paid}",
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
                       fontSize:
@@ -30,8 +34,8 @@ class _PaidChartState extends State<PaidChart> {
                       fontWeight: FontWeight.bold))
               .animate()
               .fadeIn(),
-          const Text("of 3200 THB",
-              style: TextStyle(color: Color(0xFFE8E8E8), fontSize: 10)),
+          Text("of ${widget.total} THB",
+              style: const TextStyle(color: Color(0xFFE8E8E8), fontSize: 10)),
           const Text("paid",
               style: TextStyle(color: Color(0xFFE8E8E8), fontSize: 10)),
         ],

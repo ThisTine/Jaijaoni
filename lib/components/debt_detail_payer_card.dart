@@ -1,28 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jaijaoni/components/circle_avata.dart';
+import 'package:jaijaoni/functions/detail/approve_transaction.dart';
+import 'package:jaijaoni/functions/detail/decline_transaction.dart';
 import 'package:jaijaoni/functions/home/get_bill.dart';
+import 'package:jaijaoni/providers/friends/show_snackbar.dart';
 
 class PayerCard extends ConsumerStatefulWidget {
   final String name;
   // final Color? circleColor;
-  final String id;
+  final String tId;
+  final String dId;
   final String circleColorState;
-  final String image;
+  // final String image;
   final double amount;
-  final String? days;
-
+  final String? reason;
   // final bool done;
 
   const PayerCard({
     Key? key,
     required this.name,
-    required this.image,
+    // required this.image,
     required this.amount,
     // required this.done,
     required this.circleColorState,
-    required this.id,
-    this.days,
+    required this.tId,
+    required this.dId,
+    this.reason,
   }) : super(key: key);
 
   @override
@@ -32,6 +36,8 @@ class PayerCard extends ConsumerStatefulWidget {
 class _PayerCardState extends ConsumerState<PayerCard> {
   String profileImage = '';
   String billImage = '';
+// String reason = '';
+
   @override
   void initState() {
     _getprofile();
@@ -40,13 +46,13 @@ class _PayerCardState extends ConsumerState<PayerCard> {
   }
 
   _getprofile() async {
-    await picFrined(widget.image).then((value) => setState(() {
+    await picFrinedbyusername(widget.name).then((value) => setState(() {
           profileImage = value;
         }));
   }
 
   _getbill() async {
-    await getBill(widget.id).then((value) => setState(() {
+    await getBill(widget.tId).then((value) => setState(() {
           billImage = value;
         }));
   }
@@ -56,7 +62,7 @@ class _PayerCardState extends ConsumerState<PayerCard> {
     return GestureDetector(
       onTap: () => {
         if (widget.circleColorState == "pending") ...[
-          _receiptAlert(context, billImage)
+          _receiptAlert(context, billImage, widget.tId, widget.dId)
         ]
         // else if (widget.circleColor ==
         //     Theme.of(context).colorScheme.error) ...[
@@ -82,26 +88,29 @@ class _PayerCardState extends ConsumerState<PayerCard> {
                 const SizedBox(
                   width: 13,
                 ),
-                if (widget.circleColorState == "success") ...[
+                if (widget.circleColorState != "success") ...[
+                  profileImage != ''
+                      ? ClipOval(
+                          child: SizedBox.fromSize(
+                            size: const Size.fromRadius(30),
+                            child: Image.network(
+                              profileImage,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        )
+                      : const CircleAvatar(child: Icon(Icons.person))
+                ] else ...[
+                  // fillColor: Color.fromRGBO(0, 0, 0, 0.05),
+
                   ClipOval(
                     child: SizedBox.fromSize(
                       size: const Size.fromRadius(30),
                       child: Image.network(
                         profileImage,
                         fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                ] else ...[
-                  // fillColor: Color.fromRGBO(0, 0, 0, 0.05),
-                  ClipOval(
-                    child: SizedBox.fromSize(
-                      size: const Size.fromRadius(30),
-                      child: Image.network(
-                        billImage,
-                        fit: BoxFit.cover,
-                        color: Colors.white.withOpacity(0.5),
-                        colorBlendMode: BlendMode.modulate,
+                        color: Colors.black.withOpacity(0.5),
+                        colorBlendMode: BlendMode.overlay,
                       ),
                     ),
                   ),
@@ -149,16 +158,17 @@ class _PayerCardState extends ConsumerState<PayerCard> {
                     ),
                     Row(
                       children: [
-                        if (widget.days == null) ...[
+                        if (widget.reason == '') ...[
                           // const Text("")
                         ] else ...[
                           Text(
-                            "sent picture ${widget.days} days ago",
+                            widget.reason!,
                             style: TextStyle(
                                 fontSize: Theme.of(context)
                                     .textTheme
                                     .bodySmall
-                                    ?.fontSize),
+                                    ?.fontSize,
+                                color: Theme.of(context).colorScheme.error),
                             maxLines: 1,
                           ),
                         ]
@@ -200,7 +210,8 @@ class _PayerCardState extends ConsumerState<PayerCard> {
   }
 }
 
-Future<void> _receiptAlert(BuildContext context, String bill) {
+Future<void> _receiptAlert(
+    BuildContext context, String bill, String tId, String dId) {
   return showDialog<void>(
     context: context,
     builder: (BuildContext context) {
@@ -227,7 +238,7 @@ Future<void> _receiptAlert(BuildContext context, String bill) {
             child: const Text('Decline'),
             onPressed: () {
               Navigator.of(context).pop();
-              _wrongAlert(context);
+              _wrongAlert(context, tId, dId);
             },
           ),
           TextButton(
@@ -236,7 +247,11 @@ Future<void> _receiptAlert(BuildContext context, String bill) {
             ),
             child: const Text('Approve'),
             onPressed: () {
-              Navigator.of(context).pop();
+              approveTransaction(transactionId: tId, debtId: dId).then((value) {
+                Navigator.of(context).pop();
+              }).onError((error, stackTrace) {
+                showSnackBar(context, error.toString());
+              });
             },
           ),
         ],
@@ -245,7 +260,9 @@ Future<void> _receiptAlert(BuildContext context, String bill) {
   );
 }
 
-Future<void> _wrongAlert(BuildContext context) {
+Future<void> _wrongAlert(BuildContext context, String tId, String dId) {
+  final myController = TextEditingController();
+
   return showDialog<void>(
     context: context,
     builder: (BuildContext context) {
@@ -257,8 +274,9 @@ Future<void> _wrongAlert(BuildContext context) {
             alignment: Alignment.center,
             width: 300,
             height: 500,
-            child: const TextField(
-                decoration: InputDecoration(
+            child: TextField(
+                controller: myController,
+                decoration: const InputDecoration(
                     labelText: "Reasons",
                     contentPadding: EdgeInsets.all(20),
                     fillColor: Color.fromRGBO(0, 0, 0, 0.05),
@@ -279,7 +297,16 @@ Future<void> _wrongAlert(BuildContext context) {
             ),
             child: const Text('Send'),
             onPressed: () {
-              Navigator.of(context).pop();
+              // print(myController.text);
+              declineTransaction(
+                      transactionId: tId,
+                      debtId: dId,
+                      reason: myController.text)
+                  .then((value) {
+                Navigator.of(context).pop();
+              }).onError((error, stackTrace) {
+                showSnackBar(context, error.toString());
+              });
             },
           ),
         ],

@@ -1,6 +1,4 @@
 import 'package:jaijaoni/functions/utils/find_borrower_by_user_id.dart';
-import 'package:jaijaoni/functions/utils/find_debt_by_id.dart';
-import 'package:jaijaoni/model/borrower.model.dart';
 import 'package:jaijaoni/model/debt.model.dart';
 
 Future<List<Map<String, dynamic>>> getBow() async {
@@ -14,6 +12,7 @@ Future<List<Map<String, dynamic>>> getBow() async {
               "date": DateTime.fromMillisecondsSinceEpoch(e.due.seconds * 1000),
               "amount": e.debtTotal.toString(),
               "image": 'images/profile/dazai.jpg',
+              "profileId": e.userId,
               "debtor": e.borrowersUserId.length
             })
         .toList();

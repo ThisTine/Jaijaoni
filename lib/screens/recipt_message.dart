@@ -172,10 +172,10 @@ Widget reciptList(BuildContext context, bool read, FriendData snapshot) {
                           ...(transacSnapshot.data ?? [])
                               .map(
                                 (e) => PayerCard(
-                                  id: e.transactionId,
+                                  dId: "",
+                                  tId: e.transactionId,
                                   name: snapshot.name,
-                                  image:
-                                      "https://i.pravatar.cc/150?img=${snapshot.id}",
+                                  // image: e.borrowId,
                                   amount: e.amount, circleColorState: '',
                                   // done: true, circleColorState: e.borrowId,
                                 ),
