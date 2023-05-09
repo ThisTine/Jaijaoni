@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:jaijaoni/screens/edit.dart';
+
+import '../screens/edit.dart';
 // import 'package:jaijaoni/screens/detail_creator.dart';
 
 class DetailCard extends StatefulWidget {
+  final String id;
   final Color? cardColor;
   final String name;
   final String amount;
   final bool edit;
 
   const DetailCard({
-    Key? key,
+    super.key,
+    required this.id,
     required this.cardColor,
     required this.name,
     required this.amount,
     required this.edit,
-  }) : super(key: key);
+  });
 
   @override
   State<DetailCard> createState() => _DetailCardState();
@@ -29,7 +32,10 @@ class _DetailCardState extends State<DetailCard> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const EditDebtScreen())),
+                        builder: (context) => EditDebtScreen(
+                              debtId: widget.id,
+                            ))),
+                // context.go("/detail/${widget.id}")
               ] else
                 ...[]
             },
@@ -91,10 +97,14 @@ class _DetailCardState extends State<DetailCard> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(Icons.edit, color: Colors.white),
-                        const SizedBox(
-                          height: 10, // space divider
-                        ),
+                        if (widget.edit == false)
+                          ...[]
+                        else ...[
+                          const Icon(Icons.edit, color: Colors.white),
+                          const SizedBox(
+                            height: 10, // space divider
+                          ),
+                        ],
                         SizedBox(
                           child: Text(
                             widget.amount, // Money amount

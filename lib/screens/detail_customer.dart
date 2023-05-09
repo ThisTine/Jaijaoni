@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jaijaoni/components/debt_detail_transactions.dart';
 import 'package:jaijaoni/model/debt.model.dart';
-import 'package:jaijaoni/screens/payment.dart';
+import '../components/circle_avata.dart';
 import '../components/custom_app_bar.dart';
 import '../components/detail_card.dart';
 
@@ -14,6 +15,26 @@ class DetailCustomer extends StatefulWidget {
 }
 
 class _DetailCustomerState extends State<DetailCustomer> {
+  String profileImage = '';
+  late DateTime _date;
+
+  void initData() {
+    _date = DateTime.fromMillisecondsSinceEpoch(widget.debt.due.seconds * 1000);
+  }
+
+  @override
+  void initState() {
+    _getprofile();
+    super.initState();
+    initData();
+  }
+
+  _getprofile() async {
+    await picFrined(widget.debt.userId).then((value) => setState(() {
+          profileImage = value;
+        }));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,9 +56,10 @@ class _DetailCustomerState extends State<DetailCustomer> {
                   //   height: 13,
                   // ),
                   DetailCard(
+                    id: widget.debt.debtId,
                     cardColor: Theme.of(context).colorScheme.primary,
-                    name: "Seven Eleven",
-                    amount: "350",
+                    name: widget.debt.debtName, //"Seven Eleven",
+                    amount: widget.debt.debtTotal.toString(),
                     edit: false,
                   ),
                   const SizedBox(
@@ -64,31 +86,39 @@ class _DetailCustomerState extends State<DetailCustomer> {
                                   color: Colors.grey.withOpacity(0.5))
                             ]),
                         alignment: Alignment.center,
-                        child: RichText(
-                          // textAlign: TextAlign.center,
-                          text: TextSpan(
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              WidgetSpan(
+                              Padding(
+                                padding: const EdgeInsets.only(left: 23),
                                 child: Icon(Icons.alarm,
                                     size: 24,
                                     color: Theme.of(context)
                                         .colorScheme
                                         .onPrimaryContainer),
                               ),
-                              TextSpan(
-                                  // Date Text
-                                  text: "Tue, Feburary 2023",
-                                  style: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onPrimaryContainer,
-                                      fontSize: Theme.of(context)
-                                          .textTheme
-                                          .headlineSmall
-                                          ?.fontSize)),
-                            ],
-                          ),
-                        ),
+                              const SizedBox(
+                                width: 13,
+                              ),
+                              RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                        // Date Text
+                                        text:
+                                            "${_date.day}/${_date.month}/${_date.year}", //"Tue, Feburary 2023",
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onPrimaryContainer,
+                                            fontSize: Theme.of(context)
+                                                .textTheme
+                                                .headlineSmall
+                                                ?.fontSize)),
+                                  ],
+                                ),
+                              ),
+                            ]),
                       ),
                       const SizedBox(
                         width: 10,
@@ -111,13 +141,15 @@ class _DetailCustomerState extends State<DetailCustomer> {
                         alignment: Alignment.center,
                         child: ClipOval(
                           child: SizedBox.fromSize(
-                            size: const Size.fromRadius(30),
-                            child: Image.asset(
-                              "images/profile/dazai.jpg",
-                              // widget.image,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
+                              size: const Size.fromRadius(30),
+                              child: profileImage != ''
+                                  ? Image.network(
+                                      profileImage, //"images/profile/dazai.jpg",
+                                      // widget.image,
+                                      fit: BoxFit.cover,
+                                    )
+                                  : const CircleAvatar(
+                                      child: Icon(Icons.person))),
                         ),
                       ),
                     ],
@@ -145,75 +177,36 @@ class _DetailCustomerState extends State<DetailCustomer> {
                           amount: "200")
                     ],
                   ),
-
-                  // Padding(
-                  //   padding: const EdgeInsets.only(top: 50),
-                  //   child: FilledButton(
-                  //     style: FilledButton.styleFrom(
-                  //         backgroundColor:
-                  //             Theme.of(context).colorScheme.primary,
-                  //         fixedSize: const Size(355, 40)),
-                  //     onPressed: () => {
-                  //       Navigator.push(
-                  //           context,
-                  //           MaterialPageRoute(
-                  //               builder: (context) => const PaymentScreen()))
-                  //     },
-                  //     child: const Text(
-                  //       "Pay",
-                  //       style: TextStyle(
-                  //         color: Colors.white,
-                  //         fontSize: 16,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  //   crossAxisAlignment: CrossAxisAlignment.end,
-                  //   children: [
-                  //     FloatingActionButton.extended(
-                  //       onPressed: () => {
-                  //         Navigator.push(
-                  //             context,
-                  //             MaterialPageRoute(
-                  //                 builder: (context) => const PaymentScreen()))
-                  //       },
-                  //       label: const Text(
-                  //         "Pay",
-                  //         style: TextStyle(
-                  //           color: Colors.white,
-                  //           fontSize: 16,
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // )
                 ],
               ),
             )),
             Align(
-              alignment: Alignment.bottomCenter,
-              child: FilledButton(
-                style: FilledButton.styleFrom(
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    fixedSize: const Size(355, 40)),
-                onPressed: () => {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const PaymentScreen()))
-                },
-                child: const Text(
-                  "Pay",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: FilledButton(
+                    style: FilledButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      // fixedSize: const Size(400, 40)
+                      minimumSize: const Size.fromHeight(50),
+                      padding: const EdgeInsets.all(10.00),
+                    ),
+                    onPressed: () => {
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => const PaymentScreen())
+                      (context.go("/payment/${widget.debt.debtId}"))
+                    },
+                    child: const Text(
+                      "Pay",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            )
+                ))
           ],
         ));
   }

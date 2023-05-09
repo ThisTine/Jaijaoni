@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import '../../screens/analysis.dart';
 
 class PaidDetail extends StatelessWidget {
-  const PaidDetail({super.key});
+  final int debtor;
+  const PaidDetail({super.key, required this.debtor});
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +12,7 @@ class PaidDetail extends StatelessWidget {
       children: [
         Row(
           children: [
-            Text("6",
+            Text(debtor.toString(),
                 style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
                     fontSize:

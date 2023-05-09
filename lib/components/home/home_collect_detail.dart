@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:jaijaoni/screens/analysis.dart';
 
 class CollectDetail extends StatelessWidget {
-  const CollectDetail({super.key});
+  final int debtor;
+  const CollectDetail({super.key, required this.debtor});
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +12,7 @@ class CollectDetail extends StatelessWidget {
       children: [
         Row(
           children: [
-            Text("8",
+            Text(debtor.toString(),
                 style: TextStyle(
                     color: const Color(0xFF5DB075),
                     fontSize:
