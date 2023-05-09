@@ -3,19 +3,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PayerCard extends ConsumerStatefulWidget {
   final String name;
-  final Color? circleColor;
+  // final Color? circleColor;
+  final String circleColorState;
   final String image;
-  final String amount;
+  final double amount;
   final String? days;
-  final bool done;
+  // final bool done;
 
   const PayerCard({
     Key? key,
     required this.name,
     required this.image,
     required this.amount,
-    required this.done,
-    this.circleColor,
+    // required this.done,
+    required this.circleColorState,
     this.days,
   }) : super(key: key);
 
@@ -28,9 +29,7 @@ class _PayerCardState extends ConsumerState<PayerCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => {
-        if (widget.circleColor == Theme.of(context).colorScheme.primary) ...[
-          _receiptAlert(context)
-        ]
+        if (widget.circleColorState == "pending") ...[_receiptAlert(context)]
         // else if (widget.circleColor ==
         //     Theme.of(context).colorScheme.error) ...[
         //   _wrongAlert(context)
@@ -52,10 +51,10 @@ class _PayerCardState extends ConsumerState<PayerCard> {
           children: [
             Row(
               children: [
-                const SizedBox(
+                const SizedBox( 
                   width: 13,
                 ),
-                if (widget.done == false) ...[
+                if (widget.circleColorState == "success") ...[
                   ClipOval(
                     child: SizedBox.fromSize(
                       size: const Size.fromRadius(30),
@@ -102,12 +101,22 @@ class _PayerCardState extends ConsumerState<PayerCard> {
                         const SizedBox(
                           width: 13,
                         ),
-                        ClipOval(
-                            child: Container(
-                          color: widget.circleColor,
-                          width: 12,
-                          height: 12,
-                        )),
+                        if (widget.circleColorState == "pending") ...[
+                          ClipOval(
+                              child: Container(
+                            color: Theme.of(context).colorScheme.primary,
+                            width: 12,
+                            height: 12,
+                          )),
+                        ] else if (widget.circleColorState == "error") ...[
+                          ClipOval(
+                              child: Container(
+                            color: Theme.of(context).colorScheme.error,
+                            width: 12,
+                            height: 12,
+                          )),
+                        ] else if (widget.circleColorState == "success")
+                          ...[]
                       ],
                     ),
                     Row(
@@ -142,7 +151,7 @@ class _PayerCardState extends ConsumerState<PayerCard> {
                   const SizedBox(
                     width: 10,
                   ),
-                  Text(widget.amount,
+                  Text(widget.amount.toString(),
                       style: TextStyle(
                           color:
                               Theme.of(context).colorScheme.onPrimaryContainer,

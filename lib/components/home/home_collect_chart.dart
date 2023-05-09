@@ -14,9 +14,9 @@ class _CollectChartState extends State<CollectChart> {
   @override
   Widget build(BuildContext context) {
     final List<ChartData> chartData = [
-      ChartData("Collected", 40, const Color(0xFF5DB075)),
+      ChartData("Collected", 324 / 1056.78, const Color(0xFF5DB075)),
       // Theme.of(context).extension<CustomColors>()!.sourceGreenbar!
-      ChartData("Uncollected", 60, const Color(0xFFE8E8E8))
+      ChartData("Uncollected", 1 - (324 / 1056.78), const Color(0xFFE8E8E8))
     ];
     return SfCircularChart(annotations: <CircularChartAnnotation>[
       CircularChartAnnotation(

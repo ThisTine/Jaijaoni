@@ -4,7 +4,7 @@ import 'package:jaijaoni/model/borrower.model.dart';
 import 'package:jaijaoni/model/debt.model.dart';
 
 Future<List<Map<String, dynamic>>> getBow() async {
-  try { 
+  try {
     List<Map<String, dynamic>> bow;
     List<Debts> bows = await findBorrowerByUserId();
     bow = bows
@@ -17,7 +17,7 @@ Future<List<Map<String, dynamic>>> getBow() async {
               "debtor": e.borrowersUserId.length
             })
         .toList();
-    print(bow);
+    // print(bow);
     return bow;
   } catch (err) {
     rethrow;

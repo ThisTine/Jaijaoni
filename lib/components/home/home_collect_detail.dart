@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jaijaoni/screens/analysis.dart';
 
 class CollectDetail extends StatelessWidget {
+  // final int debtor;
   const CollectDetail({super.key});
 
   @override

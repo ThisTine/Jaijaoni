@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jaijaoni/components/debt_detail_payer_card.dart';
 import 'package:jaijaoni/components/detail_card.dart';
+import 'package:jaijaoni/functions/payment/get_debt.dart';
 import 'package:jaijaoni/model/debt.model.dart';
 
 import '../components/custom_app_bar.dart';
@@ -17,28 +18,56 @@ class _DetailCreatorState extends State<DetailCreator> {
   late double _paid;
 
   void initData() {
-    List<Transactions> _transactions = widget.debt.transactions
-        .map((e) => Transactions(
-              transactionId: e.transactionId,
-              borrowId: e.borrowId,
-              username: e.username,
-              profilePic: e.profilePic,
-              amount: e.amount,
-              isApproved: e.isApproved,
-              errMessage: e.errMessage,
-            ))
-        .toList();
-        _transactions[0]['amount'];
+    _date = DateTime.fromMillisecondsSinceEpoch(widget.debt.due.seconds * 1000);
+    // List<Map<String, dynamic>> _transactions = widget.debt.transactions
+    //     .map((e) => Transactions(
+    //           transactionId: e.transactionId,
+    //           borrowId: e.borrowId,
+    //           username: e.username,
+    //           profilePic: e.profilePic,
+    //           amount: e.amount,
+    //           isApproved: e.isApproved,
+    //           errMessage: e.errMessage,
+    //         ))
+    //     .toList() as List<Map<String, dynamic>>;
+
+    // print(widget.debt.borrowersUserId); // Test
+    // print(widget.debt.payChannels.map((e) => e.channel));
+    // print("trains:");
+    // print(widget.debt.transactions);
+    // print(widget.debt.transactions.toList());
+    // print(widget.debt.transactions.map((e) => e.amount));
+    // print(_transactions.toString());
+    for (var e in widget.debt.transactions) {
+      print("id: ${e.username} amount: ${e.amount}");
+    }
+
+    // _transactions[0]["amount"];
+    // List<Map<String, dynamic>> trans = widget.debt.transactions;
   }
 
   @override
   void initState() {
     super.initState();
     initData();
-    _date = DateTime.fromMillisecondsSinceEpoch(widget.debt.due.seconds * 1000);
-    _paid = widget.debt.debtTotal -
-        widget.debt.transactions
-            .fold(0, (previous, current) => previous + current);
+    // _paid = widget.debt.debtTotal -
+    //     widget.debt.transactions
+    //         .fold(0, (previous, current) => previous + current);
+  }
+
+  createPayerCard() {
+    if (widget.debt.transactions.isNotEmpty) {
+      for (var e in widget.debt.transactions) {
+        return PayerCard(
+          name: e.username,
+          image: e.profilePic,
+          amount: e.amount,
+          circleColorState: e.isApproved,
+        );
+      }
+    } else {
+      return const Text('');
+    }
   }
 
   @override
@@ -83,32 +112,39 @@ class _DetailCreatorState extends State<DetailCreator> {
                             color: Colors.grey.withOpacity(0.5))
                       ]),
                   alignment: Alignment.center,
-                  child: RichText(
-                    // textAlign: TextAlign.center,
-                    text: TextSpan(
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        WidgetSpan(
+                        Padding(
+                          padding: const EdgeInsets.only(left: 23),
                           child: Icon(Icons.alarm,
                               size: 24,
                               color: Theme.of(context)
                                   .colorScheme
                                   .onPrimaryContainer),
                         ),
-                        TextSpan(
-                            // Date Text
-                            text:
-                                "${_date.day}/${_date.month}/${_date.year}", //"Tue, Feburary 2023",
-                            style: TextStyle(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimaryContainer,
-                                fontSize: Theme.of(context)
-                                    .textTheme
-                                    .headlineSmall
-                                    ?.fontSize)),
-                      ],
-                    ),
-                  ),
+                        const SizedBox(
+                          width: 13,
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                  // Date Text
+                                  text:
+                                      "${_date.day}/${_date.month}/${_date.year}", //"Tue, Feburary 2023",
+                                  style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer,
+                                      fontSize: Theme.of(context)
+                                          .textTheme
+                                          .headlineSmall
+                                          ?.fontSize)),
+                            ],
+                          ),
+                        ),
+                      ]),
                 ),
                 const SizedBox(
                   width: 10,
@@ -276,56 +312,57 @@ class _DetailCreatorState extends State<DetailCreator> {
             Column(
               // crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                PayerCard(
-                  name: "Muaymiii",
-                  circleColor: Theme.of(context).colorScheme.primary,
-                  image: "images/profile/dazai.jpg",
-                  days: "3",
-                  amount: "200",
-                  done: false,
-                ),
-                const SizedBox(height: 13),
-                PayerCard(
-                  name: "Tine",
-                  circleColor: Theme.of(context).colorScheme.primary,
-                  image: "images/profile/dazai.jpg",
-                  amount: "250",
-                  days: "5",
-                  done: false,
-                ),
-                const SizedBox(height: 13),
-                PayerCard(
-                  name: "Dazaii",
-                  circleColor: Theme.of(context).colorScheme.error,
-                  image: "images/profile/dazai.jpg",
-                  amount: "150",
-                  days: "2",
-                  done: false,
-                ),
-                const SizedBox(height: 13),
-                PayerCard(
-                  name: "Fah",
-                  image: "images/profile/dazai.jpg",
-                  circleColor: Theme.of(context).colorScheme.error,
-                  amount: "150",
-                  days: "3",
-                  done: false,
-                ),
-                const SizedBox(height: 13),
-                const PayerCard(
-                  name: "Ri",
-                  image: "images/profile/dazai.jpg",
-                  amount: "100",
-                  done: false,
-                ),
-                const SizedBox(height: 13),
-                const PayerCard(
-                  name: "Gunn",
-                  image: "images/profile/dazai.jpg",
-                  amount: "150",
-                  done: true,
-                ),
-                const SizedBox(height: 13),
+                createPayerCard()
+                // PayerCard(
+                //   name: "Muaymiii",
+                //   circleColor: Theme.of(context).colorScheme.primary,
+                //   image: "images/profile/dazai.jpg",
+                //   days: "3",
+                //   amount: "200",
+                //   done: false,
+                // ),
+                // const SizedBox(height: 13),
+                // PayerCard(
+                //   name: "Tine",
+                //   circleColor: Theme.of(context).colorScheme.primary,
+                //   image: "images/profile/dazai.jpg",
+                //   amount: "250",
+                //   days: "5",
+                //   done: false,
+                // ),
+                // const SizedBox(height: 13),
+                // PayerCard(
+                //   name: "Dazaii",
+                //   circleColor: Theme.of(context).colorScheme.error,
+                //   image: "images/profile/dazai.jpg",
+                //   amount: "150",
+                //   days: "2",
+                //   done: false,
+                // ),
+                // const SizedBox(height: 13),
+                // PayerCard(
+                //   name: "Fah",
+                //   image: "images/profile/dazai.jpg",
+                //   circleColor: Theme.of(context).colorScheme.error,
+                //   amount: "150",
+                //   days: "3",
+                //   done: false,
+                // ),
+                // const SizedBox(height: 13),
+                // const PayerCard(
+                //   name: "Ri",
+                //   image: "images/profile/dazai.jpg",
+                //   amount: "100",
+                //   done: false,
+                // ),
+                // const SizedBox(height: 13),
+                // const PayerCard(
+                //   name: "Gunn",
+                //   image: "images/profile/dazai.jpg",
+                //   amount: "150",
+                //   done: true,
+                // ),
+                // const SizedBox(height: 13),
               ],
             ),
           ],

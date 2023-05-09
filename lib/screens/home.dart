@@ -97,6 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Map<String, dynamic>>? borrowlist;
   List<Map<String, dynamic>> foundLend = [];
   List<Map<String, dynamic>> foundBorrow = [];
+  // int totalDebtor = 0;
   bool isVisible = true;
   bool isLoading = true;
   // turn Chart & Detail visible/invisible
@@ -106,6 +107,9 @@ class _HomeScreenState extends State<HomeScreen> {
     // foundLend = lendList;
     // foundBorrow = borrowlist;
     // need to add borrowList
+    // for (var e in lendList!) {
+    //   totalDebtor += e["debtor"]! as int;
+    // }
     super.initState();
   }
 

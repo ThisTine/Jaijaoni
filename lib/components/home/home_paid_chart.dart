@@ -14,8 +14,8 @@ class _PaidChartState extends State<PaidChart> {
   @override
   Widget build(BuildContext context) {
     final List<ChartData> chartData = [
-      ChartData("Paid", 70, Theme.of(context).colorScheme.primary),
-      ChartData("Unpaid", 30, const Color(0xFFE8E8E8))
+      ChartData("Paid", 1960 / 3200, Theme.of(context).colorScheme.primary),
+      ChartData("Unpaid", 1 - (1960 / 3200), const Color(0xFFE8E8E8))
     ];
     return SfCircularChart(annotations: <CircularChartAnnotation>[
       CircularChartAnnotation(
