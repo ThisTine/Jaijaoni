@@ -72,7 +72,7 @@ class _DebtListPeopleState extends State<DebtListPeople> {
                     .asMap()
                     .entries
                     .map((e) => DebtPeopleItem(
-                        id: e.key.toString(),
+                        id: e.value.id,
                         name: e.value.name,
                         price: e.value.total,
                         profileImage:
