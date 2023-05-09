@@ -91,7 +91,7 @@ class AppGoRouter extends ChangeNotifier {
             GoRoute(
               parentNavigatorKey: _shellRouteKey,
               path: "/profile/edit",
-              builder: (context, state) => EditProfile(),
+              builder: (context, state) => const EditProfile(),
             ),
             GoRoute(
               parentNavigatorKey: _shellRouteKey,
