@@ -3,7 +3,7 @@ import 'package:jaijaoni/components/custom_app_bar.dart';
 import 'package:jaijaoni/components/quote.dart';
 import 'package:jaijaoni/functions/utils/find_user_by_id.dart';
 import 'package:jaijaoni/screens/profile.dart';
-import '../components/circle_avata.dart';
+import 'package:jaijaoni/components/circle_avata.dart';
 
 class FriendProfile extends StatelessWidget {
   final String fid;
