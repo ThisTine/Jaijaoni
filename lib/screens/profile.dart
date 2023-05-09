@@ -14,7 +14,6 @@ class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    // String imgurl = '';
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(

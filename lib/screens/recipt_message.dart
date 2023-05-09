@@ -105,7 +105,7 @@ Widget reciptList(BuildContext context, bool read, FriendData snapshot) {
       Row(
         children: [
           FutureBuilder(
-              future: profilepic(),
+              future: picFrined(snapshot.id),
               builder: (context, snapshot) {
                 return circleAvataUser(
                     radius: 15, imgUrl: snapshot.data.toString());

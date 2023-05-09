@@ -32,7 +32,7 @@ class FriendProfile extends StatelessWidget {
                       Positioned(
                         top: -90,
                         child: FutureBuilder(
-                            future: profilepic(),
+                            future: picFrined(fid),
                             builder: (context, snapshot) {
                               return circleAvataUser(
                                   radius: 80, imgUrl: snapshot.data.toString());
@@ -100,7 +100,7 @@ Widget cardProfile(BuildContext context,
                             Row(
                               children: [
                                 FutureBuilder(
-                                    future: profilepic(),
+                                    future: picFrined(snapshot.data?.userId),
                                     builder: (context, snapshot) {
                                       return circleAvataUser(
                                           radius: 30,
