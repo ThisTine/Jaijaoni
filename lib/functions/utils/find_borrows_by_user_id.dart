@@ -13,11 +13,10 @@ Future<List<Borrowers>> findBorrowsByUserId() async {
         .get();
     List<Borrowers> borrower =
         borrowerQuery.docs.map((e) => Borrowers.fromFireStore(e)).toList();
-    print(borrower.map((e) => e.debtRemaining).toList());
+    // print(borrower.map((e) => e.debtRemaining).toList());
 
     return borrower;
   } catch (err) {
-    print(err);
     rethrow;
   }
 }
