@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jaijaoni/components/debt_detail_payer_card.dart';
 import 'package:jaijaoni/components/detail_card.dart';
+import 'package:jaijaoni/functions/profile/get_profile_picture.dart';
 import 'package:jaijaoni/model/debt.model.dart';
 
 import '../components/custom_app_bar.dart';
@@ -45,16 +46,17 @@ class _DetailCreatorState extends State<DetailCreator> {
 
   createPayerCard() {
     if (widget.debt.transactions.isNotEmpty) {
-      for (var e in widget.debt.transactions) {
-        return PayerCard(
+      // for (var e in widget.debt.transactions) {
+        return widget.debt.transactions.map((e)=>PayerCard(
+          id: e.transactionId,
           name: e.username,
-          image: e.profilePic,
+          image: e.username,
           amount: e.amount,
           circleColorState: e.isApproved,
-        );
-      }
+        )).toList();
+      // }
     } else {
-      return const Text('');
+      return const [Text('')];
     }
   }
 
@@ -300,7 +302,7 @@ class _DetailCreatorState extends State<DetailCreator> {
             Column(
               // crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                createPayerCard()
+                ...createPayerCard()
                 // PayerCard(
                 //   name: "Muaymiii",
                 //   circleColor: Theme.of(context).colorScheme.primary,

@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jaijaoni/components/circle_avata.dart';
+import 'package:jaijaoni/functions/home/get_bill.dart';
 
 class PayerCard extends ConsumerStatefulWidget {
   final String name;
   // final Color? circleColor;
+  final String id;
   final String circleColorState;
   final String image;
   final double amount;
   final String? days;
+
   // final bool done;
 
   const PayerCard({
@@ -17,6 +21,7 @@ class PayerCard extends ConsumerStatefulWidget {
     required this.amount,
     // required this.done,
     required this.circleColorState,
+    required this.id,
     this.days,
   }) : super(key: key);
 
@@ -25,11 +30,34 @@ class PayerCard extends ConsumerStatefulWidget {
 }
 
 class _PayerCardState extends ConsumerState<PayerCard> {
+  String profileImage = '';
+  String billImage = '';
+  @override
+  void initState() {
+    _getprofile();
+    _getbill();
+    super.initState();
+  }
+
+  _getprofile() async {
+    await picFrined(widget.image).then((value) => setState(() {
+          profileImage = value;
+        }));
+  }
+
+  _getbill() async {
+    await getBill(widget.id).then((value) => setState(() {
+          billImage = value;
+        }));
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => {
-        if (widget.circleColorState == "pending") ...[_receiptAlert(context)]
+        if (widget.circleColorState == "pending") ...[
+          _receiptAlert(context, billImage)
+        ]
         // else if (widget.circleColor ==
         //     Theme.of(context).colorScheme.error) ...[
         //   _wrongAlert(context)
@@ -51,15 +79,15 @@ class _PayerCardState extends ConsumerState<PayerCard> {
           children: [
             Row(
               children: [
-                const SizedBox( 
+                const SizedBox(
                   width: 13,
                 ),
                 if (widget.circleColorState == "success") ...[
                   ClipOval(
                     child: SizedBox.fromSize(
                       size: const Size.fromRadius(30),
-                      child: Image.asset(
-                        widget.image,
+                      child: Image.network(
+                        profileImage,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -69,8 +97,8 @@ class _PayerCardState extends ConsumerState<PayerCard> {
                   ClipOval(
                     child: SizedBox.fromSize(
                       size: const Size.fromRadius(30),
-                      child: Image.asset(
-                        widget.image,
+                      child: Image.network(
+                        billImage,
                         fit: BoxFit.cover,
                         color: Colors.white.withOpacity(0.5),
                         colorBlendMode: BlendMode.modulate,
@@ -172,7 +200,7 @@ class _PayerCardState extends ConsumerState<PayerCard> {
   }
 }
 
-Future<void> _receiptAlert(BuildContext context) {
+Future<void> _receiptAlert(BuildContext context, String bill) {
   return showDialog<void>(
     context: context,
     builder: (BuildContext context) {
@@ -184,8 +212,8 @@ Future<void> _receiptAlert(BuildContext context) {
           width: 300,
           height: 500,
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Image.asset(
-              "images/receipt.jpg",
+            Image.network(
+              bill,
             ),
             const SizedBox(height: 20),
             const Text("Amount: 5000 THB")

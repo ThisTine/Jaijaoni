@@ -255,91 +255,93 @@ class Paybank extends StatelessWidget {
   final Bank? bank;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 16),
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: double.infinity,
-            constraints: const BoxConstraints(maxWidth: 576),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(19),
-              color: Theme.of(context)
-                  .colorScheme
-                  .primaryContainer
-                  .withOpacity(0.6),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Text(
-                    'bank.bankId',
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 48, bottom: 42, right: 48, top: 0),
-                  child: Text(
-                    bank!.bankId,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
-                        fontSize: Theme.of(context)
-                            .textTheme
-                            .headlineLarge!
-                            .fontSize),
-                  ),
-                )
-              ],
-            ),
-            // )
-          ),
-          Container(
-            margin: const EdgeInsets.only(top: 24),
-            constraints: const BoxConstraints(maxWidth: 576),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(19),
-              color: Theme.of(context)
-                  .colorScheme
-                  .primaryContainer
-                  .withOpacity(0.6),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Center(
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: double.infinity,
+              constraints: const BoxConstraints(maxWidth: 576),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(19),
+                color: Theme.of(context)
+                    .colorScheme
+                    .primaryContainer
+                    .withOpacity(0.6),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    'Amount',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
-                        fontSize: Theme.of(context)
-                            .textTheme
-                            .headlineSmall!
-                            .fontSize),
+                  const Padding(
+                    padding: EdgeInsets.all(16),
+                    child: Text(
+                      'bank.bankId',
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold),
+                    ),
                   ),
-                  Text(
-                    amount.toString(),
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
-                        fontSize: Theme.of(context)
-                            .textTheme
-                            .headlineMedium!
-                            .fontSize),
-                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 48, bottom: 42, right: 48, top: 0),
+                    child: Text(
+                      bank!.bankId,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w400,
+                          fontSize: Theme.of(context)
+                              .textTheme
+                              .headlineLarge!
+                              .fontSize),
+                    ),
+                  )
                 ],
               ),
+              // )
             ),
-          )
-        ],
+            Container(
+              margin: const EdgeInsets.only(top: 24),
+              constraints: const BoxConstraints(maxWidth: 576),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(19),
+                color: Theme.of(context)
+                    .colorScheme
+                    .primaryContainer
+                    .withOpacity(0.6),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Amount',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w400,
+                          fontSize: Theme.of(context)
+                              .textTheme
+                              .headlineSmall!
+                              .fontSize),
+                    ),
+                    Text(
+                      amount.toString(),
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w400,
+                          fontSize: Theme.of(context)
+                              .textTheme
+                              .headlineMedium!
+                              .fontSize),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

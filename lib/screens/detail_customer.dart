@@ -81,7 +81,8 @@ class _DetailCustomerState extends State<DetailCustomer> {
                               ),
                               TextSpan(
                                   // Date Text
-                                  text: "Tue, Feburary 2023",
+                                  text:
+                                      "${_date.day}/${_date.month}/${_date.year}",
                                   style: TextStyle(
                                       color: Theme.of(context)
                                           .colorScheme
