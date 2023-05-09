@@ -4,9 +4,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jaijaoni/config/theme/custom_color.g.dart';
+import 'package:jaijaoni/functions/profile/analaysis_user_profile.dart';
 import 'package:jaijaoni/functions/profile/user_name.dart';
 import 'package:jaijaoni/services/auth/auth_service.dart';
-
 import '../components/circle_avata.dart';
 import '../components/quote.dart';
 
@@ -14,7 +14,6 @@ class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    // String imgurl = '';
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -74,7 +73,14 @@ class ProfileScreen extends StatelessWidget {
                       const SizedBox(height: 15),
                       quote(context, height: 100),
                       const SizedBox(height: 15),
-                      debtAnalysisBox(context),
+                      FutureBuilder(
+                          future: analaysisUserProfile(),
+                          builder: (context, snapshot) {
+                            return debtAnalysisBox(
+                                context,
+                                snapshot.data?.paid.toString() ?? '0.0',
+                                snapshot.data?.unpaid.toString() ?? '0.0');
+                          }),
                       const SizedBox(height: 15),
                       menuBox(context),
                       const SizedBox(height: 15),
@@ -89,7 +95,7 @@ class ProfileScreen extends StatelessWidget {
   }
 }
 
-Widget debtAnalysisBox(BuildContext context) {
+Widget debtAnalysisBox(BuildContext context, String pain, String unpaid) {
   return Row(
     children: [
       Expanded(
@@ -138,7 +144,7 @@ Widget debtAnalysisBox(BuildContext context) {
                                   child: Column(
                                     children: [
                                       Text(
-                                        "300",
+                                        unpaid,
                                         style: TextStyle(
                                             color: Theme.of(context)
                                                 .extension<CustomColors>()!
@@ -200,7 +206,7 @@ Widget debtAnalysisBox(BuildContext context) {
                                   child: Column(
                                     children: [
                                       Text(
-                                        "1,500",
+                                        pain,
                                         style: TextStyle(
                                             color: Theme.of(context)
                                                 .extension<CustomColors>()!

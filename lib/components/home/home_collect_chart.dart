@@ -4,7 +4,9 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 // import '../config/theme/custom_color.g.dart';
 
 class CollectChart extends StatefulWidget {
-  const CollectChart({super.key});
+  final double total;
+  final double paid;
+  const CollectChart({required this.paid, required this.total, super.key});
 
   @override
   State<CollectChart> createState() => _CollectChartState();
@@ -14,16 +16,18 @@ class _CollectChartState extends State<CollectChart> {
   @override
   Widget build(BuildContext context) {
     final List<ChartData> chartData = [
-      ChartData("Collected", 40, const Color(0xFF5DB075)),
+      ChartData(
+          "Collected", widget.paid / widget.total, const Color(0xFF5DB075)),
       // Theme.of(context).extension<CustomColors>()!.sourceGreenbar!
-      ChartData("Uncollected", 60, const Color(0xFFE8E8E8))
+      ChartData("Uncollected", 1 - (widget.paid / widget.total),
+          const Color(0xFFE8E8E8))
     ];
     return SfCircularChart(annotations: <CircularChartAnnotation>[
       CircularChartAnnotation(
           widget: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("324 THB",
+          Text("${widget.paid}",
                   style: TextStyle(
                       color: const Color(0xFF5DB075),
                       fontSize:
@@ -31,8 +35,8 @@ class _CollectChartState extends State<CollectChart> {
                       fontWeight: FontWeight.bold))
               .animate()
               .fadeIn(),
-          const Text("of 1056.78 THB",
-              style: TextStyle(color: Color(0xFFE8E8E8), fontSize: 10)),
+          Text("of ${widget.total} THB",
+              style: const TextStyle(color: Color(0xFFE8E8E8), fontSize: 10)),
           const Text("collected",
               style: TextStyle(color: Color(0xFFE8E8E8), fontSize: 10)),
         ],

@@ -105,7 +105,7 @@ Widget reciptList(BuildContext context, bool read, FriendData snapshot) {
       Row(
         children: [
           FutureBuilder(
-              future: profilepic(),
+              future: picFrined(snapshot.id),
               builder: (context, snapshot) {
                 return circleAvataUser(
                     radius: 15, imgUrl: snapshot.data.toString());
@@ -172,11 +172,12 @@ Widget reciptList(BuildContext context, bool read, FriendData snapshot) {
                           ...(transacSnapshot.data ?? [])
                               .map(
                                 (e) => PayerCard(
+                                  dId: "",
+                                  tId: e.transactionId,
                                   name: snapshot.name,
-                                  image:
-                                      "https://i.pravatar.cc/150?img=${snapshot.id}",
-                                  amount: e.amount.toString(),
-                                  done: true,
+                                  // image: e.borrowId,
+                                  amount: e.amount, circleColorState: '',
+                                  // done: true, circleColorState: e.borrowId,
                                 ),
                               )
                               .toList()
