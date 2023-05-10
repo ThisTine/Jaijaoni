@@ -20,8 +20,8 @@ class _PaidChartState extends State<PaidChart> {
       chartData = [
         ChartData("Paid", widget.paid / widget.total,
             Theme.of(context).colorScheme.primary),
-        ChartData(
-            "Unpaid", 1 - (widget.paid / widget.total), const Color(0xFFE8E8E8))
+        ChartData("Unpaid", 1.0 - (widget.paid / widget.total),
+            const Color(0xFFE8E8E8))
       ];
     } else {
       chartData = [

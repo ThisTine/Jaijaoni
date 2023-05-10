@@ -18,7 +18,7 @@ class TwoChartInHome extends StatelessWidget {
     return FutureBuilder(
         future: getChart(),
         builder: (context, snapshot) {
-          print(snapshot.data);
+          // print(snapshot.data);
           if (!snapshot.hasData) {
             return const CircularProgressIndicator();
           }

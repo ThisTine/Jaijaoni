@@ -65,7 +65,7 @@ Future<CircularChart> getChart() async {
                 .map((e) => e.debtTotal)
                 .reduce((value, element) => value + element));
   } catch (err) {
-    print(err);
+    // print(err);
     rethrow;
   }
 }

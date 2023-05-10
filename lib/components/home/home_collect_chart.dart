@@ -20,13 +20,13 @@ class _CollectChartState extends State<CollectChart> {
       chartData = [
         ChartData("Paid", widget.paid / widget.total,
             Theme.of(context).colorScheme.primary),
-        ChartData(
-            "Unpaid", 1 - (widget.paid / widget.total), const Color(0xFFE8E8E8))
+        ChartData("Unpaid", 1.0 - (widget.paid / widget.total),
+            const Color(0xFFE8E8E8))
       ];
     } else {
       chartData = [
-        ChartData("Paid", 0, Theme.of(context).colorScheme.primary),
-        ChartData("Unpaid", 1, const Color(0xFFE8E8E8))
+        ChartData("Paid", 0.0, Theme.of(context).colorScheme.primary),
+        ChartData("Unpaid", 1.0, const Color(0xFFE8E8E8))
       ];
     }
     return SfCircularChart(annotations: <CircularChartAnnotation>[
