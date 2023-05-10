@@ -36,18 +36,21 @@ class _DetailCustomerState extends State<DetailCustomer> {
   }
 
   createTransCard() {
-    // return (widget.debt.transactions
-    //     .map((e) => TransCard(
-    //           dId: widget.debt.debtId,
-    //           amount: widget.debt.debtTotal,
-    //           date: widget.debt.due.seconds,
-    //         ))
-    //     .toList());
-    return (TransCard(
-      dId: widget.debt.debtId,
-      amount: widget.debt.debtTotal,
-      date: widget.debt.due.seconds,
-    ));
+    return (widget.debt.transactions
+        .map((e) => TransCard(
+              error: e.errMessage,
+              dId: widget.debt.debtId,
+              amount: e.amount,
+              date: widget.debt.due.seconds,
+              status: e.isApproved,
+            ))
+        .toList());
+    // return (TransCard(
+    //   status: widget.debt.status,
+    //   dId: widget.debt.debtId,
+    //   amount: widget.debt.debtTotal,
+    //   date: widget.debt.due.seconds,
+    // ));
   }
 
   @override
@@ -185,7 +188,7 @@ class _DetailCustomerState extends State<DetailCustomer> {
                   const SizedBox(height: 20),
                   Column(
                     // crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [createTransCard()],
+                    children: [...createTransCard()],
                   ),
                 ],
               ),

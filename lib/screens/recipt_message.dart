@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:jaijaoni/components/circle_avata.dart';
 import 'package:jaijaoni/components/custom_app_bar.dart';
 import 'package:jaijaoni/components/debt_detail_payer_card.dart';
+import 'package:jaijaoni/components/utils/profile_circle_avatar.dart';
 import 'package:jaijaoni/functions/create/get_friends.dart';
 import 'package:jaijaoni/functions/friends/find_transaction_from_friend_id.dart';
 import 'package:jaijaoni/functions/utils/find_user_by_id.dart';
@@ -104,12 +105,7 @@ Widget reciptList(BuildContext context, bool read, FriendData snapshot) {
     children: [
       Row(
         children: [
-          FutureBuilder(
-              future: picFrined(snapshot.id),
-              builder: (context, snapshot) {
-                return circleAvataUser(
-                    radius: 15, imgUrl: snapshot.data.toString());
-              }),
+          ProfileCircleAvatar(userId: snapshot.id),
           const SizedBox(width: 12),
           Text(snapshot.name,
               style: TextStyle(
@@ -136,11 +132,7 @@ Widget reciptList(BuildContext context, bool read, FriendData snapshot) {
                         children: [
                           Row(
                             children: [
-                              FutureBuilder(builder: (context, snapshot) {
-                                return circleAvataUser(
-                                    radius: 30,
-                                    imgUrl: snapshot.data.toString());
-                              }),
+                              ProfileCircleAvatar(userId: snapshot.id),
                               const SizedBox(width: 24),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -169,19 +161,22 @@ Widget reciptList(BuildContext context, bool read, FriendData snapshot) {
                             ],
                           ),
                           const SizedBox(height: 27),
-                          ...(transacSnapshot.data ?? [])
-                              .map(
-                                (e) => PayerCard(
-                                  dId: e.debtId,
-                                  tId: e.transac.transactionId,
-                                  name: snapshot.name,
-                                  // image: e.borrowId,
-                                  amount: e.transac.amount,
-                                  circleColorState: '',
-                                  // done: true, circleColorState: e.borrowId,
-                                ),
-                              )
-                              .toList()
+                          ...(transacSnapshot.data ?? []).map(
+                            (e) {
+                              // print(e.transac.transactionId);
+                              return PayerCard(
+                                reason: e.transac.errMessage,
+                                dId: e.debtId,
+                                tId: e.transac.transactionId,
+                                name: e.transac.username,
+                                // image: e.borrowId,
+                                amount: e.transac.amount,
+                                circleColorState: e.transac.isApproved,
+                                // reason: e.transac.,
+                                // done: true, circleColorState: e.borrowId,
+                              );
+                            },
+                          ).toList()
                         ],
                       );
                     }),
