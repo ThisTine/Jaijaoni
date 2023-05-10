@@ -4,13 +4,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class TransCard extends ConsumerStatefulWidget {
   final String dId;
   final int date;
+  final String status;
   final double amount;
+  final String? error;
 
   const TransCard({
     Key? key,
+    required this.status,
     required this.dId,
     required this.date,
     required this.amount,
+    required this.error,
   }) : super(key: key);
 
   @override
@@ -69,12 +73,24 @@ class _TransCardState extends ConsumerState<TransCard> {
                       ),
                       ClipOval(
                           child: Container(
-                        color: const Color(0xFFE8EB01), //widget.circleColor,
+                        color: widget.status == "error"
+                            ? Theme.of(context).colorScheme.error
+                            : widget.status == "success"
+                                ? Colors.green
+                                : const Color(0xFFE8EB01), //widget.circleColor,
                         width: 12,
                         height: 12,
                       )),
                     ],
                   ),
+                  if (widget.error != null && widget.error != "")
+                    Text(
+                      widget.error ?? "",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall!
+                          .copyWith(color: Colors.red),
+                    )
                 ],
               ),
             ],

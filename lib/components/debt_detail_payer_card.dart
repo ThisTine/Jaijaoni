@@ -26,7 +26,7 @@ class PayerCard extends ConsumerStatefulWidget {
     required this.circleColorState,
     required this.tId,
     required this.dId,
-    this.reason,
+    required this.reason,
   }) : super(key: key);
 
   @override
@@ -42,17 +42,24 @@ class _PayerCardState extends ConsumerState<PayerCard> {
   void initState() {
     _getprofile();
     _getbill();
+    // print(widget.name);
+    // print(widget.circleColorState);
+    // print(widget.dId);
+    // print(widget.amount);
+    // print(widget.tId);
+    // print(_getbill());
+    // print(_getbill());
     super.initState();
   }
 
-  _getprofile() async {
-    await picFrinedbyusername(widget.name).then((value) => setState(() {
+  _getprofile() {
+    picFrinedbyusername(widget.name).then((value) => setState(() {
           profileImage = value;
         }));
   }
 
-  _getbill() async {
-    await getBill(widget.tId).then((value) => setState(() {
+  _getbill() {
+    getBill(widget.tId).then((value) => setState(() {
           billImage = value;
         }));
   }

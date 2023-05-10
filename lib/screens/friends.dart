@@ -33,6 +33,7 @@ class _FriendsScreenState extends ConsumerState<FriendsScreen> {
     String data = await Navigator.push(context,
         MaterialPageRoute(builder: (context) => const AddFriendScreen()));
     if (data != "") {
+      _onSearchChanged(data);
       setState(() {
         toggleMode = "FRIEND_LIST";
         _searchController.text = data;
@@ -44,6 +45,11 @@ class _FriendsScreenState extends ConsumerState<FriendsScreen> {
   FriendsReqs? request;
   Timer? _debounce;
   bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   void getData() {
     setState(() {
