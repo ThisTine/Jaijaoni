@@ -38,8 +38,8 @@ Future<String> createDebt(CreateDebtData debtData) async {
               "lenderUsername": lenderUsername,
               "borrowerUserId": e.id,
               "borrowerUsername": e.username,
-              "debtTotal": debtData.totalPrice,
-              "debtRemaining": debtData.totalPrice,
+              "debtTotal": e.price,
+              "debtRemaining": e.price,
               "borrowedTime": FieldValue.serverTimestamp(),
               "due": dueDate,
             })
