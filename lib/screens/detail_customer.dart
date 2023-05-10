@@ -35,6 +35,21 @@ class _DetailCustomerState extends State<DetailCustomer> {
         }));
   }
 
+  createTransCard() {
+    // return (widget.debt.transactions
+    //     .map((e) => TransCard(
+    //           dId: widget.debt.debtId,
+    //           amount: widget.debt.debtTotal,
+    //           date: widget.debt.due.seconds,
+    //         ))
+    //     .toList());
+    return (TransCard(
+      dId: widget.debt.debtId,
+      amount: widget.debt.debtTotal,
+      date: widget.debt.due.seconds,
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -170,12 +185,7 @@ class _DetailCustomerState extends State<DetailCustomer> {
                   const SizedBox(height: 20),
                   Column(
                     // crossAxisAlignment: CrossAxisAlignment.center,
-                    children: const [
-                      TransCard(
-                          date: "23/03/2023",
-                          circleColor: Color(0xFFE8EB01),
-                          amount: "200")
-                    ],
+                    children: [createTransCard()],
                   ),
                 ],
               ),

@@ -39,25 +39,33 @@ Future<CircularChart> getChart() async {
     List<Borrowers> borrowerBorrowers =
         borrowerDocQuery.docs.map((e) => Borrowers.fromFireStore(e)).toList();
 
-    // print(borrowerDocQuery.docs.map((e) => e.data()));
     return CircularChart(
         lenderAmount:
             lenderBorrowers.map((e) => e.borrowerUserId).toSet().length,
         borrowerAmount:
             borrowerBorrowers.map((e) => e.lenderUserId).toSet().length,
-        lenderPaidDebt: lenderBorrowers
-            .map((e) => e.debtTotal - e.debtRemaining)
-            .reduce((value, element) => value + element),
-        lenderTotalDebt: lenderBorrowers
-            .map((e) => e.debtTotal)
-            .reduce((value, element) => value + element),
-        borrowerPaidDebt: borrowerBorrowers
-            .map((e) => e.debtTotal - e.debtRemaining)
-            .reduce((value, element) => value + element),
-        borrowerTotalDebt: borrowerBorrowers
-            .map((e) => e.debtTotal)
-            .reduce((value, element) => value + element));
+        lenderPaidDebt: lenderBorrowers.isEmpty
+            ? 0
+            : lenderBorrowers
+                .map((e) => e.debtTotal - e.debtRemaining)
+                .reduce((value, element) => value + element),
+        lenderTotalDebt: lenderBorrowers.isEmpty
+            ? 0
+            : lenderBorrowers
+                .map((e) => e.debtTotal)
+                .reduce((value, element) => value + element),
+        borrowerPaidDebt: borrowerBorrowers.isEmpty
+            ? 0
+            : borrowerBorrowers
+                .map((e) => e.debtTotal - e.debtRemaining)
+                .reduce((value, element) => value + element),
+        borrowerTotalDebt: borrowerBorrowers.isEmpty
+            ? 0
+            : borrowerBorrowers
+                .map((e) => e.debtTotal)
+                .reduce((value, element) => value + element));
   } catch (err) {
+    print(err);
     rethrow;
   }
 }

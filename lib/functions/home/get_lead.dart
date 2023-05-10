@@ -12,8 +12,8 @@ Future<List<Map<String, dynamic>>> getLend() async {
               "date": DateTime.fromMillisecondsSinceEpoch(e.due.seconds * 1000),
               "amount": e.debtTotal.toString(),
               "image": 'images/profile/dazai.jpg',
+              "profileId": e.borrowersUserId.first,
               "debtor": e.borrowersUserId.length,
-              "profileId": e.borrowersUserId.first
             })
         .toList();
     return lend;

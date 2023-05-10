@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class TransCard extends ConsumerStatefulWidget {
-  final String date;
-  final Color? circleColor;
-  final String amount;
+  final String dId;
+  final int date;
+  final double amount;
 
   const TransCard({
     Key? key,
+    required this.dId,
     required this.date,
-    required this.circleColor,
     required this.amount,
   }) : super(key: key);
 
@@ -18,6 +18,14 @@ class TransCard extends ConsumerStatefulWidget {
 }
 
 class _TransCardState extends ConsumerState<TransCard> {
+  late DateTime _date;
+
+  @override
+  void initState() {
+    super.initState();
+    _date = DateTime.fromMillisecondsSinceEpoch(widget.date * 1000);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -46,7 +54,7 @@ class _TransCardState extends ConsumerState<TransCard> {
                   Row(
                     children: [
                       Text(
-                        widget.date, // เปลี่ยนเป็น date
+                        "${_date.day}/${_date.month}/${_date.year}", // เปลี่ยนเป็น date
                         style: TextStyle(
                             color: Theme.of(context)
                                 .colorScheme
@@ -61,7 +69,7 @@ class _TransCardState extends ConsumerState<TransCard> {
                       ),
                       ClipOval(
                           child: Container(
-                        color: widget.circleColor,
+                        color: const Color(0xFFE8EB01), //widget.circleColor,
                         width: 12,
                         height: 12,
                       )),
@@ -82,7 +90,7 @@ class _TransCardState extends ConsumerState<TransCard> {
                 const SizedBox(
                   width: 10,
                 ),
-                Text(widget.amount,
+                Text(widget.amount.toString(),
                     style: TextStyle(
                         color: Theme.of(context).colorScheme.onPrimaryContainer,
                         fontSize: Theme.of(context)

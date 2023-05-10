@@ -16,8 +16,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<Map<String, dynamic>>? lendList;
-  List<Map<String, dynamic>>? borrowlist;
+  List<Map<String, dynamic>>? lendList = [];
+  List<Map<String, dynamic>>? borrowlist = [];
   List<Map<String, dynamic>> foundLend = [];
   List<Map<String, dynamic>> foundBorrow = [];
   // int totalDebtor = 0;
@@ -135,26 +135,39 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 20,
                 ),
                 SizedBox(
-                  width: 230,
-                  child: SegmentedButton<int>(
-                    segments: const <ButtonSegment<int>>[
-                      ButtonSegment<int>(
-                        value: 0,
-                        label: Text('Lend'),
-                      ),
-                      ButtonSegment<int>(
-                        value: 1,
-                        label: Text('   Borrow'),
-                      )
-                    ],
-                    selected: <int>{cardView},
-                    onSelectionChanged: (Set<int> newSelection) {
-                      setState(() {
-                        cardView = newSelection.first;
-                      });
-                    },
-                  ),
-                ),
+                    width: 230,
+                    child: lendList!.isNotEmpty
+                        ? SegmentedButton<int>(
+                            segments: const <ButtonSegment<int>>[
+                              ButtonSegment<int>(
+                                value: 0,
+                                label: Text('Lend'),
+                              ),
+                              ButtonSegment<int>(
+                                value: 1,
+                                label: Text('   Borrow'),
+                              )
+                            ],
+                            selected: <int>{cardView},
+                            onSelectionChanged: (Set<int> newSelection) {
+                              setState(() {
+                                cardView = newSelection.first;
+                              });
+                            },
+                          )
+                        : Container(
+                            alignment: Alignment.center,
+                            child: Text("You have no debt right now..",
+                                style: TextStyle(
+                                  fontSize: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .fontSize,
+                                  fontWeight: FontWeight.w700,
+                                  color:
+                                      const Color.fromARGB(255, 138, 138, 138),
+                                )),
+                          )),
                 cardView == 0
                     ? Padding(
                         padding: const EdgeInsets.all(8),
@@ -192,7 +205,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   return BorrowCard(
                                     id: foundBorrow[index]["id"],
                                     name: foundBorrow[index]["name"],
-                                    profileId: foundLend[index]["profileId"],
+                                    profileId: foundBorrow[index]["profileId"],
                                     date:
                                         "${tsdate.day}/${tsdate.month}/${tsdate.year}",
                                     amount: foundBorrow[index]["amount"],

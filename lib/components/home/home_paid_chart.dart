@@ -15,12 +15,20 @@ class PaidChart extends StatefulWidget {
 class _PaidChartState extends State<PaidChart> {
   @override
   Widget build(BuildContext context) {
-    final List<ChartData> chartData = [
-      ChartData("Paid", widget.paid / widget.total,
-          Theme.of(context).colorScheme.primary),
-      ChartData(
-          "Unpaid", 1 - (widget.paid / widget.total), const Color(0xFFE8E8E8))
-    ];
+    List<ChartData> chartData = [];
+    if (widget.paid != 0 && widget.total != 0) {
+      chartData = [
+        ChartData("Paid", widget.paid / widget.total,
+            Theme.of(context).colorScheme.primary),
+        ChartData(
+            "Unpaid", 1 - (widget.paid / widget.total), const Color(0xFFE8E8E8))
+      ];
+    } else {
+      chartData = [
+        ChartData("Paid", 0, Theme.of(context).colorScheme.primary),
+        ChartData("Unpaid", 1, const Color(0xFFE8E8E8))
+      ];
+    }
     return SfCircularChart(annotations: <CircularChartAnnotation>[
       CircularChartAnnotation(
           widget: Column(
@@ -35,9 +43,11 @@ class _PaidChartState extends State<PaidChart> {
               .animate()
               .fadeIn(),
           Text("of ${widget.total} THB",
-              style: const TextStyle(color: Color(0xFFE8E8E8), fontSize: 10)),
+              style: const TextStyle(
+                  color: Color.fromARGB(255, 138, 138, 138), fontSize: 10)),
           const Text("paid",
-              style: TextStyle(color: Color(0xFFE8E8E8), fontSize: 10)),
+              style: TextStyle(
+                  color: Color.fromARGB(255, 138, 138, 138), fontSize: 10)),
         ],
       )),
     ], series: <CircularSeries>[

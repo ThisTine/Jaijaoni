@@ -13,7 +13,7 @@ Future<List<Map<String, dynamic>>> getBow() async {
               "amount": e.debtTotal.toString(),
               "image": 'images/profile/dazai.jpg',
               "profileId": e.userId,
-              "debtor": e.borrowersUserId.length
+              "debtor": e.borrowersUserId.length,
             })
         .toList();
     // print(bow);
