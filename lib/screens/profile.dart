@@ -131,7 +131,9 @@ Widget debtAnalysisBox(BuildContext context, String pain, String unpaid) {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Container(
-                              width: 119,
+                              width: MediaQuery.of(context).size.width <= 350
+                                  ? 100
+                                  : 150,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
                                 color: Theme.of(context)
@@ -150,10 +152,18 @@ Widget debtAnalysisBox(BuildContext context, String pain, String unpaid) {
                                                 .extension<CustomColors>()!
                                                 .sourceRedbar,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: Theme.of(context)
-                                                .textTheme
-                                                .headlineMedium!
-                                                .fontSize),
+                                            fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .width <=
+                                                    350
+                                                ? Theme.of(context)
+                                                    .textTheme
+                                                    .bodyMedium!
+                                                    .fontSize
+                                                : Theme.of(context)
+                                                    .textTheme
+                                                    .headlineMedium!
+                                                    .fontSize),
                                       ),
                                       Text(
                                         "THB",
@@ -193,7 +203,9 @@ Widget debtAnalysisBox(BuildContext context, String pain, String unpaid) {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Container(
-                              width: 119,
+                              width: MediaQuery.of(context).size.width <= 350
+                                  ? 100
+                                  : 150,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
                                 color: Theme.of(context)
@@ -212,10 +224,18 @@ Widget debtAnalysisBox(BuildContext context, String pain, String unpaid) {
                                                 .extension<CustomColors>()!
                                                 .sourceGreenbar,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: Theme.of(context)
-                                                .textTheme
-                                                .headlineMedium!
-                                                .fontSize),
+                                            fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .width <=
+                                                    350
+                                                ? Theme.of(context)
+                                                    .textTheme
+                                                    .bodyMedium!
+                                                    .fontSize
+                                                : Theme.of(context)
+                                                    .textTheme
+                                                    .headlineMedium!
+                                                    .fontSize),
                                       ),
                                       Text(
                                         "THB",
