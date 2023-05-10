@@ -19,11 +19,17 @@ Future<List<Debts>> findBorrowerByUserId() async {
     //     .collection.debts
     //     .where(FieldPath.documentId, whereIn: debtId)
     //     .get();
-    List<Debts> debts = bowDoc.docs.map((e) => Debts.fromFireStore(e)).toList();
+    // print(bowDoc.docs.map((e) => e.data()));
+    List<Debts> debts = bowDoc.docs.map((e) {
+      // print(e.data());
+      // print("");
+      return Debts.fromFireStore(e);
+    }).toList();
     // print(debts.length);
 
     return debts;
   } catch (err) {
+    // print(err);
     rethrow;
   }
 }

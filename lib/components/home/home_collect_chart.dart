@@ -18,8 +18,7 @@ class _CollectChartState extends State<CollectChart> {
     List<ChartData> chartData = [];
     if (widget.paid != 0 && widget.total != 0) {
       chartData = [
-        ChartData("Paid", widget.paid / widget.total,
-            Theme.of(context).colorScheme.primary),
+        ChartData("Paid", widget.paid / widget.total, const Color(0xFF5DB075)),
         ChartData("Unpaid", 1.0 - (widget.paid / widget.total),
             const Color(0xFFE8E8E8))
       ];

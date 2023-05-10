@@ -19,6 +19,7 @@ Future<List<Map<String, dynamic>>> getBow() async {
     // print(bow);
     return bow;
   } catch (err) {
+    // print(err);
     rethrow;
   }
 }

@@ -9,12 +9,16 @@ Future<List<Debts>> findDebtsByUserId() async {
         .collection.debts
         .where("userId", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .get();
-    List<Debts> debts =
-        debtDoc.docs.map((e) => Debts.fromFireStore(e)).toList();
+    List<Debts> debts = debtDoc.docs.map((e) {
+      // print(e.data());
+      // print("");
+      return Debts.fromFireStore(e);
+    }).toList();
     // print(debts.map(
     //     (e) => [e.debtId, e.debtName, e.debtTotal, e.due, e.borrowersUserId]));
     return debts;
   } catch (err) {
+    // print(err);
     rethrow;
   }
 }

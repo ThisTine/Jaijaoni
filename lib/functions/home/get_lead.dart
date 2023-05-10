@@ -18,6 +18,7 @@ Future<List<Map<String, dynamic>>> getLend() async {
         .toList();
     return lend;
   } catch (err) {
+    // print(err);
     rethrow;
   }
 }

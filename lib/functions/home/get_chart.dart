@@ -45,27 +45,30 @@ Future<CircularChart> getChart() async {
         borrowerAmount:
             borrowerBorrowers.map((e) => e.lenderUserId).toSet().length,
         lenderPaidDebt: lenderBorrowers.isEmpty
-            ? 0
+            ? 0.toDouble()
             : lenderBorrowers
                 .map((e) => e.debtTotal - e.debtRemaining)
-                .reduce((value, element) => value + element),
+                .reduce((value, element) => value + element)
+                .toDouble(),
         lenderTotalDebt: lenderBorrowers.isEmpty
-            ? 0
+            ? 0.toDouble()
             : lenderBorrowers
                 .map((e) => e.debtTotal)
-                .reduce((value, element) => value + element),
+                .reduce((value, element) => value + element)
+                .toDouble(),
         borrowerPaidDebt: borrowerBorrowers.isEmpty
-            ? 0
+            ? 0.toDouble()
             : borrowerBorrowers
                 .map((e) => e.debtTotal - e.debtRemaining)
-                .reduce((value, element) => value + element),
+                .reduce((value, element) => value + element)
+                .toDouble(),
         borrowerTotalDebt: borrowerBorrowers.isEmpty
-            ? 0
+            ? 0.toDouble()
             : borrowerBorrowers
                 .map((e) => e.debtTotal)
-                .reduce((value, element) => value + element));
+                .reduce((value, element) => value + element)
+                .toDouble());
   } catch (err) {
-    // print(err);
     rethrow;
   }
 }

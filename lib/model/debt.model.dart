@@ -34,7 +34,7 @@ class Debts {
             .map((e) => e.toString())
             .toList(),
         debtName: data['debtName'],
-        debtTotal: data['debtTotal'],
+        debtTotal: double.parse(data['debtTotal'].toString()),
         createTime: data['createTime'],
         due: data['due'],
         payChannels: List<Map<String, dynamic>>.from(data['payChannels'] ?? [])
@@ -47,7 +47,7 @@ class Debts {
                     borrowId: e['borrowId'],
                     username: e['username'],
                     profilePic: e['profilePic'],
-                    amount: e['amount'],
+                    amount: double.parse(e['amount'].toString()),
                     isApproved: e['isApproved'],
                     errMessage: e['errMessage']))
                 .toList());

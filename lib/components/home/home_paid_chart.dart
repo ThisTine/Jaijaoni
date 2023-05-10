@@ -25,7 +25,7 @@ class _PaidChartState extends State<PaidChart> {
       ];
     } else {
       chartData = [
-        ChartData("Paid", 0, Theme.of(context).colorScheme.primary),
+        ChartData("Paid", 0, const Color(0xFF5DB075)),
         ChartData("Unpaid", 1, const Color(0xFFE8E8E8))
       ];
     }
