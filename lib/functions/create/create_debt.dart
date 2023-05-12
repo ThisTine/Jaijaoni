@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:jaijaoni/functions/utils/find_user_by_id.dart';
 import 'package:jaijaoni/services/store/fire_store_service.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../model/user.model.dart';
 import '../../providers/create/create_debt_data_provider.dart';
@@ -16,7 +17,10 @@ Future<String> createDebt(CreateDebtData debtData) async {
     Map<String, dynamic> debtMap = {
       "userId": lenderUserId,
       "username": lenderUsername,
-      "borrowersUserId": debtData.friendList.map((e) => e.id).toList(),
+      "borrowersUserId": debtData.friendList
+          .where((element) => element.id != lenderUserId)
+          .map((e) => e.id)
+          .toList(),
       "debtName": debtData.name,
       "debtTotal": debtData.totalPrice,
       "payChannels": debtData.paymentList
@@ -25,13 +29,23 @@ Future<String> createDebt(CreateDebtData debtData) async {
           .toList(),
       "due": dueDate,
       "createTime": FieldValue.serverTimestamp(),
-      "transactions": []
+      "transactions": debtData.friendList
+          .where((element) => element.id == lenderUserId)
+          .map((e) => {
+                "amount": e.price.toDouble(),
+                "borrowId": "",
+                "errMessage": "",
+                "isApproved": "success",
+                "transactionId": const Uuid().v4().toString(),
+                "username": lender.username,
+                "profilePic" : ""
+              })
     };
 
     DocumentReference<Map<String, dynamic>> createdDebt =
         await FireStoreService.collection.debts.add(debtMap);
 
-    List<Map<String, dynamic>> borrowers = debtData.friendList
+    List<Map<String, dynamic>> borrowers = debtData.friendList.where((element) => element.id != lenderUserId)
         .map((e) => {
               "debtId": createdDebt.id,
               "lenderUserId": lenderUserId,

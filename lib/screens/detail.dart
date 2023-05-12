@@ -28,7 +28,6 @@ class DebtDetailScreen extends ConsumerWidget {
           );
         },
         error: (error, stack) {
-          // print(error.toString());
           // showSnackBar(context,
           //     "Couldn't find debt detail or this debt doesn't belong to you");
           context.go("/");
