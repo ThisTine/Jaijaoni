@@ -1,13 +1,21 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SignInWithGoogleButton extends StatelessWidget {
+import '../../providers/auth_provider.dart';
+import '../../services/auth/auth_service.dart';
+
+class SignInWithGoogleButton extends ConsumerWidget {
   final bool isSignup;
   const SignInWithGoogleButton({super.key, this.isSignup = false});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    AuthService authService = ref.read(authProvider);
     return FilledButton(
-        onPressed: () {},
+        onPressed: () {
+          kIsWeb ? authService.googleLoginWeb() : authService.googleLogin();
+        },
         style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.all(20),
             elevation: 2,

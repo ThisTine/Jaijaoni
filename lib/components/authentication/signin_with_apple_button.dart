@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SignInWithApple extends StatelessWidget {
+class SignInWithApple extends ConsumerWidget {
   final bool isSignup;
   const SignInWithApple({super.key, this.isSignup = false});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return FilledButton(
         onPressed: () {},
         style: ElevatedButton.styleFrom(
