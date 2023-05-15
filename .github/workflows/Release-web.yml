@@ -25,7 +25,11 @@ jobs:
           cache: true
 
       - name: Get dependencies
-        run: flutter pub get
+        run: |
+          flutter pub get
+          touch .env
+          echo  ${{ secrets.APP_ENV }} > .env      
+        
 
       - name: Start Web Release Build
         run: flutter build web --web-renderer html
