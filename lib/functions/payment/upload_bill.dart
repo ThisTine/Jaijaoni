@@ -26,7 +26,9 @@ Future<void> uploadPicture(XFile file, String namepic, String type) async {
     //   //       contentType: "image/*",
     //   //     ));
     // }
-    await mountainsRef.putData(fileData);
+    // await mountainsRef.putData(fileData);
+    await mountainsRef.putData(
+        fileData, SettableMetadata(contentType: file.mimeType));
   } catch (err) {
     rethrow;
   }
