@@ -2,10 +2,8 @@ name: Web Release
 
 on:
   push:
-    branches: ["master"]
-
-  pull_request:
-    branches: ["master"]
+    branches: 
+      - infa
 
   workflow_dispatch:
 
@@ -30,13 +28,13 @@ jobs:
         run: flutter pub get
 
       - name: Start Web Release Build
-        run: flutter build web --release
+        run: flutter build web --web-renderer html
 
       - name: Upload Web Build Files
         uses: actions/upload-artifact@v2
         with:
           name: web-release
-          path: ./build/web
+          path: ./build
 
   deploy:
     name: Deploy Web Build
@@ -49,8 +47,14 @@ jobs:
         with:
           name: web-release
 
-      - name: Deploy to gh-pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Deploy to server
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./
+            username: ${{secrets.STAGING_SSH_USERNAME}}
+            server: ${{secrets.STAGING_SSH_HOST}}
+            password: ${{ secrets.STAGING_SSH_PASSWORD}}
+            port: ${{secrets.STAGING_SSH_PORT}}
+            local_path: "./web-release/*"
+            remote_path: ${{secrets.REMOTE_PATH}}
+            args: "-o ConnectTimeout=5"
+  
