@@ -46,7 +46,7 @@ class _BorrowCardState extends State<BorrowCard> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Flexible(
-                  flex: 10,
+                  flex: 6,
                   //use flexible 10 to make the debt name take the appropriate width size
                   child: Padding(
                     padding: const EdgeInsets.all(20),
