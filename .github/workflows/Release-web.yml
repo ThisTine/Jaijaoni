@@ -20,7 +20,7 @@ jobs:
           cache: gradle
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.0.0"
+          # flutter-version: "3.0.0"
           channel: "stable"
           cache: true
 
@@ -54,11 +54,11 @@ jobs:
       - name: Deploy to server
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
-            username: ${{secrets.STAGING_SSH_USERNAME}}
-            server: ${{secrets.STAGING_SSH_HOST}}
-            password: ${{ secrets.STAGING_SSH_PASSWORD}}
-            port: ${{secrets.STAGING_SSH_PORT}}
+            username: "${{secrets.STAGING_SSH_USERNAME}}"
+            server: "${{secrets.STAGING_SSH_HOST}}"
+            password: "${{ secrets.STAGING_SSH_PASSWORD}}"
+            port: "${{secrets.STAGING_SSH_PORT}}"
             local_path: "./web-release/*"
-            remote_path: ${{secrets.REMOTE_PATH}}
+            remote_path: "${{secrets.REMOTE_PATH}}"
             args: "-o ConnectTimeout=5"
   
