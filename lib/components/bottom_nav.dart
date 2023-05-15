@@ -55,16 +55,18 @@ class BottomNav extends StatelessWidget {
       }
     }
 
-    return BottomNavigationBar(
-      items: <BottomNavigationBarItem>[
-        for (NavItem i in paths)
-          BottomNavigationBarItem(icon: i.icon, label: i.label)
-      ],
-      currentIndex: whichIndex(),
-      unselectedItemColor: Colors.grey,
-      selectedItemColor: Theme.of(context).colorScheme.primary,
-      showUnselectedLabels: true,
-      onTap: onChangeRoute,
+    return SafeArea(
+      child: BottomNavigationBar(
+        items: <BottomNavigationBarItem>[
+          for (NavItem i in paths)
+            BottomNavigationBarItem(icon: i.icon, label: i.label)
+        ],
+        currentIndex: whichIndex(),
+        unselectedItemColor: Colors.grey,
+        selectedItemColor: Theme.of(context).colorScheme.primary,
+        showUnselectedLabels: true,
+        onTap: onChangeRoute,
+      ),
     );
   }
 }
