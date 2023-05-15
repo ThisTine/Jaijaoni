@@ -39,13 +39,13 @@ class _LendCardState extends State<LendCard> {
             borderRadius: BorderRadius.circular(12.0),
             onTap: () => {
               // GoRouter.of(context).go("/detail/${widget.id}")
-              context.go("/detail/${widget.id}")
+              context.push("/detail/${widget.id}")
             },
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Flexible(
-                  flex: 10,
+                  flex: 6,
                   //use flexible 10 to make the debt name take the appropriate width size
                   child: Padding(
                     padding: const EdgeInsets.all(20),

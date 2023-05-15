@@ -37,12 +37,15 @@ class _DetailCustomerState extends State<DetailCustomer> {
 
   createTransCard() {
     return (widget.debt.transactions
-        .map((e) => TransCard(
-              error: e.errMessage,
-              dId: widget.debt.debtId,
-              amount: e.amount,
-              date: widget.debt.due.seconds,
-              status: e.isApproved,
+        .map((e) => Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TransCard(
+                error: e.errMessage,
+                dId: widget.debt.debtId,
+                amount: e.amount,
+                date: widget.debt.due.seconds,
+                status: e.isApproved,
+              ),
             ))
         .toList());
     // return (TransCard(

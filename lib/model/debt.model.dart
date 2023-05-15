@@ -43,7 +43,7 @@ class Debts {
         transactions:
             List<Map<String, dynamic>>.from(data['transactions'] ?? [])
                 .map((e) => Transactions(
-                    transactionId: "e['transactionId']",
+                    transactionId: e['transactionId'],
                     borrowId: e['borrowId'],
                     username: e['username'],
                     profilePic: e['profilePic'] ?? "",
