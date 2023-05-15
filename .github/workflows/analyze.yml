@@ -1,10 +1,10 @@
 name: Analyzie Station 👩‍🔬
 
 on: 
-  # push:
-    # branches:
-    #   - main
-    #   - infa
+  push:
+    branches:
+      - main
+      - infa
   pull_request:
     branches:
       - "*"
@@ -28,7 +28,7 @@ jobs:
       - name: Install Fultter 📥
         uses: subosito/flutter-action@v2
         with:
-          # flutter-version: "3.7.7"
+          flutter-version: "3.7.10"
           channel: 'stable'
           cache: true
   
