@@ -3,10 +3,9 @@ name: Web Release
 on:
   push:
     branches: 
-      - infa
-  pull_request:
-    branches:
       - "release-version"
+      - infa
+   
   workflow_dispatch:
 
 jobs:
