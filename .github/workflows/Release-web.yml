@@ -49,7 +49,7 @@ jobs:
       - name: Download Web Release📥
         uses: actions/download-artifact@v2
         with:
-          path: .
+          name: web-release
 
       - name: Deploy to server
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
@@ -58,7 +58,7 @@ jobs:
             server: "${{ secrets.STAGING_SSH_HOST }}"
             password: "${{ secrets.STAGING_SSH_PASSWORD }}"
             port: "${{ secrets.STAGING_SSH_PORT }}" 
-            local_path: "./web-release/*"
+            local_path: "./web-release/"
             remote_path: "/home/gugun/project_flutter/jaijaoni/build/"
             args: "-o ConnectTimeout=5"
   
