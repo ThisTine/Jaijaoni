@@ -57,8 +57,10 @@ jobs:
             username: "${{ secrets.STAGING_SSH_USERNAME }}"
             server: "${{ secrets.STAGING_SSH_HOST }}"
             password: "${{ secrets.STAGING_SSH_PASSWORD }}"
-            port: "${{ secrets.STAGING_SSH_PORT }}"
-            run: ls /home/
+            port: "${{ secrets.STAGING_SSH_PORT }}" 
+            run: |
+              touch .env
+              echo  ${{ secrets.APP_ENV }} > .env  
             local_path: "./web-release/*"
             remote_path: "/home/gugun/project_flutter/jaijaoni/build/"
             args: "-o ConnectTimeout=5"
