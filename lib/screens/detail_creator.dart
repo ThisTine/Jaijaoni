@@ -46,14 +46,17 @@ class _DetailCreatorState extends State<DetailCreator> {
     if (widget.debt.transactions.isNotEmpty) {
       // for (var e in widget.debt.transactions) {
       return widget.debt.transactions
-          .map((e) => PayerCard(
-                tId: e.transactionId,
-                dId: widget.debt.debtId,
-                name: e.username,
-                // image: e.username,
-                amount: e.amount,
-                circleColorState: e.isApproved,
-                reason: e.errMessage,
+          .map((e) => Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: PayerCard(
+                  tId: e.transactionId,
+                  dId: widget.debt.debtId,
+                  name: e.username,
+                  // image: e.username,
+                  amount: e.amount,
+                  circleColorState: e.isApproved,
+                  reason: e.errMessage,
+                ),
               ))
           .toList();
       // }

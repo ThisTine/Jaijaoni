@@ -226,17 +226,14 @@ Future<void> _receiptAlert(
         // insetPadding:
         //     const EdgeInsets.only(top: 150, bottom: 150, left: 50, right: 50),
         title: const Text('Receipt'),
-        content: SizedBox(
-          width: 300,
-          height: 500,
+        content: SingleChildScrollView(
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Image.network(
               bill,
             ),
-            const SizedBox(height: 20),
-            const Text("Amount: 5000 THB")
           ]),
         ),
+
         actions: <Widget>[
           TextButton(
             style: TextButton.styleFrom(
