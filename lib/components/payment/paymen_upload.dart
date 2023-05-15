@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:image_picker/image_picker.dart';
 import 'package:jaijaoni/functions/payment/upload_payment.dart';
 
 class Paymentuploadsheet extends StatelessWidget {
@@ -12,7 +13,7 @@ class Paymentuploadsheet extends StatelessWidget {
       required this.deptId,
       required this.amount})
       : super(key: key);
-  final File? imagefile;
+  final XFile? imagefile;
   final String deptId;
   final double amount;
 

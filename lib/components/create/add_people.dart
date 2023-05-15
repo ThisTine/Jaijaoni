@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jaijaoni/components/create/friend_bottom_sheet.dart';
@@ -158,7 +159,7 @@ class _AddPeopleState extends ConsumerState<AddPeople> {
             ),
             Expanded(
               child: FilledButton(
-                  onPressed: peopleList.isEmpty
+                  onPressed: peopleList.where((element) => element.id != FirebaseAuth.instance.currentUser!.uid).isEmpty
                       ? null
                       : () {
                           Navigator.push(

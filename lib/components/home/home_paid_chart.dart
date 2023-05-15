@@ -4,7 +4,9 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 // import '../config/theme/custom_color.g.dart';
 
 class PaidChart extends StatefulWidget {
-  const PaidChart({super.key});
+  final double total;
+  final double paid;
+  const PaidChart({required this.paid, required this.total, super.key});
 
   @override
   State<PaidChart> createState() => _PaidChartState();
@@ -13,16 +15,26 @@ class PaidChart extends StatefulWidget {
 class _PaidChartState extends State<PaidChart> {
   @override
   Widget build(BuildContext context) {
-    final List<ChartData> chartData = [
-      ChartData("Paid", 70, Theme.of(context).colorScheme.primary),
-      ChartData("Unpaid", 30, const Color(0xFFE8E8E8))
-    ];
+    List<ChartData> chartData = [];
+    if (widget.paid != 0 && widget.total != 0) {
+      chartData = [
+        ChartData("Paid", widget.paid / widget.total,
+            Theme.of(context).colorScheme.primary),
+        ChartData("Unpaid", 1.0 - (widget.paid / widget.total),
+            const Color(0xFFE8E8E8))
+      ];
+    } else {
+      chartData = [
+        ChartData("Paid", 0, const Color(0xFF5DB075)),
+        ChartData("Unpaid", 1, const Color(0xFFE8E8E8))
+      ];
+    }
     return SfCircularChart(annotations: <CircularChartAnnotation>[
       CircularChartAnnotation(
           widget: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("1960 THB",
+          Text("${widget.paid}",
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.primary,
                       fontSize:
@@ -30,10 +42,12 @@ class _PaidChartState extends State<PaidChart> {
                       fontWeight: FontWeight.bold))
               .animate()
               .fadeIn(),
-          const Text("of 3200 THB",
-              style: TextStyle(color: Color(0xFFE8E8E8), fontSize: 10)),
+          Text("of ${widget.total} THB",
+              style: const TextStyle(
+                  color: Color.fromARGB(255, 138, 138, 138), fontSize: 10)),
           const Text("paid",
-              style: TextStyle(color: Color(0xFFE8E8E8), fontSize: 10)),
+              style: TextStyle(
+                  color: Color.fromARGB(255, 138, 138, 138), fontSize: 10)),
         ],
       )),
     ], series: <CircularSeries>[

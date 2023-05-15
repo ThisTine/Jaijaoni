@@ -7,7 +7,8 @@ class FriendListContainer extends StatelessWidget {
   final String searchData;
   final List<Users> friends;
 
-  const FriendListContainer({super.key, required this.searchData,required this.friends});
+  const FriendListContainer(
+      {super.key, required this.searchData, required this.friends});
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +17,7 @@ class FriendListContainer extends StatelessWidget {
         ...friends
             .where((element) =>
                 // element['isRequest'] == false &&
-                (searchData.toString().startsWith('@')
-                    ? true
-                    : true) &&
+                (searchData.toString().startsWith('@') ? true : true) &&
                 (searchData.toString().startsWith('@')
                     ? element.username.toString() == searchData
                     : element.name.toString().contains(searchData)))
@@ -27,8 +26,8 @@ class FriendListContainer extends StatelessWidget {
             .map((key, value) => MapEntry(
                 key,
                 FriendItem(
-                  getData: (){},
-                  id: key.toString(),
+                  getData: () {},
+                  id: value.userId,
                   name: value.name,
                   profile: "https://i.pravatar.cc/150?img=${value.userId}",
                   username: value.username,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jaijaoni/components/friends/addfriend_alert_dialog.dart';
 import 'package:jaijaoni/components/friends/unfriend_alert_dialog.dart';
+import 'package:jaijaoni/components/utils/profile_circle_avatar.dart';
 import 'package:jaijaoni/functions/friends/accept_firend_request.dart';
 import 'package:jaijaoni/functions/friends/reject_friend_request.dart';
 import 'package:jaijaoni/providers/friends/show_snackbar.dart';
@@ -76,7 +77,8 @@ class FriendItem extends StatelessWidget {
         const SizedBox(
           height: 10,
         ),
-        GestureDetector(
+        InkWell(
+          borderRadius: BorderRadius.circular(10),
           onTap: () {
             Navigator.push(
                 context,
@@ -91,7 +93,7 @@ class FriendItem extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  CircleAvatar(foregroundImage: NetworkImage(profile)),
+                  ProfileCircleAvatar(userId: id),
                   const SizedBox(
                     width: 5,
                   ),
@@ -100,11 +102,9 @@ class FriendItem extends StatelessWidget {
                     children: [
                       Text(
                         name,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineSmall!
-                            .copyWith(
-                                color: Theme.of(context).colorScheme.primary),
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: Theme.of(context).colorScheme.primary),
                       ),
                       Text(
                         "@$username",

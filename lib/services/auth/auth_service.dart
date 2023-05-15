@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart' as fauth;
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:jaijaoni/firebase_options.dart';
 import 'package:jaijaoni/model/user.model.dart' as umodal;
+import 'package:jaijaoni/services/store/fire_store_service.dart';
 
 class User {
   final String uid;
@@ -26,6 +27,15 @@ class AuthService {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
+      // umodal.Users user = umodal.Users(
+      //     userId: signedInCredential.user!.uid,
+      //     profilePic: signedInCredential.user!.photoURL ?? "",
+      //     username: signedInCredential.user!.email ?? "",
+      //     name: signedInCredential.user!.email ?? "",
+      //     charts: [],
+      //     friendList: [],
+      //     accs: []);
+      // await _addUserToDB(user);
     } on fauth.FirebaseAuthException {
       rethrow;
     }
@@ -54,13 +64,24 @@ class AuthService {
 
   Future<void> _addUserToDB(umodal.Users user) async {
     try {
-      await _fireStore.collection("Users").doc(user.userId).set({
+      // print("Users");
+      var usr = await FireStoreService.collection.users.doc(user.userId).get();
+      // print(usr);
+      var payloadMap = {
         "username": user.username,
         "name": user.name,
         "profilePic": user.profilePic,
         "accs": [],
-        "friendList": []
-      });
+        "friendList": [],
+        "charts": []
+      };
+      if (!usr.exists) {
+        await _fireStore.collection("Users").doc(user.userId).set(payloadMap);
+        // await _fireStore
+        //     .collection("Users")
+        //     .doc(user.userId)
+        //     .update(payloadMap);
+      }
     } catch (err) {
       rethrow;
     }
@@ -80,20 +101,21 @@ class AuthService {
       final signedInCredential =
           await _firebaseAuth.signInWithCredential(credential);
 
+      umodal.Users user = umodal.Users(
+          userId: signedInCredential.user!.uid,
+          profilePic: signedInCredential.user!.photoURL ?? "",
+          username: signedInCredential.user!.email ?? "",
+          name: signedInCredential.user!.email ?? "",
+          charts: [],
+          friendList: [],
+          accs: []);
+      await _addUserToDB(user);
+
       if (signedInCredential.user!.displayName == null) {
         await signedInCredential.user!
             .updateDisplayName(signedInCredential.user!.email);
-        umodal.Users user = umodal.Users(
-            userId: signedInCredential.user!.uid,
-            profilePic: signedInCredential.user!.photoURL ?? "",
-            username: signedInCredential.user!.email ?? "",
-            name: signedInCredential.user!.email ?? "",
-            charts: [],
-            friendList: [],
-            accs: []);
-        await _addUserToDB(user);
       }
-    } on fauth.FirebaseAuthException {
+    } catch (err) {
       rethrow;
     }
   }
@@ -112,16 +134,16 @@ class AuthService {
       if (signedInCredential.user!.displayName == null) {
         await signedInCredential.user!
             .updateDisplayName(signedInCredential.user!.email);
-        umodal.Users user = umodal.Users(
-            userId: signedInCredential.user!.uid,
-            profilePic: signedInCredential.user!.photoURL ?? "",
-            username: signedInCredential.user!.displayName ?? "",
-            name: signedInCredential.user!.email ?? "",
-            charts: [],
-            friendList: [],
-            accs: []);
-        await _addUserToDB(user);
       }
+      umodal.Users user = umodal.Users(
+          userId: signedInCredential.user!.uid,
+          profilePic: signedInCredential.user!.photoURL ?? "",
+          username: signedInCredential.user!.displayName ?? "",
+          name: signedInCredential.user!.email ?? "",
+          charts: [],
+          friendList: [],
+          accs: []);
+      await _addUserToDB(user);
     } on fauth.FirebaseAuthException {
       rethrow;
     }

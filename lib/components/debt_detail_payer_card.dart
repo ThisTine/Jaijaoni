@@ -1,22 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jaijaoni/components/circle_avata.dart';
+import 'package:jaijaoni/functions/detail/approve_transaction.dart';
+import 'package:jaijaoni/functions/detail/decline_transaction.dart';
+import 'package:jaijaoni/functions/home/get_bill.dart';
+import 'package:jaijaoni/providers/friends/show_snackbar.dart';
 
 class PayerCard extends ConsumerStatefulWidget {
   final String name;
-  final Color? circleColor;
-  final String image;
-  final String amount;
-  final String? days;
-  final bool done;
+  // final Color? circleColor;
+  final String tId;
+  final String dId;
+  final String circleColorState;
+  // final String image;
+  final double amount;
+  final String? reason;
+  // final bool done;
 
   const PayerCard({
     Key? key,
     required this.name,
-    required this.image,
+    // required this.image,
     required this.amount,
-    required this.done,
-    this.circleColor,
-    this.days,
+    // required this.done,
+    required this.circleColorState,
+    required this.tId,
+    required this.dId,
+    required this.reason,
   }) : super(key: key);
 
   @override
@@ -24,12 +34,42 @@ class PayerCard extends ConsumerStatefulWidget {
 }
 
 class _PayerCardState extends ConsumerState<PayerCard> {
+  String profileImage = '';
+  String billImage = '';
+// String reason = '';
+
+  @override
+  void initState() {
+    _getprofile();
+    _getbill();
+    // print(widget.name);
+    // print(widget.circleColorState);
+    // print(widget.dId);
+    // print(widget.amount);
+    // print(widget.tId);
+    // print(_getbill());
+    // print(_getbill());
+    super.initState();
+  }
+
+  _getprofile() {
+    picFrinedbyusername(widget.name).then((value) => setState(() {
+          profileImage = value;
+        }));
+  }
+
+  _getbill() {
+    getBill(widget.tId).then((value) => setState(() {
+          billImage = value;
+        }));
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => {
-        if (widget.circleColor == Theme.of(context).colorScheme.primary) ...[
-          _receiptAlert(context)
+        if (widget.circleColorState == "pending") ...[
+          _receiptAlert(context, billImage, widget.tId, widget.dId)
         ]
         // else if (widget.circleColor ==
         //     Theme.of(context).colorScheme.error) ...[
@@ -55,26 +95,29 @@ class _PayerCardState extends ConsumerState<PayerCard> {
                 const SizedBox(
                   width: 13,
                 ),
-                if (widget.done == false) ...[
-                  ClipOval(
-                    child: SizedBox.fromSize(
-                      size: const Size.fromRadius(30),
-                      child: Image.asset(
-                        widget.image,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
+                if (widget.circleColorState != "success") ...[
+                  profileImage != ''
+                      ? ClipOval(
+                          child: SizedBox.fromSize(
+                            size: const Size.fromRadius(30),
+                            child: Image.network(
+                              profileImage,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        )
+                      : const CircleAvatar(child: Icon(Icons.person))
                 ] else ...[
                   // fillColor: Color.fromRGBO(0, 0, 0, 0.05),
+
                   ClipOval(
                     child: SizedBox.fromSize(
                       size: const Size.fromRadius(30),
-                      child: Image.asset(
-                        widget.image,
+                      child: Image.network(
+                        profileImage,
                         fit: BoxFit.cover,
-                        color: Colors.white.withOpacity(0.5),
-                        colorBlendMode: BlendMode.modulate,
+                        color: Colors.black.withOpacity(0.5),
+                        colorBlendMode: BlendMode.overlay,
                       ),
                     ),
                   ),
@@ -102,26 +145,37 @@ class _PayerCardState extends ConsumerState<PayerCard> {
                         const SizedBox(
                           width: 13,
                         ),
-                        ClipOval(
-                            child: Container(
-                          color: widget.circleColor,
-                          width: 12,
-                          height: 12,
-                        )),
+                        if (widget.circleColorState == "pending") ...[
+                          ClipOval(
+                              child: Container(
+                            color: Theme.of(context).colorScheme.primary,
+                            width: 12,
+                            height: 12,
+                          )),
+                        ] else if (widget.circleColorState == "error") ...[
+                          ClipOval(
+                              child: Container(
+                            color: Theme.of(context).colorScheme.error,
+                            width: 12,
+                            height: 12,
+                          )),
+                        ] else if (widget.circleColorState == "success")
+                          ...[]
                       ],
                     ),
                     Row(
                       children: [
-                        if (widget.days == null) ...[
+                        if (widget.reason == '') ...[
                           // const Text("")
                         ] else ...[
                           Text(
-                            "sent picture ${widget.days} days ago",
+                            widget.reason!,
                             style: TextStyle(
                                 fontSize: Theme.of(context)
                                     .textTheme
                                     .bodySmall
-                                    ?.fontSize),
+                                    ?.fontSize,
+                                color: Theme.of(context).colorScheme.error),
                             maxLines: 1,
                           ),
                         ]
@@ -142,7 +196,7 @@ class _PayerCardState extends ConsumerState<PayerCard> {
                   const SizedBox(
                     width: 10,
                   ),
-                  Text(widget.amount,
+                  Text(widget.amount.toString(),
                       style: TextStyle(
                           color:
                               Theme.of(context).colorScheme.onPrimaryContainer,
@@ -163,7 +217,8 @@ class _PayerCardState extends ConsumerState<PayerCard> {
   }
 }
 
-Future<void> _receiptAlert(BuildContext context) {
+Future<void> _receiptAlert(
+    BuildContext context, String bill, String tId, String dId) {
   return showDialog<void>(
     context: context,
     builder: (BuildContext context) {
@@ -175,8 +230,8 @@ Future<void> _receiptAlert(BuildContext context) {
           width: 300,
           height: 500,
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Image.asset(
-              "images/receipt.jpg",
+            Image.network(
+              bill,
             ),
             const SizedBox(height: 20),
             const Text("Amount: 5000 THB")
@@ -190,7 +245,7 @@ Future<void> _receiptAlert(BuildContext context) {
             child: const Text('Decline'),
             onPressed: () {
               Navigator.of(context).pop();
-              _wrongAlert(context);
+              _wrongAlert(context, tId, dId);
             },
           ),
           TextButton(
@@ -199,7 +254,11 @@ Future<void> _receiptAlert(BuildContext context) {
             ),
             child: const Text('Approve'),
             onPressed: () {
-              Navigator.of(context).pop();
+              approveTransaction(transactionId: tId, debtId: dId).then((value) {
+                Navigator.of(context).pop();
+              }).onError((error, stackTrace) {
+                showSnackBar(context, error.toString());
+              });
             },
           ),
         ],
@@ -208,7 +267,9 @@ Future<void> _receiptAlert(BuildContext context) {
   );
 }
 
-Future<void> _wrongAlert(BuildContext context) {
+Future<void> _wrongAlert(BuildContext context, String tId, String dId) {
+  final myController = TextEditingController();
+
   return showDialog<void>(
     context: context,
     builder: (BuildContext context) {
@@ -220,8 +281,9 @@ Future<void> _wrongAlert(BuildContext context) {
             alignment: Alignment.center,
             width: 300,
             height: 500,
-            child: const TextField(
-                decoration: InputDecoration(
+            child: TextField(
+                controller: myController,
+                decoration: const InputDecoration(
                     labelText: "Reasons",
                     contentPadding: EdgeInsets.all(20),
                     fillColor: Color.fromRGBO(0, 0, 0, 0.05),
@@ -242,7 +304,16 @@ Future<void> _wrongAlert(BuildContext context) {
             ),
             child: const Text('Send'),
             onPressed: () {
-              Navigator.of(context).pop();
+              // print(myController.text);
+              declineTransaction(
+                      transactionId: tId,
+                      debtId: dId,
+                      reason: myController.text)
+                  .then((value) {
+                Navigator.of(context).pop();
+              }).onError((error, stackTrace) {
+                showSnackBar(context, error.toString());
+              });
             },
           ),
         ],

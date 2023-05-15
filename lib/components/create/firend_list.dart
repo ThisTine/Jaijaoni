@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:jaijaoni/functions/create/get_friends.dart';
+import 'package:jaijaoni/functions/utils/find_user_by_id.dart';
 
 import 'friend_list_check.dart';
 import 'selected_friend.dart';
@@ -32,19 +33,26 @@ class _FriendListState extends State<FriendList> {
 
   @override
   void initState() {
-    getFriends(FirebaseAuth.instance.currentUser!.uid).then((value) {
+    super.initState();
 
-      if (mounted) {
-        setState(() {
-          friendList = value
-              .map((e) => SelectedFirend(id:e.id,imagePath: "",name: e.name,price: 0,username: e.username))
-              .toList();
-          _isLoading = false;
-        });
-      }
+    getFriends(FirebaseAuth.instance.currentUser!.uid).then((value) {
+      findUserById(FirebaseAuth.instance.currentUser!.uid).then((user) {
+        if (mounted) {
+          setState(() {
+            friendList = [SelectedFirend(id: user.userId, imagePath: "", name: '${user.username} (You)', price: 0, username: user.name),...value
+                .map((e) => SelectedFirend(
+                    id: e.id,
+                    imagePath: "",
+                    name: e.name,
+                    price: 0,
+                    username: e.username))
+                .toList()];
+            _isLoading = false;
+          });
+        }
+      });
     }).onError(
       (error, stackTrace) {
-
         // print(error);
 
         ScaffoldMessenger.of(context)
@@ -54,7 +62,6 @@ class _FriendListState extends State<FriendList> {
         });
       },
     );
-    super.initState();
   }
 
   @override

@@ -52,6 +52,7 @@ dependencies:
   firebase_storage: ^11.1.2
   firebase_messaging: ^14.5.0
   uuid: ^3.0.7
+  flutter_native_splash: ^2.2.19
 
 dev_dependencies:
   flutter_test:
@@ -78,6 +79,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - .env
+    - assets/
     - images/authentication/
     - images/profile/
     - images/payment/
