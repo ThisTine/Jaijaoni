@@ -22,10 +22,10 @@ Future<void> uploadPayment(String debtId, double amount, File file) async {
       errMessage: '',
       amount: amount,
     );
+    await uploadBill(file, id);
     List<Transactions> req = debts.transactions;
     req.add(upload);
     await createTransction(req, debts);
-    uploadBill(file, id);
   } catch (err) {
     rethrow;
   }
