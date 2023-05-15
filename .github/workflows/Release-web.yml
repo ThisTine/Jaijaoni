@@ -1,0 +1,64 @@
+name: Web Release
+
+on:
+  push:
+    branches: 
+      - infa
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Create Web Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: "zulu"
+          java-version: "12.x"
+          cache: gradle
+      - uses: subosito/flutter-action@v2
+        with:
+          # flutter-version: "3.0.0"
+          channel: "stable"
+          cache: true
+
+      - name: Get dependencies
+        run: |
+          flutter pub get
+          touch .env
+          echo  ${{ secrets.APP_ENV }} > .env      
+        
+
+      - name: Start Web Release Build
+        run: flutter build web --web-renderer html
+
+      - name: Upload Web Build Files
+        uses: actions/upload-artifact@v2
+        with:
+          name: web-release
+          path: ./build
+
+  deploy:
+    name: Deploy Web Build
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Web Release📥
+        uses: actions/download-artifact@v2
+        with:
+          name: web-release
+
+      - name: Deploy to server
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        with:
+            username: "${{secrets.STAGING_SSH_USERNAME}}"
+            server: "${{secrets.STAGING_SSH_HOST}}"
+            password: "${{ secrets.STAGING_SSH_PASSWORD}}"
+            port: "${{secrets.STAGING_SSH_PORT}}"
+            local_path: "./web-release/*"
+            remote_path: "/home/gugun/project_flutter/jaijaoni/build/"
+            args: "-o ConnectTimeout=5"
+  
