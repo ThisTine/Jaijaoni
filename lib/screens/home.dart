@@ -40,12 +40,14 @@ class _HomeScreenState extends State<HomeScreen> {
     await getLend()
         .then((value) => setState(() {
               lendList = value;
+              lendList!.sort((a, b) => a["date"].compareTo(b["date"]));
             }))
         .onError(
             (error, stackTrace) => showSnackBar(context, error.toString()));
     await getBow()
         .then((value) => setState(() {
               borrowlist = value;
+              borrowlist!.sort((a, b) => a["date"].compareTo(b["date"]));
             }))
         .onError(
             (error, stackTrace) => showSnackBar(context, error.toString()));

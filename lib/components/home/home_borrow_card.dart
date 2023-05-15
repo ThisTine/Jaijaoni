@@ -40,7 +40,7 @@ class _BorrowCardState extends State<BorrowCard> {
             borderRadius: BorderRadius.circular(12.0),
             onTap: () => {
               // GoRouter.of(context).go("/detail/${widget.id}")
-              context.go("/detail/${widget.id}")
+              context.push("/detail/${widget.id}")
             },
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
