@@ -3,7 +3,7 @@ name: Web Release
 on:
   push:
     branches: 
-      - "release-version"
+      - release-version
       - infa
    
   workflow_dispatch:
