@@ -59,7 +59,7 @@ jobs:
             server: "${{ secrets.STAGING_SSH_HOST }}"
             password: "${{ secrets.STAGING_SSH_PASSWORD }}"
             port: "${{ secrets.STAGING_SSH_PORT }}" 
-            local_path: "./web-release/*"
+            local_path: "./web-release/"
             remote_path: "/home/gugun/project_flutter/jaijaoni/build/"
             args: "-o ConnectTimeout=5"
   
