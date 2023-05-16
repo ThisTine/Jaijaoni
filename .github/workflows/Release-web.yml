@@ -1,10 +1,11 @@
-name: Web Release
+name: Web Release ☆:* .｡. o(≧▽≦)o .｡.:*☆
 
 on:
   push:
     branches: 
+      - release-version
       - infa
-
+   
   workflow_dispatch:
 
 jobs:
@@ -20,7 +21,7 @@ jobs:
           cache: gradle
       - uses: subosito/flutter-action@v2
         with:
-          # flutter-version: "3.0.0"
+          flutter-version: "3.7.10"
           channel: "stable"
           cache: true
 
@@ -49,16 +50,16 @@ jobs:
       - name: Download Web Release📥
         uses: actions/download-artifact@v2
         with:
-          name: web-release
+          path: .
 
       - name: Deploy to server
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
-            username: "${{secrets.STAGING_SSH_USERNAME}}"
-            server: "${{secrets.STAGING_SSH_HOST}}"
-            password: "${{ secrets.STAGING_SSH_PASSWORD}}"
-            port: "${{secrets.STAGING_SSH_PORT}}"
-            local_path: "./web-release/*"
+            username: "${{ secrets.STAGING_SSH_USERNAME }}"
+            server: "${{ secrets.STAGING_SSH_HOST }}"
+            password: "${{ secrets.STAGING_SSH_PASSWORD }}"
+            port: "${{ secrets.STAGING_SSH_PORT }}" 
+            local_path: "./web-release/"
             remote_path: "/home/gugun/project_flutter/jaijaoni/build/"
             args: "-o ConnectTimeout=5"
   
