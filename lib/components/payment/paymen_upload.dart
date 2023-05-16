@@ -92,8 +92,8 @@ class Paymentuploadsheet extends StatelessWidget {
                               .then((value) => ScaffoldMessenger.of(context)
                                   .showSnackBar(const SnackBar(
                                       content: Text("Upload Successfully"))))
-                              .then((value) => context.go("/detail"));
-                          return context.go("/detail");
+                              .then((value) => context.go("/detail/$deptId"));
+                          // return context.go("/detail/$deptId");
                         },
                         style: FilledButton.styleFrom(
                           minimumSize: const Size.fromHeight(50),
