@@ -13,6 +13,7 @@ Future<String> getPicture(String namepic, String type) async {
       return '';
     }
   } catch (err) {
+    print(err);
     rethrow;
   }
 }

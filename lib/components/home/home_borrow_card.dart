@@ -28,7 +28,8 @@ class BorrowCard extends StatefulWidget {
 class _BorrowCardState extends State<BorrowCard> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return SingleChildScrollView(
+        child: Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: SizedBox(
         height: 190, //MediaQuery.of(context).size.width * 0.5, //190
@@ -147,6 +148,6 @@ class _BorrowCardState extends State<BorrowCard> {
           ),
         ),
       ),
-    );
+    ));
   }
 }

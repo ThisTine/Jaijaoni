@@ -191,7 +191,10 @@ class _DetailCustomerState extends State<DetailCustomer> {
                   const SizedBox(height: 20),
                   Column(
                     // crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [...createTransCard()],
+                    children: [
+                      ...createTransCard(),
+                      const SizedBox(height: 100)
+                    ],
                   ),
                 ],
               ),
