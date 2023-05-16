@@ -196,25 +196,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     : Padding(
                         padding: const EdgeInsets.all(8),
                         child: SizedBox(
-                            // height: MediaQuery.of(context).size.height,
-                            width: 360,
-                            child: ListView.builder(
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemCount: foundBorrow.length,
-                                itemBuilder: (context, index) {
-                                  var tsdate = foundBorrow[index]["date"];
-                                  return BorrowCard(
-                                    id: foundBorrow[index]["id"],
-                                    name: foundBorrow[index]["name"],
-                                    profileId: foundBorrow[index]["profileId"],
-                                    date:
-                                        "${tsdate.day}/${tsdate.month}/${tsdate.year}",
-                                    amount: foundBorrow[index]["amount"],
-                                    image: foundBorrow[index]["image"],
-                                    debtor: foundBorrow[index]["debtor"],
-                                  );
-                                }))),
+                          // height: MediaQuery.of(context).size.height,
+                          width: 360,
+                          child: ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: foundBorrow.length,
+                              itemBuilder: (context, index) {
+                                var tsdate = foundBorrow[index]["date"];
+                                return Text("test");
+                              }),
+                        ),
+                      ),
               ],
             ),
           ),

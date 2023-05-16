@@ -9,7 +9,9 @@ import '../components/custom_app_bar.dart';
 
 class DetailCreator extends StatefulWidget {
   final Debts debt;
-  const DetailCreator({super.key, required this.debt});
+  final Function deleteDebt;
+  const DetailCreator(
+      {super.key, required this.debt, required this.deleteDebt});
 
   @override
   State<DetailCreator> createState() => _DetailCreatorState();
@@ -96,11 +98,8 @@ class _DetailCreatorState extends State<DetailCreator> {
                 ),
                 child: const Text('OK'),
                 onPressed: () {
-                  deleteDebtbyId(debtId: widget.debt.debtId).then((value) {
-                    Navigator.of(context).pop();
-                  }).onError((error, stackTrace) {
-                    showSnackBar(context, error.toString());
-                  });
+                  widget.deleteDebt();
+                  Navigator.of(context).pop();
                 },
               ),
             ],
