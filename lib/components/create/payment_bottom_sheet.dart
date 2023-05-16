@@ -119,7 +119,7 @@ class _PaymentBottomsheetState extends State<PaymentBottomsheet> {
                   if (value == null || value.isEmpty) {
                     return 'Payment Number should not be empty';
                   }
-                  if (value.length >= 10) {
+                  if (value.length < 10) {
                     return 'Payment number should be more than or equal to 10';
                   }
                   if (selectedValue != "PromptPay" && value.length != 13) {
