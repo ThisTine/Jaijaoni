@@ -19,7 +19,7 @@ class AnalysisBar extends StatelessWidget {
     return Column(
       children: [
         Text(
-          amountLabel.toString(),
+          amountLabel.toStringAsFixed(2),
           style: Theme.of(context).textTheme.labelSmall!.copyWith(
               color: isBorrow
                   ? (isSelected

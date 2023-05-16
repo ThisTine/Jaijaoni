@@ -126,7 +126,7 @@ Widget cardProfile(BuildContext context,
                         padding: const EdgeInsets.all(16.0),
                         child: FutureBuilder(
                             future: findTransactionFromFriendId(userId),
-                            builder: (context, transacSnapshot) {
+                            builder: (ctx, transacSnapshot) {
                               return ListView(
                                 children: [
                                   Row(
@@ -134,7 +134,7 @@ Widget cardProfile(BuildContext context,
                                       FutureBuilder(
                                           future:
                                               picFrined(snapshot.data?.userId),
-                                          builder: (context, snapshot) {
+                                          builder: (ctx, snapshot) {
                                             return circleAvataUser(
                                                 radius: 30,
                                                 imgUrl:
@@ -175,15 +175,20 @@ Widget cardProfile(BuildContext context,
                                   const SizedBox(height: 27),
                                   ...(transacSnapshot.data ?? []).map(
                                     (e) {
-                                      return PayerCard(
-                                        reason: e.transac.errMessage,
-                                        dId: e.debtId,
-                                        tId: e.transac.transactionId,
-                                        name: e.transac.username,
-                                        amount: e.transac.amount,
-                                        circleColorState: e.transac.isApproved,
-                                        // reason: e.transac.,
-                                        // done: true, circleColorState: e.borrowId,
+                                      return Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: PayerCard(
+                                          isOpen: true,
+                                          reason: e.transac.errMessage,
+                                          dId: e.debtId,
+                                          tId: e.transac.transactionId,
+                                          name: e.transac.username,
+                                          amount: e.transac.amount,
+                                          circleColorState:
+                                              e.transac.isApproved,
+                                          // reason: e.transac.,
+                                          // done: true, circleColorState: e.borrowId,
+                                        ),
                                       );
                                     },
                                   ).toList()

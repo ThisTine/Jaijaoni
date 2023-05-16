@@ -22,10 +22,10 @@ class Paymentuploadsheet extends StatelessWidget {
     return SizedBox(
       // height: 500,
       child: Container(
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(19), topRight: Radius.circular(19)),
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.surface,
         ),
         child: Center(
           child: Column(

@@ -70,7 +70,11 @@ class _PaymentMethodBoxState extends State<PaymentMethodBox> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Checkbox(value: widget.isCheck, onChanged: (bool? check) {}),
+                    Checkbox(
+                        value: widget.isCheck,
+                        onChanged: (bool? check) {
+                          widget.switchIsCheck();
+                        }),
                     // const SizedBox(width: 10)
                   ],
                 ),

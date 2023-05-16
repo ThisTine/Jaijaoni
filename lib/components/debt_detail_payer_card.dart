@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jaijaoni/components/circle_avata.dart';
 import 'package:jaijaoni/functions/detail/approve_transaction.dart';
 import 'package:jaijaoni/functions/detail/decline_transaction.dart';
@@ -7,6 +8,7 @@ import 'package:jaijaoni/functions/home/get_bill.dart';
 import 'package:jaijaoni/providers/friends/show_snackbar.dart';
 
 class PayerCard extends ConsumerStatefulWidget {
+  final bool isOpen;
   final String name;
   // final Color? circleColor;
   final String tId;
@@ -27,6 +29,7 @@ class PayerCard extends ConsumerStatefulWidget {
     required this.tId,
     required this.dId,
     required this.reason,
+    this.isOpen = false,
   }) : super(key: key);
 
   @override
@@ -75,6 +78,9 @@ class _PayerCardState extends ConsumerState<PayerCard> {
         //     Theme.of(context).colorScheme.error) ...[
         //   _wrongAlert(context)
         // ]
+      },
+      onDoubleTap: () {
+        if (widget.isOpen) context.push("/detail/${widget.dId}");
       },
       child: Container(
         width: 358,
