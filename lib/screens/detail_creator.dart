@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:jaijaoni/components/debt_detail_payer_card.dart';
 import 'package:jaijaoni/components/detail_card.dart';
-import 'package:jaijaoni/functions/home/delete_debt.dart';
 import 'package:jaijaoni/model/debt.model.dart';
-import 'package:jaijaoni/providers/friends/show_snackbar.dart';
 
 import '../components/custom_app_bar.dart';
 
 class DetailCreator extends StatefulWidget {
   final Debts debt;
-  const DetailCreator({super.key, required this.debt});
+  final Function deleteDebt;
+  const DetailCreator(
+      {super.key, required this.debt, required this.deleteDebt});
 
   @override
   State<DetailCreator> createState() => _DetailCreatorState();
@@ -96,11 +96,8 @@ class _DetailCreatorState extends State<DetailCreator> {
                 ),
                 child: const Text('OK'),
                 onPressed: () {
-                  deleteDebtbyId(debtId: widget.debt.debtId).then((value) {
-                    Navigator.of(context).pop();
-                  }).onError((error, stackTrace) {
-                    showSnackBar(context, error.toString());
-                  });
+                  widget.deleteDebt();
+                  Navigator.of(context).pop();
                 },
               ),
             ],
@@ -361,7 +358,10 @@ class _DetailCreatorState extends State<DetailCreator> {
                   ),
                   const SizedBox(height: 20),
                   Column(
-                    children: [...createPayerCard()],
+                    children: [
+                      ...createPayerCard(),
+                      const SizedBox(height: 100)
+                    ],
                   ),
                 ],
               ),

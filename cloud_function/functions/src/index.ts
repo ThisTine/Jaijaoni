@@ -296,3 +296,25 @@ export const notifyTransaction = functions.firestore
       log(err);
     }
   });
+
+export const notifyFriendRequest = functions.firestore.document("FriendsReqs/{reqId}").onCreate(async (snapshot)=>{
+  try{
+    const data = snapshot.data() as {anotherUsername:string,username:string}
+    const users = (await db.collection("Users").where("username","==",data.anotherUsername).get()).docs as userData[]
+    const tokens = users[0].tokens || []
+    const multicastMsg: MulticastMessage = {
+      notification: {
+        title: `${data.username} sent you a firend request.`,
+        body: `Please review a friend request by ${data.username}`,
+      },
+      data: {
+        content: "friend request sent",
+        screen: "/friends",
+      },
+      tokens: tokens,
+    };
+    await messaging().sendEachForMulticast(multicastMsg);
+  }catch(err){
+    log(err);
+  }
+})
