@@ -100,11 +100,13 @@ class AuthService {
       );
       final signedInCredential =
           await _firebaseAuth.signInWithCredential(credential);
-
+      String username = (signedInCredential.user!.email ?? "")
+          .toLowerCase()
+          .replaceAll(' ', '');
       umodal.Users user = umodal.Users(
           userId: signedInCredential.user!.uid,
           profilePic: signedInCredential.user!.photoURL ?? "",
-          username: signedInCredential.user!.email ?? "",
+          username: username,
           name: signedInCredential.user!.email ?? "",
           charts: [],
           friendList: [],
@@ -135,10 +137,13 @@ class AuthService {
         await signedInCredential.user!
             .updateDisplayName(signedInCredential.user!.email);
       }
+      String username = (signedInCredential.user!.email ?? "")
+          .toLowerCase()
+          .replaceAll(' ', '');
       umodal.Users user = umodal.Users(
           userId: signedInCredential.user!.uid,
           profilePic: signedInCredential.user!.photoURL ?? "",
-          username: signedInCredential.user!.displayName ?? "",
+          username: username,
           name: signedInCredential.user!.email ?? "",
           charts: [],
           friendList: [],
@@ -162,7 +167,8 @@ class AuthService {
   }
 
   Future<fauth.UserCredential> signup(
-      String username, String email, String password) async {
+      String rawusername, String email, String password) async {
+    String username = rawusername.toLowerCase().replaceAll(' ', '');
     try {
       await _findValidUsername(username);
       final signedUpCredential = await _firebaseAuth
