@@ -39,14 +39,22 @@ class _FriendListState extends State<FriendList> {
       findUserById(FirebaseAuth.instance.currentUser!.uid).then((user) {
         if (mounted) {
           setState(() {
-            friendList = [SelectedFirend(id: user.userId, imagePath: "", name: '${user.username} (You)', price: 0, username: user.name),...value
-                .map((e) => SelectedFirend(
-                    id: e.id,
-                    imagePath: "",
-                    name: e.name,
-                    price: 0,
-                    username: e.username))
-                .toList()];
+            friendList = [
+              SelectedFirend(
+                  id: user.userId,
+                  imagePath: "",
+                  name: '${user.name} (You)',
+                  price: 0,
+                  username: user.name),
+              ...value
+                  .map((e) => SelectedFirend(
+                      id: e.id,
+                      imagePath: "",
+                      name: e.name,
+                      price: 0,
+                      username: e.username))
+                  .toList()
+            ];
             _isLoading = false;
           });
         }
