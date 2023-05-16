@@ -89,8 +89,10 @@ class AuthService {
 
   Future<void> googleLogin() async {
     try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn(
-              clientId: DefaultFirebaseOptions.currentPlatform.iosClientId)
+      final GoogleSignInAccount? googleUser = await GoogleSignIn(scopes: [
+        'https://www.googleapis.com/auth/userinfo.email',
+        'https://www.googleapis.com/auth/userinfo.profile'
+      ], clientId: DefaultFirebaseOptions.currentPlatform.iosClientId)
           .signIn();
       final GoogleSignInAuthentication? googleAuth =
           await googleUser?.authentication;
