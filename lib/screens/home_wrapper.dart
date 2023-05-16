@@ -13,21 +13,27 @@ class HomeWrapper extends StatefulWidget {
 }
 
 class _HomeWrapperState extends State<HomeWrapper> {
-      Future<void> setupToken() async {
-    String? token = kIsWeb ? await FirebaseMessaging.instance.getToken(vapidKey: "BINEKY5zoqK5aMJpFwnCTEQHoMpgtVhgYu01lnrWkzNuIo2MUeL9U8CX_7yU7EqRx-TV-HWdqFX1TJkjH1ojX4Q") : await FirebaseMessaging.instance.getToken();
+  Future<void> setupToken() async {
+    String? token = kIsWeb
+        ? await FirebaseMessaging.instance.getToken(
+            vapidKey:
+                "BINEKY5zoqK5aMJpFwnCTEQHoMpgtVhgYu01lnrWkzNuIo2MUeL9U8CX_7yU7EqRx-TV-HWdqFX1TJkjH1ojX4Q")
+        : await FirebaseMessaging.instance.getToken();
     await saveTokenToDatabase(token!);
-    FirebaseMessaging.instance.getInitialMessage().then((value){
-      if(value != null && value.data['screen'] != null){
+    FirebaseMessaging.instance.getInitialMessage().then((value) {
+      if (value != null && value.data['screen'] != null) {
         context.push('/${value.data['screen']}');
       }
     });
     FirebaseMessaging.instance.onTokenRefresh.listen(saveTokenToDatabase);
   }
+
   @override
   void initState() {
     super.initState();
     setupToken();
   }
+
   @override
   Widget build(BuildContext context) {
     return const HomeScreen();
