@@ -39,7 +39,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: web-release
-          path: ./build
+          path: ./build/web
 
   deploy:
     name: Deploy Web Build
@@ -60,6 +60,6 @@ jobs:
             password: "${{ secrets.STAGING_SSH_PASSWORD }}"
             port: "${{ secrets.STAGING_SSH_PORT }}" 
             local_path: "./web-release/"
-            remote_path: "/home/gugun/project_flutter/jaijaoni/build/"
+            remote_path: "/home/gugun/project_flutter/jaijaoni/build/web"
             args: "-o ConnectTimeout=5"
   
