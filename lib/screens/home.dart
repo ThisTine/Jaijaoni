@@ -204,7 +204,16 @@ class _HomeScreenState extends State<HomeScreen> {
                               itemCount: foundBorrow.length,
                               itemBuilder: (context, index) {
                                 var tsdate = foundBorrow[index]["date"];
-                                return Text("test");
+                                return BorrowCard(
+                                  id: foundBorrow[index]["id"],
+                                  name: foundBorrow[index]["name"],
+                                  profileId: foundBorrow[index]["profileId"],
+                                  date:
+                                      "${tsdate.day}/${tsdate.month}/${tsdate.year}",
+                                  amount: foundBorrow[index]["amount"],
+                                  image: foundBorrow[index]["image"],
+                                  debtor: foundBorrow[index]["debtor"],
+                                );
                               }),
                         ),
                       ),

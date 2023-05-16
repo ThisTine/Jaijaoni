@@ -15,7 +15,6 @@ import '../functions/utils/find_user_by_username.dart';
 import '../model/friends_req.model.dart';
 import '../model/user.model.dart';
 import '../providers/friends/friends_provider.dart';
-import '../providers/friends/show_snackbar.dart';
 
 class FriendsScreen extends ConsumerStatefulWidget {
   const FriendsScreen({super.key});
@@ -60,6 +59,9 @@ class _FriendsScreenState extends ConsumerState<FriendsScreen> {
         request = value;
       });
     }).onError((error, stackTrace) {
+      setState(() {
+        request = null;
+      });
       // showSnackBar(context, error.toString());
     });
 
@@ -71,8 +73,9 @@ class _FriendsScreenState extends ConsumerState<FriendsScreen> {
     }).onError((error, stackTrace) {
       setState(() {
         isLoading = false;
+        usr = null;
       });
-      showSnackBar(context, "Couldn't find ${_searchController.text}");
+      // showSnackBar(context, "Couldn't find ${_searchController.text}");
     });
   }
 
@@ -96,6 +99,14 @@ class _FriendsScreenState extends ConsumerState<FriendsScreen> {
   Widget build(BuildContext context) {
     final friendsStream = ref.watch(friendsProvider);
     final friendsRequestStream = ref.watch(friendsRequestProvider);
+    friendsRequestStream.when(
+        data: (data) {
+          setState(() {
+            friendRequestCount = data.length;
+          });
+        },
+        error: (error, stackTrace) {},
+        loading: () {});
 
     return Scaffold(
       appBar: customAppBarBuilder(context,
@@ -154,45 +165,60 @@ class _FriendsScreenState extends ConsumerState<FriendsScreen> {
                   const SizedBox(
                     height: 10,
                   ),
-                  _searchController.text.startsWith("@")
-                      ? UsernameSearch(
-                          getData: getData,
-                          isLoading: isLoading,
-                          usr: usr,
-                          request: request,
-                        )
-                      : toggleMode.contains("FRIEND_LIST")
-                          ? friendsStream.when(
-                              data: (data) {
-                                if (data.isEmpty) {
-                                  return const Text(
-                                      "ํYou don't have friends at this moment.");
-                                }
-                                return FriendListContainer(
-                                  friends: [...data],
-                                  searchData: _searchController.text,
-                                );
-                              },
-                              error: (error, stackTrace) =>
-                                  Text(error.toString()),
-                              loading: () => const CircularProgressIndicator())
-                          : friendsRequestStream.when(
-                              data: (data) {
-                                if (data.isEmpty) {
-                                  return const Text(
-                                      "There's no friend request at this moment.");
-                                }
-                                setState(() {
-                                  friendRequestCount = data.length;
-                                });
-                                return FriendRequestContainer(
-                                  friends: [...data],
-                                  searchData: _searchController.text,
-                                );
-                              },
-                              error: (error, stackTrace) =>
-                                  Text(error.toString()),
-                              loading: () => const CircularProgressIndicator())
+                  Visibility(
+                    visible: _searchController.text.startsWith("@"),
+                    child: UsernameSearch(
+                      getData: getData,
+                      isLoading: isLoading,
+                      usr: usr,
+                      request: request,
+                    ),
+                  ),
+
+                  // ? UsernameSearch(
+                  //     getData: getData,
+                  //     isLoading: isLoading,
+                  //     usr: usr,
+                  //     request: request,
+                  //   )
+                  // : null;
+
+                  Visibility(
+                    visible: toggleMode == "FRIEND_LIST" &&
+                        !_searchController.text.startsWith("@"),
+                    child: friendsStream.when(
+                        data: (data) {
+                          if (data.isEmpty) {
+                            return const Text(
+                                "ํYou don't have friends at this moment.");
+                          }
+                          return FriendListContainer(
+                            friends: [...data],
+                            searchData: _searchController.text,
+                          );
+                        },
+                        error: (error, stackTrace) => Text(error.toString()),
+                        loading: () => const CircularProgressIndicator()),
+                  ),
+
+                  Visibility(
+                      visible: toggleMode != "FRIEND_LIST" &&
+                          !_searchController.text.startsWith("@"),
+                      child: friendsRequestStream.when(
+                          data: (data) {
+                            if (data.isEmpty) {
+                              return const Text(
+                                  "There's no friend request at this moment.");
+                            }
+
+                            return FriendRequestContainer(
+                              friends: [...data],
+                              searchData: _searchController.text,
+                            );
+                          },
+                          error: (error, stackTrace) => Text(error.toString()),
+                          loading: () => const CircularProgressIndicator()))
+
                   // FriendItem(),
                   // FriendItem(),
                 ],

@@ -10,7 +10,6 @@ import '../../services/store/fire_store_service.dart';
 
 final friendsRequestProvider = StreamProvider<List<Users>>((ref) async* {
   final String userId = FirebaseAuth.instance.currentUser!.uid;
-
   final String username = (await findUserById(userId)).username;
   final Query<Map<String, dynamic>> query = FireStoreService
       .collection.friendsReqs
