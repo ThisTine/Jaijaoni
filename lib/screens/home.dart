@@ -109,119 +109,138 @@ class _HomeScreenState extends State<HomeScreen> {
           ]));
     } else {
       return Scaffold(
-        appBar: AppBar(
-          title: const Text("Home"),
-        ),
-        body: SingleChildScrollView(
-          child: Container(
-            alignment: Alignment.center,
-            child: Column(
-              children: <Widget>[
-                Container(
-                  decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(28)),
-                      color: Theme.of(context).colorScheme.primaryContainer),
-                  width: 360,
-                  height: 56,
-                  child: TextField(
-                      // runFilter
-                      onChanged: (value) => runFilter(value),
-                      decoration: const InputDecoration(
-                          hintText: "Hinted search text",
-                          border: InputBorder.none,
-                          suffixIcon: Icon(Icons.search),
-                          contentPadding: EdgeInsets.all(20))),
-                ),
-                TwoChartInHome(isVisible: isVisible),
-                const SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                    width: 230,
-                    child: lendList!.isNotEmpty
-                        ? SegmentedButton<int>(
-                            segments: const <ButtonSegment<int>>[
-                              ButtonSegment<int>(
-                                value: 0,
-                                label: Text('Lend'),
-                              ),
-                              ButtonSegment<int>(
-                                value: 1,
-                                label: Text('   Borrow'),
-                              )
-                            ],
-                            selected: <int>{cardView},
-                            onSelectionChanged: (Set<int> newSelection) {
-                              setState(() {
-                                cardView = newSelection.first;
-                              });
-                            },
-                          )
-                        : Container(
-                            alignment: Alignment.center,
-                            child: Text("You have no debt right now..",
-                                style: TextStyle(
-                                  fontSize: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .fontSize,
-                                  fontWeight: FontWeight.w700,
-                                  color:
-                                      const Color.fromARGB(255, 138, 138, 138),
-                                )),
-                          )),
-                cardView == 0
-                    ? Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: SizedBox(
-                            // height: MediaQuery.of(context).size.height,
-                            width: 360,
-                            child: ListView.builder(
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemCount: foundLend.length,
-                                itemBuilder: (context, index) {
-                                  var tsdate = foundLend[index]["date"];
-                                  return LendCard(
-                                    id: foundLend[index]["id"],
-                                    name: foundLend[index]["name"],
-                                    profileId: foundLend[index]["profileId"],
-                                    date:
-                                        "${tsdate.day}/${tsdate.month}/${tsdate.year}",
-                                    amount: foundLend[index]["amount"],
-                                    image: foundLend[index]["image"],
-                                    debtor: foundLend[index]["debtor"],
-                                  );
-                                })))
-                    : Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: SizedBox(
-                          // height: MediaQuery.of(context).size.height,
-                          width: 360,
-                          child: ListView.builder(
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: foundBorrow.length,
-                              itemBuilder: (context, index) {
-                                var tsdate = foundBorrow[index]["date"];
-                                return BorrowCard(
-                                  id: foundBorrow[index]["id"],
-                                  name: foundBorrow[index]["name"],
-                                  profileId: foundBorrow[index]["profileId"],
-                                  date:
-                                      "${tsdate.day}/${tsdate.month}/${tsdate.year}",
-                                  amount: foundBorrow[index]["amount"],
-                                  image: foundBorrow[index]["image"],
-                                  debtor: foundBorrow[index]["debtor"],
-                                );
-                              }),
-                        ),
-                      ),
-              ],
-            ),
+          appBar: AppBar(
+            title: const Text("Home"),
           ),
-        ),
-      );
+          body: RefreshIndicator(
+            color: Colors.white,
+            backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+            child: SingleChildScrollView(
+              child: Container(
+                alignment: Alignment.center,
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      decoration: BoxDecoration(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(28)),
+                          color:
+                              Theme.of(context).colorScheme.primaryContainer),
+                      width: 360,
+                      height: 56,
+                      child: TextField(
+                          // runFilter
+                          onChanged: (value) => runFilter(value),
+                          decoration: const InputDecoration(
+                              hintText: "Hinted search text",
+                              border: InputBorder.none,
+                              suffixIcon: Icon(Icons.search),
+                              contentPadding: EdgeInsets.all(20))),
+                    ),
+                    TwoChartInHome(isVisible: isVisible),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    SizedBox(
+                        width: 230,
+                        child: lendList!.isNotEmpty
+                            ? SegmentedButton<int>(
+                                segments: const <ButtonSegment<int>>[
+                                  ButtonSegment<int>(
+                                    value: 0,
+                                    label: Text('Lend'),
+                                  ),
+                                  ButtonSegment<int>(
+                                    value: 1,
+                                    label: Text('   Borrow'),
+                                  )
+                                ],
+                                selected: <int>{cardView},
+                                onSelectionChanged: (Set<int> newSelection) {
+                                  setState(() {
+                                    cardView = newSelection.first;
+                                  });
+                                },
+                              )
+                            : Container(
+                                alignment: Alignment.center,
+                                child: Text("You have no debt right now..",
+                                    style: TextStyle(
+                                      fontSize: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge!
+                                          .fontSize,
+                                      fontWeight: FontWeight.w700,
+                                      color: const Color.fromARGB(
+                                          255, 138, 138, 138),
+                                    )),
+                              )),
+                    cardView == 0
+                        ? Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: SizedBox(
+                                // height: MediaQuery.of(context).size.height,
+                                width: 360,
+                                child: ListView.builder(
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemCount: foundLend.length,
+                                    itemBuilder: (context, index) {
+                                      var tsdate = foundLend[index]["date"];
+                                      return LendCard(
+                                        id: foundLend[index]["id"],
+                                        name: foundLend[index]["name"],
+                                        profileId: foundLend[index]
+                                            ["profileId"],
+                                        date:
+                                            "${tsdate.day}/${tsdate.month}/${tsdate.year}",
+                                        amount: foundLend[index]["amount"],
+                                        image: foundLend[index]["image"],
+                                        debtor: foundLend[index]["debtor"],
+                                      );
+                                    })))
+                        : Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: SizedBox(
+                                // height: MediaQuery.of(context).size.height,
+                                width: 360,
+                                child: ListView.builder(
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemCount: foundBorrow.length,
+                                    itemBuilder: (context, index) {
+                                      var tsdate = foundBorrow[index]["date"];
+                                      return BorrowCard(
+                                        id: foundBorrow[index]["id"],
+                                        name: foundBorrow[index]["name"],
+                                        profileId: foundBorrow[index]
+                                            ["profileId"],
+                                        date:
+                                            "${tsdate.day}/${tsdate.month}/${tsdate.year}",
+                                        amount: foundBorrow[index]["amount"],
+                                        image: foundBorrow[index]["image"],
+                                        debtor: foundBorrow[index]["debtor"],
+                                      );
+                                    }))),
+                  ],
+                ),
+              ),
+            ),
+            onRefresh: () async {
+              // Replace this delay with the code to be executed during refresh
+              // and return asynchronous code
+              return Future<void>.delayed(
+                const Duration(seconds: 1),
+                () {
+                  setState(() {
+                    _getlend();
+                  });
+                },
+              );
+            },
+          ));
     }
   }
 }

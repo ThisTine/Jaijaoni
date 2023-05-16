@@ -358,7 +358,10 @@ class _DetailCreatorState extends State<DetailCreator> {
                   ),
                   const SizedBox(height: 20),
                   Column(
-                    children: [...createPayerCard()],
+                    children: [
+                      ...createPayerCard(),
+                      const SizedBox(height: 100)
+                    ],
                   ),
                 ],
               ),
