@@ -119,6 +119,9 @@ class _PaymentBottomsheetState extends State<PaymentBottomsheet> {
                   if (value == null || value.isEmpty) {
                     return 'Payment Number should not be empty';
                   }
+                  if (value.length < 10) {
+                    return 'Payment number should be more than or equal to 10';
+                  }
                   if (selectedValue != "PromptPay" && value.length != 13) {
                     return 'Please type correct format';
                   }
@@ -142,18 +145,20 @@ class _PaymentBottomsheetState extends State<PaymentBottomsheet> {
                           onPressed: () {
                             if (_paymentFormKey.currentState!.validate()) {
                               setState(() {
-                                newValue = PaymentOption(channel: selectedValue, number: _paymentNumber.text,isCheck: true);
+                                newValue = PaymentOption(
+                                    channel: selectedValue,
+                                    number: _paymentNumber.text,
+                                    isCheck: true);
                                 // newValue = {
                                 //   "method": selectedValue,
                                 //   "number": _paymentNumber.text
                                 // };
                               });
-                              addPayment(newValue).then((value){
-                              widget.handlePaymentMethod(
-                                  [...newPayment, newValue]);
-                              Navigator.pop(context);
+                              addPayment(newValue).then((value) {
+                                widget.handlePaymentMethod(
+                                    [...newPayment, newValue]);
+                                Navigator.pop(context);
                               });
-
                             }
                           },
                           child: Text(
