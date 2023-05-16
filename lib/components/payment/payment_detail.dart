@@ -275,12 +275,14 @@ class Paybank extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.all(16),
+                  Padding(
+                    padding: const EdgeInsets.all(16),
                     child: Text(
-                      'bank.bankId',
+                      bank?.bankName ?? "error",
                       style: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.bold),
+                          color:
+                              Theme.of(context).colorScheme.onPrimaryContainer,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                   Padding(
@@ -289,7 +291,8 @@ class Paybank extends StatelessWidget {
                     child: Text(
                       bank!.bankId,
                       style: TextStyle(
-                          color: Colors.black,
+                          color:
+                              Theme.of(context).colorScheme.onPrimaryContainer,
                           fontWeight: FontWeight.w400,
                           fontSize: Theme.of(context)
                               .textTheme
@@ -319,7 +322,8 @@ class Paybank extends StatelessWidget {
                     Text(
                       'Amount',
                       style: TextStyle(
-                          color: Colors.black,
+                          color:
+                              Theme.of(context).colorScheme.onPrimaryContainer,
                           fontWeight: FontWeight.w400,
                           fontSize: Theme.of(context)
                               .textTheme
@@ -329,7 +333,8 @@ class Paybank extends StatelessWidget {
                     Text(
                       amount.toString(),
                       style: TextStyle(
-                          color: Colors.black,
+                          color:
+                              Theme.of(context).colorScheme.onPrimaryContainer,
                           fontWeight: FontWeight.w400,
                           fontSize: Theme.of(context)
                               .textTheme
