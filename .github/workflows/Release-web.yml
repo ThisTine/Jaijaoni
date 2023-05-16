@@ -35,7 +35,7 @@ jobs:
       - name: Start Web Release Build
         run: |
           flutter build web --web-renderer html
-    # echo ${{ secrets.APP_ENV }} > ./build/web/asset/.env
+          echo ${{ secrets.APP_ENV }} > ./build/web/asset/.env
 
       - name: Upload Web Build Files
         uses: actions/upload-artifact@v2
