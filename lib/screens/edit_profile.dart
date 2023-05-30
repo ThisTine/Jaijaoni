@@ -249,7 +249,7 @@ class _EditProfileState extends State<EditProfile> {
 Widget textlebel(BuildContext context, String text) {
   return Text(text,
       style: TextStyle(
-          color: Colors.black,
+          color: Theme.of(context).colorScheme.onSurface,
           fontWeight: FontWeight.bold,
           fontSize: Theme.of(context).textTheme.titleMedium!.fontSize));
 }

@@ -17,7 +17,6 @@ class DetailCreator extends StatefulWidget {
 
 class _DetailCreatorState extends State<DetailCreator> {
   late DateTime _date;
-  late double _unpaid;
 
   void initData() {
     _date = DateTime.fromMillisecondsSinceEpoch(widget.debt.due.seconds * 1000);
@@ -31,13 +30,17 @@ class _DetailCreatorState extends State<DetailCreator> {
   void initState() {
     super.initState();
     initData();
-    _unpaid = widget.debt.debtTotal - totalPaidTransactions();
   }
 
   totalPaidTransactions() {
     double total = 0;
+
     for (var e in widget.debt.transactions) {
-      total += e.amount;
+      // print(widget.debt.transactions);
+      // print(widget.debt.transactions.map((e) => {e.amount, e.isApproved}));
+      if (e.isApproved == "success") {
+        total += e.amount;
+      }
     }
     return total;
   }
@@ -327,7 +330,15 @@ class _DetailCreatorState extends State<DetailCreator> {
                                 text: TextSpan(
                                   children: [
                                     TextSpan(
-                                        text: _unpaid.toString(),
+                                        text: (widget.debt.transactions)
+                                            .where((e) =>
+                                                e.isApproved == "pending")
+                                            .map((e) => e.amount)
+                                            .fold(
+                                                0.0,
+                                                (value, element) =>
+                                                    value + element)
+                                            .toStringAsFixed(2),
                                         style: TextStyle(
                                             color: Theme.of(context)
                                                 .colorScheme
