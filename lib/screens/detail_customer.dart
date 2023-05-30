@@ -1,7 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jaijaoni/components/debt_detail_transactions.dart';
+import 'package:jaijaoni/functions/detail/get_borrower_by_debt_and_user_id.dart';
+import 'package:jaijaoni/model/borrower.model.dart';
 import 'package:jaijaoni/model/debt.model.dart';
+import 'package:jaijaoni/services/store/fire_store_service.dart';
 import '../components/circle_avata.dart';
 import '../components/custom_app_bar.dart';
 import '../components/detail_card.dart';
@@ -199,34 +203,80 @@ class _DetailCustomerState extends State<DetailCustomer> {
                 ],
               ),
             )),
-            Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: FilledButton(
-                    style: FilledButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                      // fixedSize: const Size(400, 40)
-                      minimumSize: const Size.fromHeight(50),
-                      padding: const EdgeInsets.all(10.00),
-                    ),
-                    onPressed: () => {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => const PaymentScreen())
-                      (context.go("/payment/${widget.debt.debtId}"))
-                    },
-                    child: const Text(
-                      "Pay",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                ))
+            PayButton(widget: widget)
           ],
+        ));
+  }
+}
+
+class PayButton extends StatefulWidget {
+  const PayButton({
+    super.key,
+    required this.widget,
+  });
+
+  final DetailCustomer widget;
+
+  @override
+  State<PayButton> createState() => _PayButtonState();
+}
+
+class _PayButtonState extends State<PayButton> {
+  bool isLoading = true;
+  Borrowers? borrower;
+  void getBorrower() async {
+    try {
+      Borrowers borrowers =
+          await getBorrowerByDebtAndUserId(widget.widget.debt.debtId);
+      setState(() {
+        borrower = borrowers;
+      });
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getBorrower();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (isLoading ||
+        borrower == null ||
+        (borrower?.debtRemaining ?? 0.0) <= 0.0) {
+      return Container();
+    }
+    return Align(
+        alignment: Alignment.bottomCenter,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              // fixedSize: const Size(400, 40)
+              minimumSize: const Size.fromHeight(50),
+              padding: const EdgeInsets.all(10.00),
+            ),
+            onPressed: () => {
+              // Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //         builder: (context) => const PaymentScreen())
+              (context.go("/payment/${widget.widget.debt.debtId}"))
+            },
+            child: const Text(
+              "Pay",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+              ),
+            ),
+          ),
         ));
   }
 }
